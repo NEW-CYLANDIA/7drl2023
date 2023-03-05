@@ -1,9 +1,12 @@
-.godot
+# This was excluded in our default exports_presets.cfg
+# This is because it *can* contain sensitive info. Oours does not.
+# If we do native iOS or Android builds, come up with a proper secrets solution for this.
+# export_presets.cfg
+
 
 # Godot-specific ignores
 .import/
 export.cfg
-export_presets.cfg
 .godot
 
 # Mono-specific ignores
