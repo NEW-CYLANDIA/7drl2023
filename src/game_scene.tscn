@@ -33,8 +33,10 @@ layer_0/tile_data = PackedInt32Array(720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 7
 [node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("tongue_grapple_point_sprite")]
 position = Vector2(58, 163)
 script = ExtResource("2_cosea")
+speed = 200.0
 friction = 5.0
 accel = 10.0
+tongue_length = 200.0
 tongue_grapple_point_sprite = NodePath("../TongueGrapplePoint")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
@@ -43,22 +45,23 @@ shape = SubResource("CircleShape2D_3mjqm")
 [node name="WallRay" type="RayCast2D" parent="Player"]
 target_position = Vector2(10, 0)
 
+[node name="TongueRay" type="RayCast2D" parent="Player"]
+target_position = Vector2(23, -20)
+
+[node name="TongueGuide" type="Sprite2D" parent="Player"]
+modulate = Color(1, 1, 1, 0.109804)
+rotation = -2.35619
+texture = ExtResource("3_sdfyn")
+offset = Vector2(0, 40)
+
 [node name="Sprite" type="Sprite2D" parent="Player"]
 texture = ExtResource("1_h0s8c")
-
-[node name="TongueGuide" type="Sprite2D" parent="Player/Sprite"]
-modulate = Color(1, 1, 1, 0.109804)
-position = Vector2(0, -40)
-texture = ExtResource("3_sdfyn")
 
 [node name="Tongue" type="Sprite2D" parent="Player/Sprite"]
 position = Vector2(0, 5.00001)
 scale = Vector2(1, 1e-05)
 texture = ExtResource("5_1j2ui")
 offset = Vector2(0, -38.1232)
-
-[node name="TongueRay" type="RayCast2D" parent="Player/Sprite"]
-target_position = Vector2(0, -47)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("4_xxo8d")

@@ -11,6 +11,7 @@ enum State {
 @export var tongue_length:float = 100;
 @export var tongue_extend_speed = 0.5;
 @export var tongue_grapple_point_sprite:Node2D
+@export var tongue_suck_force = 20;
 
 var dir = 1;
 
@@ -29,7 +30,7 @@ var target_vel:Vector2 = Vector2(0, 0);
 
 func _ready():
 	tongue_sprite = $Sprite/Tongue;
-	tongue_ray = $Sprite/TongueRay;
+	tongue_ray = $TongueRay;
 	tongue_length_normalizer = 1.0 / tongue_sprite.texture.get_height();
 	tongue_ray.target_position = tongue_ray.target_position.normalized() * tongue_length;
 func _physics_process(delta):
@@ -41,16 +42,22 @@ func _physics_process(delta):
 
 	if (state == State.Moving):
 		if (sign(dir) != sign($WallRay.target_position.x)):
+			print ($TongueGuide.rotation_degrees)
+			if (round($TongueGuide.rotation_degrees) == -135):
+				print("hallo");
+				$TongueGuide.rotation_degrees -= 90;
+			else:
+				$TongueGuide.rotation_degrees += 90;
+			$TongueRay.target_position.x *= -1;
 			$WallRay.target_position.x *= -1;
 		if Input.is_action_just_pressed("action"):
 			if (is_on_floor()):
-				velocity.y = jump_vel;
-			else:
-				if (tongue_ray.is_colliding()):
-					var collider = tongue_ray.get_collider()
-					tongue_grapple_point = tongue_ray.get_collision_point();
-					tongue_length = position.distance_to(tongue_grapple_point) + 5;
-					change_state(State.Transitioning);
+				velocity.y += jump_vel;
+			elif (tongue_ray.is_colliding()):
+				var collider = tongue_ray.get_collider()
+				tongue_grapple_point = tongue_ray.get_collision_point();
+				tongue_length = position.distance_to(tongue_grapple_point);
+				change_state(State.Transitioning);
 		
 		# Get the input direction and handle the movement/deceleration.
 		target_vel.x = dir * speed;
@@ -61,10 +68,8 @@ func _physics_process(delta):
 		if ($WallRay.is_colliding()):
 			dir *= -1;
 			velocity.x = dir * speed;
-			$WallRay.target_position.x *= -1;
 		
 	if (state == State.Transitioning):
-		velocity = Vector2.ZERO;
 		var target_tongue_length:float = (tongue_grapple_point - position).length() * tongue_length_normalizer
 		tongue_sprite.scale.y = move_toward(tongue_sprite.scale.y, target_tongue_length, tongue_extend_speed);
 		
@@ -78,8 +83,10 @@ func _physics_process(delta):
 		
 	if (state == State.Swinging):
 		var pointing_vec = (tongue_grapple_point - position);
+		
 		tongue_sprite.scale.y = pointing_vec.length() * tongue_length_normalizer;
 		tongue_sprite.rotation = pointing_vec.angle() - $Sprite.rotation + PI/2;
+		
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
 		if (position.distance_to(tongue_grapple_point) > tongue_length):
@@ -101,11 +108,12 @@ func change_state(new_state:State):
 	if new_state == State.Swinging:
 		var artificial_vel = (tongue_grapple_point - position);
 		artificial_vel.y *= -1;
-		artificial_vel *= 10;
-		velocity += artificial_vel;
+		artificial_vel *= 5;
+		#velocity += artificial_vel;
 		tongue_grapple_point_sprite.visible = true;
 		tongue_grapple_point_sprite.position = tongue_grapple_point;
 	if new_state == State.Transitioning:
-		velocity = Vector2.ZERO;
+		pass
+		#velocity = Vector2.ZERO;
 	
 	state = new_state;
