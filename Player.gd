@@ -43,15 +43,17 @@ func _ready():
 	tongue_sprite_connect_pos = $Sprite/TonguePos;
 	tongue_sprite.visible = false;
 func _physics_process(delta):
-	if not is_on_floor():
+	if (not is_on_floor()):
 		velocity.y += gravity * delta
+	
+	move_and_slide(velocity, Vector2.UP,false, 4, 0.78, false);
 
 	if (state == State.Moving):
 		if Input.is_action_just_pressed("action"):
 			if (is_on_floor()):
 				jump();
-		if Input.is_action_just_pressed("action") && tongue_ray.is_colliding() && not is_on_floor():
-			change_state(State.Swinging)
+			elif tongue_ray.is_colliding():
+				change_state(State.Swinging)
 		
 		# Get the input direction and handle the movement/deceleration.
 		target_vel.x = dir * speed;
@@ -59,19 +61,21 @@ func _physics_process(delta):
 		if ($WallRay.is_colliding()):
 			dir *= -1;
 			velocity.x = dir * speed;
+		if (is_on_ceiling()):
+			velocity.y = 0;
 		
 	if (state == State.Swinging):
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
 		if (position.distance_to(tongue_grapple_point) > tongue_length):
 			velocity -= speed_towards_point * dir_to_grapple;
-			#position = tongue_grapple_point - dir_to_grapple * tongue_length;
+			position = tongue_grapple_point - dir_to_grapple * tongue_length;
 		if (Input.is_action_just_released("action")):
 			change_state(State.Moving);
 			jump();
 			dir = sign(velocity.x);
 	
-	move_and_slide(velocity, Vector2.UP,false, 4, 0.78, false);
+	
 	update_tongue_visuals();
 	$Sprite.rotate(dir * spin_speed);
 	if (rotate_state == RotateState.Spinning):
@@ -80,10 +84,11 @@ func _physics_process(delta):
 	check_flip();
 
 	tongue_sprite.position = tongue_sprite_connect_pos.global_position;
+	
+	
 
 func jump():
-	velocity.y += jump_vel;
-	print("triggering");
+	velocity.y = jump_vel;
 	
 func grab_grapple_point():
 	tongue_ray.collide_with_bodies
