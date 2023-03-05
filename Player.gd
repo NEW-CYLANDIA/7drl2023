@@ -49,6 +49,7 @@ func _physics_process(delta):
 	move_and_slide(velocity, Vector2.UP,false, 4, 0.78, false);
 
 	if (state == State.Moving):
+		$Sprite.rotate(dir * spin_speed);
 		if Input.is_action_just_pressed("action"):
 			if (is_on_floor()):
 				jump();
@@ -77,7 +78,7 @@ func _physics_process(delta):
 	
 	
 	update_tongue_visuals();
-	$Sprite.rotate(dir * spin_speed);
+	
 	if (rotate_state == RotateState.Spinning):
 		tongue_ray.rotation_degrees = $Sprite.rotation_degrees - 45;
 		
