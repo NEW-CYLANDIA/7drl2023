@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://oxtmpf1pvgi1"]
+[gd_scene load_steps=12 format=3 uid="uid://oxtmpf1pvgi1"]
 
 [ext_resource type="Texture2D" uid="uid://bhcapwweelrv0" path="res://graphics/player.png" id="1_h0s8c"]
 [ext_resource type="Texture2D" uid="uid://c1v22jushtlx3" path="res://graphics/tileset.png" id="1_klscj"]
 [ext_resource type="Script" path="res://src/Player.gd" id="2_cosea"]
+[ext_resource type="Script" path="res://src/RayVisualizer.gd" id="3_h5qlr"]
 [ext_resource type="Texture2D" uid="uid://b5d0wmk2b07gr" path="res://graphics/grapple_guide.png" id="3_sdfyn"]
 [ext_resource type="Script" path="res://src/Camera2D.gd" id="4_xxo8d"]
 [ext_resource type="Texture2D" uid="uid://b1ho5ye1c5gpv" path="res://graphics/tongue.png" id="5_1j2ui"]
@@ -40,17 +41,21 @@ tongue_length = 200.0
 tongue_extend_speed = 0.01
 tongue_grapple_point_sprite = NodePath("../TongueGrapplePoint")
 tongue_sprite = NodePath("../Tongue")
+spin_speed = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_3mjqm")
 
 [node name="WallRay" type="RayCast2D" parent="Player"]
 target_position = Vector2(9, 0)
+script = ExtResource("3_h5qlr")
 
 [node name="TongueRay" type="RayCast2D" parent="Player"]
-target_position = Vector2(23, -20)
+target_position = Vector2(21, -21)
+script = ExtResource("3_h5qlr")
 
 [node name="TongueGuide" type="Sprite2D" parent="Player"]
+visible = false
 modulate = Color(1, 1, 1, 0.109804)
 rotation = -2.35619
 texture = ExtResource("3_sdfyn")
