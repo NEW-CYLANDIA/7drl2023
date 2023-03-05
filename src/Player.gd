@@ -11,7 +11,6 @@ enum State {
 @export var tongue_length:float = 100;
 @export var tongue_extend_speed = 0.5;
 @export var tongue_grapple_point_sprite:Node2D
-@export var tongue_suck_force = 20;
 
 var dir = 1;
 
@@ -63,7 +62,7 @@ func _physics_process(delta):
 		target_vel.x = dir * speed;
 		velocity.x = move_toward(velocity.x, target_vel.x, accel);
 		
-		$Sprite.rotate(velocity.x/2000);
+		$Sprite.rotate(velocity.x/1000);
 		
 		if ($WallRay.is_colliding()):
 			dir *= -1;
@@ -72,7 +71,7 @@ func _physics_process(delta):
 	if (state == State.Transitioning):
 		var target_tongue_length:float = (tongue_grapple_point - position).length() * tongue_length_normalizer
 		tongue_sprite.scale.y = move_toward(tongue_sprite.scale.y, target_tongue_length, tongue_extend_speed);
-		
+		update_tongue_visuals(false);
 		if (abs(target_tongue_length - tongue_sprite.scale.y) < tongue_extend_speed):
 			tongue_sprite.scale.y = target_tongue_length;
 			change_state(State.Swinging);
@@ -82,16 +81,12 @@ func _physics_process(delta):
 			change_state(State.Moving);
 		
 	if (state == State.Swinging):
-		var pointing_vec = (tongue_grapple_point - position);
-		
-		tongue_sprite.scale.y = pointing_vec.length() * tongue_length_normalizer;
-		tongue_sprite.rotation = pointing_vec.angle() - $Sprite.rotation + PI/2;
-		
+		update_tongue_visuals();
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
 		if (position.distance_to(tongue_grapple_point) > tongue_length):
 			velocity -= speed_towards_point * dir_to_grapple;
-			position = tongue_grapple_point - dir_to_grapple * tongue_length;
+			#position = tongue_grapple_point - dir_to_grapple * tongue_length;
 		if (Input.is_action_just_released("action")):
 			change_state(State.Moving);
 			velocity.y += jump_vel;
@@ -108,12 +103,20 @@ func change_state(new_state:State):
 	if new_state == State.Swinging:
 		var artificial_vel = (tongue_grapple_point - position);
 		artificial_vel.y *= -1;
-		artificial_vel *= 5;
-		#velocity += artificial_vel;
+		artificial_vel *= 1;
+		velocity += artificial_vel;
 		tongue_grapple_point_sprite.visible = true;
 		tongue_grapple_point_sprite.position = tongue_grapple_point;
+		
+		update_tongue_visuals();
+
 	if new_state == State.Transitioning:
 		pass
-		#velocity = Vector2.ZERO;
 	
 	state = new_state;
+
+func update_tongue_visuals(update_scale = true):
+	var pointing_vec = (tongue_grapple_point - position);
+	
+	if (update_scale): tongue_sprite.scale.y = pointing_vec.length() * tongue_length_normalizer;
+	tongue_sprite.rotation = pointing_vec.angle() - $Sprite.rotation + PI/2;
