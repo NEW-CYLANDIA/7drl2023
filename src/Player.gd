@@ -5,7 +5,6 @@ enum State {
 }
 enum RotateState {
 	Locked45,
-	LockedCurrent,
 	Spinning,
 }
 @export var speed = 300.0
@@ -17,13 +16,13 @@ enum RotateState {
 @export var tongue_grapple_point_sprite:Node2D
 @export var tongue_sprite:Sprite2D;
 @export var spin_speed:float = 0.05;
+@export var rotate_state:RotateState = RotateState.Locked45;
 
 var tongue_sprite_connect_pos:Node2D;
 
 var dir = 1;
 
 var state:State = State.Moving;
-var rotate_state:RotateState = RotateState.Spinning;
 var tongue_ray:RayCast2D;
 var tongue_length_normalizer:float;
 
@@ -39,7 +38,6 @@ func _ready():
 	tongue_length_normalizer = 1.0 / tongue_sprite.texture.get_height();
 	tongue_ray.target_position = tongue_ray.target_position.normalized() * tongue_length;
 	tongue_sprite_connect_pos = $Sprite/TonguePos;
-	
 	tongue_sprite.visible = false;
 func _physics_process(delta):
 	
@@ -48,8 +46,6 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	if (state == State.Moving):
-		rotate_state = RotateState.Spinning if is_on_floor() else RotateState.LockedCurrent
-		print("locked45: " + str(rotate_state == RotateState.Locked45));
 		if Input.is_action_just_pressed("action"):
 			if (is_on_floor()):
 				jump();
@@ -63,12 +59,11 @@ func _physics_process(delta):
 		
 		
 		if ($WallRay.is_colliding()):
+			print("wall is colliding");
 			dir *= -1;
-			check_flip();
 			velocity.x = dir * speed;
 		
 	if (state == State.Swinging):
-		rotate_state = RotateState.Spinning;
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
 		if (position.distance_to(tongue_grapple_point) > tongue_length):
@@ -78,14 +73,14 @@ func _physics_process(delta):
 			change_state(State.Moving);
 			jump();
 			dir = sign(velocity.x);
-			check_flip();
 		
 
 	move_and_slide()
 	update_tongue_visuals();
+	$Sprite.rotate(dir * spin_speed);
 	if (rotate_state == RotateState.Spinning):
 		tongue_ray.rotation_degrees = $Sprite.rotation_degrees - 45;
-		$Sprite.rotate(dir * spin_speed);
+		
 	check_flip();
 
 	tongue_sprite.position = tongue_sprite_connect_pos.global_position;
@@ -100,11 +95,11 @@ func grab_grapple_point():
 	tongue_length = position.distance_to(tongue_grapple_point);
 	
 func check_flip():
+	
 	if (rotate_state == RotateState.Locked45): 
 		tongue_ray.rotation_degrees = 0;
-		if (dir < 0):
-			tongue_ray.target_position.x *= -1;
 	if (sign(dir) != sign($WallRay.target_position.x)):
+		if (rotate_state == RotateState.Locked45): tongue_ray.target_position.x *= -1;
 		$WallRay.target_position.x *= -1;
 		if (round($TongueGuide.rotation_degrees) == -135):
 			$TongueGuide.rotation_degrees -= 90;
@@ -117,7 +112,6 @@ func change_state(new_state:State):
 		tongue_sprite.visible = false;
 
 	if new_state == State.Swinging:
-		rotate_state = RotateState.Spinning;
 		grab_grapple_point();
 		tongue_sprite.visible = true;
 		var artificial_vel = (tongue_grapple_point - position);
