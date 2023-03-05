@@ -1,3 +1,70 @@
-[gd_scene format=3 uid="uid://oxtmpf1pvgi1"]
+[gd_scene load_steps=11 format=3 uid="uid://oxtmpf1pvgi1"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Texture2D" uid="uid://bhcapwweelrv0" path="res://graphics/player.png" id="1_h0s8c"]
+[ext_resource type="Texture2D" uid="uid://c1v22jushtlx3" path="res://graphics/tileset.png" id="1_klscj"]
+[ext_resource type="Script" path="res://src/Player.gd" id="2_cosea"]
+[ext_resource type="Texture2D" uid="uid://b5d0wmk2b07gr" path="res://graphics/grapple_guide.png" id="3_sdfyn"]
+[ext_resource type="Script" path="res://src/Camera2D.gd" id="4_xxo8d"]
+[ext_resource type="Texture2D" uid="uid://b1ho5ye1c5gpv" path="res://graphics/tongue.png" id="5_1j2ui"]
+[ext_resource type="Texture2D" uid="uid://bos1alq1f1ugs" path="res://graphics/tongue_grapple_point.png" id="7_j5j64"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rbe7x"]
+texture = ExtResource("1_klscj")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 8, 8, -8, 8, -8, -8)
+
+[sub_resource type="TileSet" id="TileSet_ai6ej"]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 6
+sources/0 = SubResource("TileSetAtlasSource_rbe7x")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3mjqm"]
+radius = 8.0
+
+[node name="GameScene" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_ai6ej")
+format = 2
+layer_0/tile_data = PackedInt32Array(720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720900, 0, 0, 720901, 0, 0, 720902, 0, 0, 786438, 0, 0, 786437, 0, 0, 786436, 0, 0, 786435, 0, 0, 786434, 0, 0, 786433, 0, 0, 786432, 0, 0, 720903, 0, 0, 786439, 0, 0, 786440, 0, 0, 720905, 0, 0, 786441, 0, 0, 720906, 0, 0, 786442, 0, 0, 720907, 0, 0, 786443, 0, 0, 720908, 0, 0, 786444, 0, 0, 720909, 0, 0, 786445, 0, 0, 720910, 0, 0, 786446, 0, 0, 720911, 0, 0, 786447, 0, 0, 720912, 0, 0, 786448, 0, 0, 720913, 0, 0, 786449, 0, 0, 720914, 0, 0, 786450, 0, 0, 655360, 0, 0, 589824, 0, 0, 524288, 0, 0, 458752, 0, 0, 393216, 0, 0, 327680, 0, 0, 262144, 0, 0, 196608, 0, 0, 131072, 0, 0, 65536, 0, 0, 0, 0, 0, 720904, 0, 0, 720915, 0, 0, 720916, 0, 0, 720917, 0, 0, 720918, 0, 0, 720919, 0, 0, 786451, 0, 0, 786452, 0, 0, 786453, 0, 0, 786454, 0, 0, 786455, 0, 0, 720920, 0, 0, 786456, 0, 0, 720921, 0, 0, 786457, 0, 0, 720922, 0, 0, 786458, 0, 0, 720923, 0, 0, 786459, 0, 0, 720924, 0, 0, 786460, 0, 0, 720925, 0, 0, 786461, 0, 0, 720926, 0, 0, 786462, 0, 0, 720927, 0, 0, 786463, 0, 0, 131085, 0, 0, 196621, 0, 0, 131086, 0, 0, 196622, 0, 0, 131087, 0, 0, 196623, 0, 0, 131088, 0, 0, 196624, 0, 0, 131089, 0, 0, 196625, 0, 0, 131090, 0, 0, 196626, 0, 0, 131091, 0, 0, 196627, 0, 0, 131092, 0, 0, 196628, 0, 0, 131093, 0, 0, 196629, 0, 0, 131094, 0, 0, 196630, 0, 0, 131095, 0, 0, 196631, 0, 0, 131096, 0, 0, 196632, 0, 0, 655391, 0, 0, 589855, 0, 0, 524319, 0, 0, 458783, 0, 0, 393247, 0, 0, 327711, 0, 0, 327712, 0, 0, 393248, 0, 0, 458784, 0, 0, 524320, 0, 0, 589856, 0, 0, 655392, 0, 0, 720928, 0, 0, 786464, 0, 0, -393212, 0, 0, -327676, 0, 0, -262140, 0, 0, -393211, 0, 0, -327675, 0, 0, -262139, 0, 0, -393210, 0, 0, -327674, 0, 0, -262138, 0, 0, -393209, 0, 0, -327673, 0, 0, -262137, 0, 0, -393208, 0, 0, -327672, 0, 0, -262136, 0, 0, -393207, 0, 0, -327671, 0, 0, -262135, 0, 0, -393206, 0, 0, -327670, 0, 0, -262134, 0, 0, -393205, 0, 0, -327669, 0, 0, -262133, 0, 0, -393204, 0, 0, -327668, 0, 0, -262132, 0, 0, -393203, 0, 0, -327667, 0, 0, -262131, 0, 0, -393202, 0, 0, -327666, 0, 0, -262130, 0, 0, -720876, 0, 0, -655340, 0, 0, -720875, 0, 0, -655339, 0, 0, -720874, 0, 0, -655338, 0, 0, -720873, 0, 0, -655337, 0, 0, -720872, 0, 0, -655336, 0, 0, -720871, 0, 0, -655335, 0, 0, -720870, 0, 0, -655334, 0, 0, -720869, 0, 0, -655333, 0, 0, -720868, 0, 0, -655332, 0, 0, -720867, 0, 0, -655331, 0, 0, -917473, 0, 0, -851937, 0, 0, -786401, 0, 0, -720865, 0, 0, -655329, 0, 0, -589793, 0, 0, -524257, 0, 0, -458721, 0, 0, -393185, 0, 0, -327649, 0, 0, -262113, 0, 0, -196577, 0, 0, -131041, 0, 0, -65505, 0, 0, 31, 0, 0, 65567, 0, 0, 131103, 0, 0, 196639, 0, 0, 262175, 0, 0, -917472, 0, 0, -851936, 0, 0, -786400, 0, 0, -720864, 0, 0, -655328, 0, 0, -589792, 0, 0, -524256, 0, 0, -458720, 0, 0, -393184, 0, 0, -327648, 0, 0, -262112, 0, 0, -196576, 0, 0, -131040, 0, 0, -65504, 0, 0, 32, 0, 0, 65568, 0, 0, 131104, 0, 0, 196640, 0, 0, 262176, 0, 0, -983041, 0, 0, -917505, 0, 0, -851969, 0, 0, -786433, 0, 0, -720897, 0, 0, -655361, 0, 0, -589825, 0, 0, -524289, 0, 0, -458753, 0, 0, -393217, 0, 0, -327681, 0, 0, -262145, 0, 0, -196609, 0, 0, -131073, 0, 0, -65537, 0, 0, -1, 0, 0, -1048576, 0, 0, -983040, 0, 0, -917504, 0, 0, -851968, 0, 0, -786432, 0, 0, -720896, 0, 0, -655360, 0, 0, -589824, 0, 0, -524288, 0, 0, -458752, 0, 0, -393216, 0, 0, -327680, 0, 0, -262144, 0, 0, -196608, 0, 0, -131072, 0, 0, -65536, 0, 0, 65535, 0, 0, 131071, 0, 0, 196607, 0, 0, 262143, 0, 0, 327679, 0, 0, 393215, 0, 0, 458751, 0, 0, 524287, 0, 0, 589823, 0, 0, 655359, 0, 0, 720895, 0, 0, 786431, 0, 0)
+
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("tongue_grapple_point_sprite")]
+position = Vector2(58, 163)
+script = ExtResource("2_cosea")
+friction = 5.0
+accel = 10.0
+tongue_grapple_point_sprite = NodePath("../TongueGrapplePoint")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_3mjqm")
+
+[node name="WallRay" type="RayCast2D" parent="Player"]
+target_position = Vector2(10, 0)
+
+[node name="Sprite" type="Sprite2D" parent="Player"]
+texture = ExtResource("1_h0s8c")
+
+[node name="TongueGuide" type="Sprite2D" parent="Player/Sprite"]
+modulate = Color(1, 1, 1, 0.109804)
+position = Vector2(0, -40)
+texture = ExtResource("3_sdfyn")
+
+[node name="Tongue" type="Sprite2D" parent="Player/Sprite"]
+position = Vector2(0, 5.00001)
+scale = Vector2(1, 1e-05)
+texture = ExtResource("5_1j2ui")
+offset = Vector2(0, -38.1232)
+
+[node name="TongueRay" type="RayCast2D" parent="Player/Sprite"]
+target_position = Vector2(0, -47)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("4_xxo8d")
+target_path = NodePath("../Player")
+
+[node name="TongueGrapplePoint" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-85, 167)
+texture = ExtResource("7_j5j64")

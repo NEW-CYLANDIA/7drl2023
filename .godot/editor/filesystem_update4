@@ -1,1 +1,3 @@
 res://src/game_scene.tscn
+res://src/Player.gd
+res://src/Camera2D.gd
