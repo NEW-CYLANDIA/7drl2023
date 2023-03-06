@@ -80,8 +80,9 @@ func _physics_process(delta):
 		target_vel.x = dir * speed;
 		velocity.x = move_toward(velocity.x, target_vel.x, accel);
 		if (collision_data):
-			if (abs(collision_data.normal.x) > 0.5):
+			if (abs(collision_data.normal.x) == 1.0):
 				velocity.x = (velocity.bounce(collision_data.normal) * 0.5).x;
+				velocity.y = jump_vel/2;
 				dir = sign(velocity.x);
 		if (is_on_ceiling()):
 			velocity.y = 0;
