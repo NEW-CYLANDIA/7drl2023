@@ -11,8 +11,12 @@ config_version=4
 [application]
 
 config/name="7 Drl 2023"
-run/main_scene="res://GameScene.tscn"
+run/main_scene="res://src/GameScene.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Const="*res://src/Const.gd"
 
 [display]
 
