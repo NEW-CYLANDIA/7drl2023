@@ -3,6 +3,7 @@
 # If we do native iOS or Android builds, come up with a proper secrets solution for this.
 # export_presets.cfg
 
+dist/
 
 # Godot-specific ignores
 .import/
