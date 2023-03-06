@@ -17,8 +17,8 @@ func _ready() -> void:
 
 func add_mood(mood_add):
 	mood += mood_add
-	if (mood > anims.size()-1):
-		mood = anims.size()-1
+	if (mood > anims.size()):
+		mood = anims.size()
 	if (mood < 0):
 		mood = 0;
 	play_mood();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/RayVisualizer.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://graphics/tongue.png" type="Texture" id=7]
 [ext_resource path="res://src/TasteBud.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/TasteBuds.gd" type="Script" id=9]
+[ext_resource path="res://graphics/bud_dock.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 8, 8 )
@@ -75,17 +76,23 @@ offset = Vector2( 0, -36 )
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
+[node name="BudDock" type="Sprite" parent="UILayer"]
+position = Vector2( 112.5, 388 )
+scale = Vector2( 1.115, 1 )
+texture = ExtResource( 10 )
+
 [node name="TasteBuds" type="Node2D" parent="UILayer"]
-position = Vector2( 24, -6 )
+position = Vector2( 26, -11 )
 script = ExtResource( 9 )
 
 [node name="Sweet" parent="UILayer/TasteBuds" instance=ExtResource( 8 )]
+position = Vector2( 7, 384 )
 
 [node name="Bod" parent="UILayer/TasteBuds/Sweet" index="0"]
 self_modulate = Color( 1, 0, 0.301961, 1 )
 
 [node name="Savory" parent="UILayer/TasteBuds" instance=ExtResource( 8 )]
-position = Vector2( 52, 384 )
+position = Vector2( 47, 384 )
 
 [node name="Bod" parent="UILayer/TasteBuds/Savory" index="0"]
 self_modulate = Color( 1, 0.639216, 0, 1 )
@@ -94,13 +101,13 @@ self_modulate = Color( 1, 0.639216, 0, 1 )
 position = Vector2( 87, 384 )
 
 [node name="Sour" parent="UILayer/TasteBuds" instance=ExtResource( 8 )]
-position = Vector2( 123, 384 )
+position = Vector2( 127, 384 )
 
 [node name="Bod" parent="UILayer/TasteBuds/Sour" index="0"]
 self_modulate = Color( 1, 0.92549, 0.152941, 1 )
 
 [node name="Bitter" parent="UILayer/TasteBuds" instance=ExtResource( 8 )]
-position = Vector2( 158, 384 )
+position = Vector2( 167, 384 )
 
 [node name="Bod" parent="UILayer/TasteBuds/Bitter" index="0"]
 self_modulate = Color( 0.494118, 0.145098, 0.32549, 1 )
