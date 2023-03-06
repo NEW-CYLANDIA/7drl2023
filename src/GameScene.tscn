@@ -76,7 +76,6 @@ texture = ExtResource( 7 )
 offset = Vector2( 0, -36 )
 
 [node name="UILayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="BudDock" type="Sprite" parent="UILayer"]
 position = Vector2( 112.5, 388 )
