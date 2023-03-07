@@ -49,6 +49,8 @@ var velocity:Vector2 = Vector2();
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var target_vel:Vector2 = Vector2(0, 0);
 
+var full_tongue_scale = Vector2.ONE * 0.05;
+
 
 func _ready():
 	tongue_ray = $TongueRay;
@@ -69,6 +71,7 @@ func _physics_process(delta):
 	
 
 	if (state == State.Moving):
+		$Sprite.play("default")
 		$Sprite.rotate(dir * spin_speed);
 		if Input.is_action_just_pressed("action"):
 			if (is_on_floor()):
@@ -88,6 +91,7 @@ func _physics_process(delta):
 			velocity.y = 0;
 		
 	if (state == State.Swinging):
+		$Sprite.play("open")
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
 		if (position.distance_to(tongue_grapple_point) > tongue_length):
@@ -168,6 +172,6 @@ func change_state(new_state:int):
 func update_tongue_visuals(update_scale = true):
 	var pointing_vec = (tongue_grapple_point - tongue_sprite_connect_pos.global_position);
 	
-	if (update_scale): tongue_sprite.scale.y = pointing_vec.length() * tongue_length_normalizer;
+	if (update_scale): tongue_sprite.scale.y = (pointing_vec.length() * tongue_length_normalizer);
 	tongue_sprite.rotation = pointing_vec.angle() + PI/2;
 	tongue_sprite.position = tongue_sprite_connect_pos.global_position;
