@@ -88,7 +88,6 @@ position = Vector2( 0, 409.6 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2( 0, -2 )
 rotation = 1.5708
-scale = Vector2( 1, 1 )
 shape = SubResource( 1 )
 
 [node name="Tongue" type="Sprite" parent="."]
