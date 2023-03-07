@@ -17,11 +17,13 @@ func _ready() -> void:
 
 func add_mood(mood_add):
 	mood += mood_add
-	if (mood > anims.size()):
-		mood = anims.size()
 	if (mood < 0):
 		mood = 0;
+	if (mood > anims.size()):
+		mood = anims.size();
 	play_mood();
 func play_mood():
 	var ceil_mood = ceil(mood);
-	$Bod/Face.play(anims[ceil(mood)-1]);
+
+	$Bod/Face.play(anims[ceil_mood-1]);
+	scale = Vector2.ONE * ((float(mood)/14) * 1 + 0.5)

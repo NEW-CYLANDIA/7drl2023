@@ -1,5 +1,6 @@
 extends Node
 
+# these are also reflected in the Tilemap resource we're using
 const FLAVORS = [
 	"Sweet",
 	"Salty",
