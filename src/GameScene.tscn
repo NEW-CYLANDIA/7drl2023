@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/RayVisualizer.gd" type="Script" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://graphics/bud_dock.png" type="Texture" id=10]
 [ext_resource path="res://src/TongueGrapplePoint.gd" type="Script" id=11]
 [ext_resource path="res://src/ShowOnStart.gd" type="Script" id=12]
+[ext_resource path="res://sounds/jump.wav" type="AudioStream" id=12]
+[ext_resource path="res://sounds/tongue.wav" type="AudioStream" id=13]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -68,6 +70,8 @@ mood_subtract = 1.0
 tongue_grapple_point_sprite_path = NodePath("../TongueGrapplePoint")
 tongue_sprite_path = NodePath("../Tongue")
 taste_buds_path = NodePath("../UILayer/TasteBuds")
+jump_sfx = ExtResource( 12 )
+tongue_sfx = ExtResource( 13 )
 
 [node name="WallRay" type="RayCast2D" parent="Player"]
 enabled = true
@@ -75,7 +79,7 @@ cast_to = Vector2( 10, 0 )
 
 [node name="TongueRay" type="RayCast2D" parent="Player"]
 enabled = true
-cast_to = Vector2( 23, -23 )
+cast_to = Vector2( 10, -23 )
 script = ExtResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Player"]
@@ -91,6 +95,8 @@ position = Vector2( 0, 409.6 )
 position = Vector2( 0, -2 )
 rotation = 1.5708
 shape = SubResource( 5 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player"]
 
 [node name="Tongue" type="Sprite" parent="."]
 position = Vector2( -280, 159 )

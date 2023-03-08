@@ -29,6 +29,8 @@ onready var tongue_sprite:Sprite = get_node(tongue_sprite_path)
 export(NodePath) var taste_buds_path;
 onready var taste_buds = get_node(taste_buds_path);
 
+export(AudioStream) var jump_sfx
+export(AudioStream) var tongue_sfx
 
 
 var tongue_sprite_connect_pos:Node2D;
@@ -83,7 +85,8 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("action"):
 			if (is_on_floor()):
 				jump();
-			elif tongue_ray.is_colliding():
+			# elif tongue_ray.is_colliding():
+			else:
 				change_state(State.Licking)
 		
 		# Get the input direction and handle the movement/deceleration.
@@ -98,9 +101,13 @@ func _physics_process(delta):
 			velocity.y = 0;
 		
 	if (state == State.Licking):
+
+			
+		if not $AudioStreamPlayer2D.playing and $AudioStreamPlayer2D.stream != tongue_sfx:
+			$AudioStreamPlayer2D.stream = tongue_sfx
+			$AudioStreamPlayer2D.play()
 		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.linear_interpolate(tongue_grapple_point, 0.4);
 		if (tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 1):
-			
 			change_state(State.Swinging);
 		update_tongue_visuals();
 	
@@ -131,6 +138,8 @@ func _physics_process(delta):
 
 func jump():
 	velocity.y = jump_vel;
+	$AudioStreamPlayer2D.stream = jump_sfx
+	$AudioStreamPlayer2D.play()
 	
 func grab_grapple_point():
 	var collider = tongue_ray.get_collider()
