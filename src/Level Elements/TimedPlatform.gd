@@ -1,4 +1,4 @@
-extends Node2D
+extends Container
 
 tool
 
@@ -17,17 +17,16 @@ func _process(delta: float) -> void:
 
 func set_solid(is_solid):
 	solid = is_solid;
-	$Container/Solid.visible = solid
-	$Container/Outline.visible = not solid
+	$Solid.visible = solid
+	$Outline.visible = not solid
 	$Collision/Shape.disabled = not solid;
 
 
 func _on_Container_resized() -> void:
-		if (Engine.editor_hint):
-			var rect_shape = ($Collision/Shape.shape) as RectangleShape2D;
-			rect_shape.extents = $Container.rect_size/2;
-			$Collision.position = $Container.rect_position + $Container.rect_size/2;
-			$ClockSprite.position = $Container.rect_position + $Container.rect_size/2;
+	print("happening");
+	($Collision/Shape.shape as RectangleShape2D).extents = rect_size/2 - Vector2.ONE * 4;
+	$Collision.position = rect_size/2;
+	$ClockSprite.position = rect_size/2;
 
 
 func _on_Timer_timeout() -> void:

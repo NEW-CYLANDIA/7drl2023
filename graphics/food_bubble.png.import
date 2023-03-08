@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/player_lick.png-725c9b8efa50644522d5428b18194cfe.stex"
+path="res://.import/food_bubble.png-341e3264f436677ad8ef13eb020cca1e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://new_graphics/player_lick.png"
-dest_files=[ "res://.import/player_lick.png-725c9b8efa50644522d5428b18194cfe.stex" ]
+source_file="res://graphics/food_bubble.png"
+dest_files=[ "res://.import/food_bubble.png-341e3264f436677ad8ef13eb020cca1e.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tongue_long.png-117e97c7aca59024e90aaf719d08f83c.stex"
+path="res://.import/Character_TastebudFace.png-2e0ce61a77e1cee3660df9a70e70deeb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://new_graphics/tongue_long.png"
-dest_files=[ "res://.import/tongue_long.png-117e97c7aca59024e90aaf719d08f83c.stex" ]
+source_file="res://graphics/new_graphics/TasteBuds/Character_TastebudFace.png"
+dest_files=[ "res://.import/Character_TastebudFace.png-2e0ce61a77e1cee3660df9a70e70deeb.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

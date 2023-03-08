@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://graphics/camera_guide.png" type="Texture" id=2]
 [ext_resource path="res://src/LevelChunk.gd" type="Script" id=3]
 [ext_resource path="res://src/HideOnStart.gd" type="Script" id=4]
-[ext_resource path="res://src/TimedPlatform.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Level Elements/TimedPlatform.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+resource_local_to_scene = true
+extents = Vector2( 58.5, 8 )
 
 [node name="LevelChunk" type="Node2D"]
 script = ExtResource( 3 )
@@ -33,59 +37,21 @@ texture = ExtResource( 2 )
 script = ExtResource( 4 )
 
 [node name="TimedPlatform" parent="." instance=ExtResource( 5 )]
-position = Vector2( 32, 239 )
+margin_left = 92.0
+margin_top = 215.0
+margin_right = 217.0
+margin_bottom = 239.0
 
-[node name="Collision" parent="TimedPlatform" index="0"]
-position = Vector2( 46, 12 )
+[node name="Solid" parent="TimedPlatform" index="1"]
+margin_right = 125.0
 
-[node name="Container" parent="TimedPlatform" index="1"]
-margin_right = 92.0
+[node name="Collision" parent="TimedPlatform" index="3"]
+position = Vector2( 62.5, 12 )
 
-[node name="Solid" parent="TimedPlatform/Container" index="0"]
-margin_right = 92.0
+[node name="Shape" parent="TimedPlatform/Collision" index="0"]
+shape = SubResource( 1 )
 
-[node name="ClockSprite" parent="TimedPlatform" index="2"]
-position = Vector2( 46, 12 )
-
-[node name="TimedPlatform2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 176, 212 )
-solid = false
-
-[node name="Collision" parent="TimedPlatform2" index="0"]
-position = Vector2( 46, 12 )
-
-[node name="Shape" parent="TimedPlatform2/Collision" index="0"]
-disabled = true
-
-[node name="Container" parent="TimedPlatform2" index="1"]
-margin_right = 92.0
-
-[node name="Solid" parent="TimedPlatform2/Container" index="0"]
-visible = false
-margin_right = 92.0
-
-[node name="Outline" parent="TimedPlatform2/Container" index="1"]
-visible = true
-margin_right = 92.0
-
-[node name="ClockSprite" parent="TimedPlatform2" index="2"]
-position = Vector2( 46, 12 )
-
-[node name="TimedPlatform3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 312, 238 )
-
-[node name="Collision" parent="TimedPlatform3" index="0"]
-position = Vector2( 46, 12 )
-
-[node name="Container" parent="TimedPlatform3" index="1"]
-margin_right = 92.0
-
-[node name="Solid" parent="TimedPlatform3/Container" index="0"]
-margin_right = 92.0
-
-[node name="ClockSprite" parent="TimedPlatform3" index="2"]
-position = Vector2( 46, 12 )
+[node name="ClockSprite" parent="TimedPlatform" index="4"]
+position = Vector2( 62.5, 12 )
 
 [editable path="TimedPlatform"]
-[editable path="TimedPlatform2"]
-[editable path="TimedPlatform3"]

@@ -98,13 +98,15 @@ func _physics_process(delta):
 			velocity.y = 0;
 		
 	if (state == State.Licking):
-		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.move_toward(tongue_grapple_point, 10);
-		if (tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 0.1):
+		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.linear_interpolate(tongue_grapple_point, 0.4);
+		if (tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 1):
+			
 			change_state(State.Swinging);
 		update_tongue_visuals();
 	
 	if (state == State.Swinging):
 		if (tongue_grapple_point_sprite.current_collisions == 0):
+			print("switchin here");
 			change_state(State.Moving);
 		$Sprite.play("open")
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
@@ -185,6 +187,7 @@ func change_state(new_state:int):
 		artificial_vel *= 1;
 		velocity += artificial_vel;
 		tongue_grapple_point_sprite.visible = true;
+		tongue_grapple_point_sprite.position = tongue_grapple_point;
 		
 		
 		update_tongue_visuals();

@@ -1,44 +1,40 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/TasteBud.gd" type="Script" id=1]
-[ext_resource path="res://graphics/tastebud_bod.png" type="Texture" id=2]
-[ext_resource path="res://graphics/tastebud.png" type="Texture" id=3]
+[ext_resource path="res://graphics/new_graphics/TasteBuds/Character_Tastebud_Blank.png" type="Texture" id=2]
+[ext_resource path="res://graphics/new_graphics/TasteBuds/Character_TastebudFace.png" type="Texture" id=3]
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 3 )
-region = Rect2( 32, 0, 32, 32 )
+region = Rect2( 0, 716, 986, 716 )
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 32, 32 )
+region = Rect2( 1972, 0, 986, 716 )
 
 [sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 3 )
-region = Rect2( 224, 0, 32, 32 )
+region = Rect2( 0, 0, 986, 716 )
 
 [sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 3 )
-region = Rect2( 256, 0, 32, 32 )
+region = Rect2( 986, 716, 986, 716 )
 
 [sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 3 )
-region = Rect2( 64, 0, 32, 32 )
+region = Rect2( 1972, 716, 986, 716 )
 
 [sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 3 )
-region = Rect2( 96, 0, 32, 32 )
+region = Rect2( 0, 1432, 986, 716 )
 
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 3 )
-region = Rect2( 128, 0, 32, 32 )
+region = Rect2( 986, 1432, 986, 716 )
 
 [sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 3 )
-region = Rect2( 160, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 3 )
-region = Rect2( 192, 0, 32, 32 )
+region = Rect2( 1972, 1432, 986, 716 )
 
 [sub_resource type="SpriteFrames" id=14]
 animations = [ {
@@ -52,27 +48,27 @@ animations = [ {
 "name": "Happy2",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 17 ), SubResource( 18 ) ],
+"frames": [ SubResource( 17 ) ],
 "loop": true,
 "name": "Happy3",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 19 ) ],
+"frames": [ SubResource( 18 ) ],
 "loop": true,
 "name": "Neutral",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 20 ) ],
+"frames": [ SubResource( 19 ) ],
 "loop": true,
 "name": "Sad1",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 21 ) ],
+"frames": [ SubResource( 20 ) ],
 "loop": true,
 "name": "Sad2",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 22 ), SubResource( 23 ) ],
+"frames": [ SubResource( 21 ), SubResource( 22 ) ],
 "loop": true,
 "name": "Sad3",
 "speed": 5.0
@@ -84,14 +80,12 @@ script = ExtResource( 1 )
 
 [node name="Bod" type="Sprite" parent="."]
 self_modulate = Color( 0.666667, 0.666667, 0.666667, 1 )
-position = Vector2( 0, -16 )
-texture = ExtResource( 2 )
-
-[node name="BodWashout" type="Sprite" parent="Bod"]
-self_modulate = Color( 0, 0, 0, 0.211765 )
+position = Vector2( 1, -18 )
+scale = Vector2( 0.0244141, 0.0244141 )
 texture = ExtResource( 2 )
 
 [node name="Face" type="AnimatedSprite" parent="Bod"]
-position = Vector2( 0, 1 )
+position = Vector2( -0.00012207, -122.88 )
+scale = Vector2( 1.02972, 1.02972 )
 frames = SubResource( 14 )
 animation = "Neutral"

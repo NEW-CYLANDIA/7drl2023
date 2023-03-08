@@ -1,16 +1,17 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/RayVisualizer.gd" type="Script" id=2]
 [ext_resource path="res://src/CameraFollow.gd" type="Script" id=3]
 [ext_resource path="res://src/LevelChunks/TimedPlatformTesting.tscn" type="PackedScene" id=4]
-[ext_resource path="res://new_graphics/tongue_circle.png" type="Texture" id=5]
-[ext_resource path="res://new_graphics/player.png" type="Texture" id=6]
-[ext_resource path="res://new_graphics/tongue_long.png" type="Texture" id=7]
+[ext_resource path="res://graphics/new_graphics/tongue_circle.png" type="Texture" id=5]
+[ext_resource path="res://graphics/new_graphics/player.png" type="Texture" id=6]
+[ext_resource path="res://graphics/new_graphics/tongue_long.png" type="Texture" id=7]
 [ext_resource path="res://src/TasteBud.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/TasteBuds.gd" type="Script" id=9]
 [ext_resource path="res://graphics/bud_dock.png" type="Texture" id=10]
 [ext_resource path="res://src/TongueGrapplePoint.gd" type="Script" id=11]
+[ext_resource path="res://src/ShowOnStart.gd" type="Script" id=12]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -110,6 +111,7 @@ shape = SubResource( 6 )
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 visible = false
+script = ExtResource( 12 )
 
 [node name="BudDock" type="Sprite" parent="UILayer"]
 position = Vector2( 112.5, 388 )
