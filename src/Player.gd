@@ -81,7 +81,7 @@ func _physics_process(delta):
 		collision_data = get_slide_collision(i);
 		if (collision_data):
 			break;
-
+	
 	if (not is_on_floor() and state != State.Licking):
 		velocity.y += gravity * delta
 	if (is_on_floor()):
@@ -100,17 +100,18 @@ func _physics_process(delta):
 		target_vel.x = dir * speed;
 		velocity.x = move_toward(velocity.x, target_vel.x, accel);
 		if (collision_data):
-			if (abs(collision_data.normal.x) == 1.0):
+			var is_horizontal_collision = abs(collision_data.normal.x) == 1.0
+			if (is_horizontal_collision):
 				velocity.x = (velocity.bounce(collision_data.normal) * 0.5).x;
 				velocity.y = jump_vel/2;
 				play_audio(jump_sfx);
 				dir = sign(velocity.x);
 		if (is_on_ceiling()):
-			velocity.y = 0;
+			velocity.y = 1;
 		
 	if (state == State.Licking):
 		play_audio(tongue_sfx);
-		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.linear_interpolate(tongue_grapple_point, 0.4);
+		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.linear_interpolate(tongue_grapple_point, 0.5);
 		if (tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 1):
 			if (not current_bubble):
 				change_state(State.Swinging);

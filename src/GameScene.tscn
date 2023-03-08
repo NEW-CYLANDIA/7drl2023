@@ -44,7 +44,7 @@ animations = [ {
 radius = 9.0
 
 [sub_resource type="CircleShape2D" id=6]
-radius = 197.143
+radius = 219.047
 
 [node name="Node2D" type="Node2D"]
 
@@ -60,7 +60,7 @@ script = ExtResource( 3 )
 target_path = NodePath("../Player")
 
 [node name="Player" type="KinematicBody2D" parent="."]
-position = Vector2( 19, 368 )
+position = Vector2( 51, 343 )
 collision_layer = 2
 collision_mask = 9
 collision/safe_margin = 0.001

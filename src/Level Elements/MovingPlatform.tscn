@@ -50,5 +50,5 @@ position = Vector2( -0.5, 0 )
 shape = SubResource( 2 )
 
 [connection signal="focus_entered" from="." to="." method="_on_MovingPlatform_focus_entered"]
-[connection signal="resized" from="." to="." method="_on_Container_resized"]
+[connection signal="resized" from="." to="." method="_on_MovingPlatform_resized"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

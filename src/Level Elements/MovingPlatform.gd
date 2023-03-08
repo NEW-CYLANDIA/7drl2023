@@ -17,9 +17,10 @@ func _process(delta: float) -> void:
 	if (Engine.editor_hint):
 		update();
 	else:
-		$Collision.velocity = (current_node.global_position - rect_global_position).normalized() * speed;
-		rect_position = rect_position.move_toward(current_node.position, speed);
-		if (rect_position.distance_to(current_node.position) < 1):
+		var dest = current_node.position - rect_size/2;
+		$Collision.velocity = (dest - rect_position).normalized() * speed;
+		rect_position = rect_position.move_toward(dest, speed);
+		if (rect_position.distance_to(dest) < 1):
 			set_next_node();
 		
 func _draw() -> void:
@@ -40,3 +41,7 @@ func set_next_node():
 
 func _on_MovingPlatform_focus_entered() -> void:
 	update();
+
+
+func _on_MovingPlatform_resized() -> void:
+	resize_elements();
