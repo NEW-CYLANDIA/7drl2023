@@ -1,4 +1,4 @@
-extends Container
+extends Platform;
 
 tool
 
@@ -21,12 +21,13 @@ func set_solid(is_solid):
 	$Outline.visible = not solid
 	$Collision/Shape.disabled = not solid;
 
+func resize_elements():
+	.resize_elements();
+	$ClockSprite.position = rect_size/2;
 
 func _on_Container_resized() -> void:
-	print("happening");
-	($Collision/Shape.shape as RectangleShape2D).extents = rect_size/2 - Vector2.ONE * 4;
-	$Collision.position = rect_size/2;
-	$ClockSprite.position = rect_size/2;
+	resize_elements();
+
 
 
 func _on_Timer_timeout() -> void:

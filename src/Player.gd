@@ -37,6 +37,7 @@ export(AudioStream) var jump_sfx
 export(AudioStream) var tongue_sfx
 
 export var food_zip_speed:float = 400;
+export var bubble_launch_dropoff:float = 0.9;
 
 var bubble_velocity:Vector2;
 var current_bubble = null;
@@ -83,8 +84,8 @@ func _physics_process(delta):
 
 	if (not is_on_floor() and state != State.Licking):
 		velocity.y += gravity * delta
-	else:
-		pass;
+	if (is_on_floor()):
+		velocity.y = 0;
 	
 	if (state == State.Moving):
 		$Sprite.play("default")
@@ -119,7 +120,6 @@ func _physics_process(delta):
 	
 	if (state == State.Swinging):
 		if (tongue_grapple_point_sprite.current_collisions == 0):
-			print("switchin here");
 			change_state(State.Moving);
 		
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
@@ -138,9 +138,8 @@ func _physics_process(delta):
 		update_tongue_visuals();
 
 	if (state == State.Eating):
-		
 		if (position.distance_to(tongue_grapple_point) < 10):
-			velocity *= 0.9;
+			velocity *= bubble_launch_dropoff;
 			change_state(State.Moving);
 			current_bubble.queue_free();
 			exit_bubble();
@@ -217,8 +216,10 @@ func change_state(new_state:int):
 	if new_state == State.Moving:
 		print("change state to moving");
 		tongue_sprite.visible = false;
+
 	if new_state == State.Licking:
 		print("change state to lick");
+		tongue_sprite.set_squiggly();
 		$Sprite.play("open")
 		if (!current_bubble):
 			grab_grapple_point();
@@ -230,6 +231,7 @@ func change_state(new_state:int):
 		tongue_sprite.visible = true;
 	
 	if new_state == State.Swinging:
+		tongue_sprite.set_straight();
 		print("change state to swinging");
 		velocity = old_vel;
 		var artificial_vel = (tongue_grapple_point - position);
@@ -242,9 +244,11 @@ func change_state(new_state:int):
 		update_tongue_visuals();
 	
 	if new_state == State.Eating:
+		tongue_sprite.set_straight();
 		print("change state to eating");
 		$Sprite.play("open")
 		velocity = (tongue_grapple_point - position).normalized() * food_zip_speed;
+		dir = sign(velocity.x);
 		
 	
 	state = new_state;

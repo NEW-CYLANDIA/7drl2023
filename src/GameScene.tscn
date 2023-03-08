@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/RayVisualizer.gd" type="Script" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://sounds/jump.wav" type="AudioStream" id=12]
 [ext_resource path="res://sounds/tongue.wav" type="AudioStream" id=13]
 [ext_resource path="res://src/Util/HitStop.tscn" type="PackedScene" id=14]
+[ext_resource path="res://src/Tongue.gd" type="Script" id=15]
+[ext_resource path="res://graphics/new_graphics/Character_Tastebud_TongueSquiggly.png" type="Texture" id=16]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -74,7 +76,8 @@ tongue_sprite_path = NodePath("../Tongue")
 taste_buds_path = NodePath("../UILayer/TasteBuds")
 jump_sfx = ExtResource( 12 )
 tongue_sfx = ExtResource( 13 )
-food_zip_speed = 800.0
+food_zip_speed = 1000.0
+bubble_launch_dropoff = 0.8
 
 [node name="WallRay" type="RayCast2D" parent="Player"]
 enabled = true
@@ -109,6 +112,9 @@ position = Vector2( -280, 159 )
 scale = Vector2( 0.0471154, 0.0471154 )
 texture = ExtResource( 7 )
 offset = Vector2( 0.328369, -828.83 )
+script = ExtResource( 15 )
+straight_tex = ExtResource( 7 )
+squiggly_tex = ExtResource( 16 )
 
 [node name="TongueGrapplePoint" type="Sprite" parent="."]
 position = Vector2( -317, 33 )
@@ -122,7 +128,6 @@ script = ExtResource( 11 )
 shape = SubResource( 6 )
 
 [node name="UILayer" type="CanvasLayer" parent="."]
-visible = false
 script = ExtResource( 12 )
 
 [node name="BudDock" type="Sprite" parent="UILayer"]
