@@ -1,8 +1,11 @@
 extends KinematicBody2D
+
+class_name Player
 enum State {
 	Moving,
 	Swinging,
-	Licking
+	Licking,
+	Eating
 }
 enum RotateState {
 	Locked45,
@@ -14,6 +17,7 @@ export var accel:float = 0.1;
 export var tongue_length:float = 100;
 export var tongue_extend_speed = 0.5;
 export var spin_speed:float = 0.05;
+export var bubble_slowdown:float = 0.5;
 
 export var mood_add:float = 3;
 export var mood_subtract:float = 0.5;
@@ -31,6 +35,11 @@ onready var taste_buds = get_node(taste_buds_path);
 
 export(AudioStream) var jump_sfx
 export(AudioStream) var tongue_sfx
+
+export var food_zip_speed:float = 400;
+
+var bubble_velocity:Vector2;
+var current_bubble = null;
 
 
 var tongue_sprite_connect_pos:Node2D;
@@ -63,8 +72,8 @@ func _ready():
 	tongue_sprite_connect_pos = $Sprite/TonguePos;
 	tongue_sprite.visible = false;
 func _physics_process(delta):
-	
-	move_and_slide(velocity, Vector2.UP,false, 4, 0.78, false);
+	bubble_velocity = velocity * bubble_slowdown
+	move_and_slide(bubble_velocity if current_bubble else velocity, Vector2.UP,false, 4, 0.78, false);
 	
 	var collision_data;
 	for i in range(get_slide_count()-1, -1, -1):
@@ -77,16 +86,13 @@ func _physics_process(delta):
 	else:
 		pass;
 	
-	
-
 	if (state == State.Moving):
 		$Sprite.play("default")
 		$Sprite.rotate(dir * spin_speed);
 		if Input.is_action_just_pressed("action"):
 			if (is_on_floor()):
 				jump();
-			# elif tongue_ray.is_colliding():
-			else:
+			elif tongue_ray.is_colliding() or current_bubble:
 				change_state(State.Licking)
 		
 		# Get the input direction and handle the movement/deceleration.
@@ -96,26 +102,26 @@ func _physics_process(delta):
 			if (abs(collision_data.normal.x) == 1.0):
 				velocity.x = (velocity.bounce(collision_data.normal) * 0.5).x;
 				velocity.y = jump_vel/2;
+				play_audio(jump_sfx);
 				dir = sign(velocity.x);
 		if (is_on_ceiling()):
 			velocity.y = 0;
 		
 	if (state == State.Licking):
-
-			
-		if not $AudioStreamPlayer2D.playing and $AudioStreamPlayer2D.stream != tongue_sfx:
-			$AudioStreamPlayer2D.stream = tongue_sfx
-			$AudioStreamPlayer2D.play()
+		play_audio(tongue_sfx);
 		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.linear_interpolate(tongue_grapple_point, 0.4);
 		if (tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 1):
-			change_state(State.Swinging);
+			if (not current_bubble):
+				change_state(State.Swinging);
+			else:
+				change_state(State.Eating);
 		update_tongue_visuals();
 	
 	if (state == State.Swinging):
 		if (tongue_grapple_point_sprite.current_collisions == 0):
 			print("switchin here");
 			change_state(State.Moving);
-		$Sprite.play("open")
+		
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
 		if (position.distance_to(tongue_grapple_point) > tongue_length):
@@ -131,15 +137,40 @@ func _physics_process(delta):
 		
 		update_tongue_visuals();
 
+	if (state == State.Eating):
+		
+		if (position.distance_to(tongue_grapple_point) < 10):
+			velocity *= 0.9;
+			change_state(State.Moving);
+			current_bubble.queue_free();
+			exit_bubble();
+			
+			$HitStop.do_hit_stop(0.2);
+		if (current_bubble == null):
+			change_state(State.Moving);
+		
+		
+		update_tongue_visuals(true);
+
 	if (rotate_state == RotateState.Spinning):
 		tongue_ray.rotation_degrees = $Sprite.rotation_degrees - 45;
 		
 	check_flip();
 
+func enter_bubble(bubble):
+	change_state(State.Moving);
+	current_bubble = bubble;
+
+func exit_bubble():
+	current_bubble = null;
+
+func play_audio(sfx):
+		if not $AudioStreamPlayer2D.playing:
+			$AudioStreamPlayer2D.stream = sfx
+			$AudioStreamPlayer2D.play()
 func jump():
 	velocity.y = jump_vel;
-	$AudioStreamPlayer2D.stream = jump_sfx
-	$AudioStreamPlayer2D.play()
+	play_audio(jump_sfx);
 	
 func grab_grapple_point():
 	var collider = tongue_ray.get_collider()
@@ -156,16 +187,19 @@ func grab_grapple_point():
 		if (buds_dict.has(tile_hit_name)):
 			var affected_bud = buds_dict[tile_hit_name]
 			affected_bud.add_mood(mood_add);
+			
 			for bud in buds_dict.values():
 				if (bud != affected_bud):
 					bud.add_mood(-mood_subtract);
+
+
 		if (tile_hit_name == "all"):
 			for bud in buds_dict.values():
 				bud.add_mood(allsorts_mood_add);
 
 	tongue_grapple_point = collision_point
 	tongue_length = position.distance_to(tongue_grapple_point);
-	
+
 func check_flip():
 	
 	if (rotate_state == RotateState.Locked45): 
@@ -181,15 +215,22 @@ func check_flip():
 func change_state(new_state:int):
 	tongue_grapple_point_sprite.visible = false;
 	if new_state == State.Moving:
+		print("change state to moving");
 		tongue_sprite.visible = false;
 	if new_state == State.Licking:
-		grab_grapple_point();
+		print("change state to lick");
+		$Sprite.play("open")
+		if (!current_bubble):
+			grab_grapple_point();
+		else:
+			tongue_grapple_point = current_bubble.food_sprite.global_position;
 		old_vel = velocity;
 		velocity = Vector2.ZERO;
 		tongue_grapple_point_sprite.position = tongue_sprite_connect_pos.global_position;
 		tongue_sprite.visible = true;
 	
 	if new_state == State.Swinging:
+		print("change state to swinging");
 		velocity = old_vel;
 		var artificial_vel = (tongue_grapple_point - position);
 		artificial_vel.y *= -1;
@@ -197,9 +238,15 @@ func change_state(new_state:int):
 		velocity += artificial_vel;
 		tongue_grapple_point_sprite.visible = true;
 		tongue_grapple_point_sprite.position = tongue_grapple_point;
-		
-		
+
 		update_tongue_visuals();
+	
+	if new_state == State.Eating:
+		print("change state to eating");
+		$Sprite.play("open")
+		velocity = (tongue_grapple_point - position).normalized() * food_zip_speed;
+		
+	
 	state = new_state;
 
 func update_tongue_visuals(update_scale = true):

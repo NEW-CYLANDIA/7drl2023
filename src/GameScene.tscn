@@ -1,9 +1,9 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/RayVisualizer.gd" type="Script" id=2]
 [ext_resource path="res://src/CameraFollow.gd" type="Script" id=3]
-[ext_resource path="res://src/LevelChunks/TimedPlatformTesting.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/LevelChunks/FoodTesting.tscn" type="PackedScene" id=4]
 [ext_resource path="res://graphics/new_graphics/tongue_circle.png" type="Texture" id=5]
 [ext_resource path="res://graphics/new_graphics/player.png" type="Texture" id=6]
 [ext_resource path="res://graphics/new_graphics/tongue_long.png" type="Texture" id=7]
@@ -11,9 +11,9 @@
 [ext_resource path="res://src/TasteBuds.gd" type="Script" id=9]
 [ext_resource path="res://graphics/bud_dock.png" type="Texture" id=10]
 [ext_resource path="res://src/TongueGrapplePoint.gd" type="Script" id=11]
-[ext_resource path="res://src/ShowOnStart.gd" type="Script" id=12]
 [ext_resource path="res://sounds/jump.wav" type="AudioStream" id=12]
 [ext_resource path="res://sounds/tongue.wav" type="AudioStream" id=13]
+[ext_resource path="res://src/Util/HitStop.tscn" type="PackedScene" id=14]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -48,7 +48,7 @@ radius = 197.143
 
 [node name="Level" type="Node2D" parent="."]
 
-[node name="LevelChunk" parent="Level" instance=ExtResource( 4 )]
+[node name="LevelChunk2" parent="Level" instance=ExtResource( 4 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 112, 199 )
@@ -59,12 +59,14 @@ target_path = NodePath("../Player")
 [node name="Player" type="KinematicBody2D" parent="."]
 position = Vector2( 19, 368 )
 collision_layer = 2
+collision_mask = 9
 collision/safe_margin = 0.001
 script = ExtResource( 1 )
 speed = 100.0
 jump_vel = -300.0
 accel = 10.0
 tongue_length = 200.0
+bubble_slowdown = 0.3
 mood_add = 5.0
 mood_subtract = 1.0
 tongue_grapple_point_sprite_path = NodePath("../TongueGrapplePoint")
@@ -72,6 +74,7 @@ tongue_sprite_path = NodePath("../Tongue")
 taste_buds_path = NodePath("../UILayer/TasteBuds")
 jump_sfx = ExtResource( 12 )
 tongue_sfx = ExtResource( 13 )
+food_zip_speed = 800.0
 
 [node name="WallRay" type="RayCast2D" parent="Player"]
 enabled = true
@@ -79,7 +82,8 @@ cast_to = Vector2( 10, 0 )
 
 [node name="TongueRay" type="RayCast2D" parent="Player"]
 enabled = true
-cast_to = Vector2( 10, -23 )
+cast_to = Vector2( 13, -21 )
+collide_with_areas = true
 script = ExtResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Player"]
@@ -97,6 +101,8 @@ rotation = 1.5708
 shape = SubResource( 5 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player"]
+
+[node name="HitStop" parent="Player" instance=ExtResource( 14 )]
 
 [node name="Tongue" type="Sprite" parent="."]
 position = Vector2( -280, 159 )
@@ -155,6 +161,8 @@ position = Vector2( 167, 384 )
 [node name="Bod" parent="UILayer/TasteBuds/Bitter" index="0"]
 self_modulate = Color( 0.494118, 0.145098, 0.32549, 1 )
 
+[connection signal="area_entered" from="TongueGrapplePoint/Area2D" to="TongueGrapplePoint" method="_on_Area2D_area_entered"]
+[connection signal="area_exited" from="TongueGrapplePoint/Area2D" to="TongueGrapplePoint" method="_on_Area2D_area_exited"]
 [connection signal="body_entered" from="TongueGrapplePoint/Area2D" to="TongueGrapplePoint" method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="TongueGrapplePoint/Area2D" to="Player" method="_on_Area2D_body_exited"]
 [connection signal="body_exited" from="TongueGrapplePoint/Area2D" to="TongueGrapplePoint" method="_on_Area2D_body_exited"]

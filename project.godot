@@ -8,6 +8,28 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "HitShake",
+"language": "GDScript",
+"path": "res://src/Util/HitShakeEffect.gd"
+}, {
+"base": "Node",
+"class": "HitStop",
+"language": "GDScript",
+"path": "res://src/Util/HitStopEffect.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://src/Player.gd"
+} ]
+_global_script_class_icons={
+"HitShake": "",
+"HitStop": "",
+"Player": ""
+}
+
 [application]
 
 config/name="7 Drl 2023"
@@ -17,6 +39,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Const="*res://src/Const.gd"
+MathUtil="*res://src/Util/MathUtil.gd"
 
 [display]
 
@@ -68,6 +91,7 @@ action={
 2d_physics/layer_1="Ground"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Enemy"
+2d_physics/layer_4="FoodBubble"
 
 [physics]
 
