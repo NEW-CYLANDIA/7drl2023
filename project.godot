@@ -22,7 +22,7 @@ _global_script_classes=[ {
 "base": "Container",
 "class": "Platform",
 "language": "GDScript",
-"path": "res://src/Level Elements/Platform.gd"
+"path": "res://src/Platform.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",

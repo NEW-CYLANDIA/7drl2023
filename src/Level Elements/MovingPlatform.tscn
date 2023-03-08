@@ -1,61 +1,20 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://src/Level Elements/TimedPlatform.gd" type="Script" id=1]
+[ext_resource path="res://src/Level Elements/MovingPlatform.gd" type="Script" id=1]
 [ext_resource path="res://graphics/timed_platform.png" type="Texture" id=2]
-[ext_resource path="res://graphics/platform_timer.png" type="Texture" id=3]
+[ext_resource path="res://src/Level Elements/MovingPlatformBody.gd" type="Script" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
 [sub_resource type="RectangleShape2D" id=2]
 resource_local_to_scene = true
-extents = Vector2( 37, 9.5 )
+extents = Vector2( 37, 9 )
 
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
-region = Rect2( 8, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 3 )
-region = Rect2( 24, 0, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 8, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 3 )
-region = Rect2( 8, 8, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 8, 8, 8 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 3 )
-region = Rect2( 24, 8, 8, 8 )
-
-[sub_resource type="SpriteFrames" id=11]
-animations = [ {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
-
-[node name="TimedPlatform" type="PanelContainer"]
+[node name="MovingPlatform" type="PanelContainer"]
 margin_right = 80.0
 margin_bottom = 24.0
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
-lifetime = 3.0
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -84,14 +43,12 @@ axis_stretch_vertical = 1
 
 [node name="Collision" type="KinematicBody2D" parent="."]
 position = Vector2( 40.5, 12 )
+script = ExtResource( 3 )
 
 [node name="Shape" type="CollisionShape2D" parent="Collision"]
-position = Vector2( -0.5, 0.5 )
+position = Vector2( -0.5, 0 )
 shape = SubResource( 2 )
 
-[node name="ClockSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 40, 12 )
-frames = SubResource( 11 )
-
+[connection signal="focus_entered" from="." to="." method="_on_MovingPlatform_focus_entered"]
 [connection signal="resized" from="." to="." method="_on_Container_resized"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -121,6 +121,10 @@ func _physics_process(delta):
 	if (state == State.Swinging):
 		if (tongue_grapple_point_sprite.current_collisions == 0):
 			change_state(State.Moving);
+		if ("velocity" in grappled_object):
+			tongue_grapple_point += grappled_object.velocity;
+			tongue_grapple_point_sprite.position = tongue_grapple_point;
+			
 		
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
