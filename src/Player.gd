@@ -1,7 +1,8 @@
 extends KinematicBody2D
 enum State {
 	Moving,
-	Swinging
+	Swinging,
+	Licking
 }
 enum RotateState {
 	Locked45,
@@ -24,9 +25,6 @@ onready var tongue_grapple_point_sprite:Sprite = get_node(tongue_grapple_point_s
 
 export(NodePath) var tongue_sprite_path:String
 onready var tongue_sprite:Sprite = get_node(tongue_sprite_path)
-
-export(NodePath) var tilemap_path;
-onready var tilemap:TileMap = get_node(tilemap_path);
 
 export(NodePath) var taste_buds_path;
 onready var taste_buds = get_node(taste_buds_path);
@@ -51,6 +49,10 @@ var target_vel:Vector2 = Vector2(0, 0);
 
 var full_tongue_scale = Vector2.ONE * 0.05;
 
+var grappled_object;
+
+var old_vel:Vector2
+
 
 func _ready():
 	tongue_ray = $TongueRay;
@@ -61,9 +63,14 @@ func _ready():
 func _physics_process(delta):
 	
 	move_and_slide(velocity, Vector2.UP,false, 4, 0.78, false);
-	var collision_data = get_slide_collision(get_slide_count() - 1);
 	
-	if (not is_on_floor()):
+	var collision_data;
+	for i in range(get_slide_count()-1, -1, -1):
+		collision_data = get_slide_collision(i);
+		if (collision_data):
+			break;
+
+	if (not is_on_floor() and state != State.Licking):
 		velocity.y += gravity * delta
 	else:
 		pass;
@@ -77,7 +84,7 @@ func _physics_process(delta):
 			if (is_on_floor()):
 				jump();
 			elif tongue_ray.is_colliding():
-				change_state(State.Swinging)
+				change_state(State.Licking)
 		
 		# Get the input direction and handle the movement/deceleration.
 		target_vel.x = dir * speed;
@@ -90,7 +97,15 @@ func _physics_process(delta):
 		if (is_on_ceiling()):
 			velocity.y = 0;
 		
+	if (state == State.Licking):
+		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.move_toward(tongue_grapple_point, 10);
+		if (tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 0.1):
+			change_state(State.Swinging);
+		update_tongue_visuals();
+	
 	if (state == State.Swinging):
+		if (tongue_grapple_point_sprite.current_collisions == 0):
+			change_state(State.Moving);
 		$Sprite.play("open")
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
@@ -104,9 +119,9 @@ func _physics_process(delta):
 		if (collision_data):
 			velocity = velocity.bounce(collision_data.normal) * 0.5;
 		dir = sign(velocity.x);
-	
-	update_tongue_visuals();
-	
+		
+		update_tongue_visuals();
+
 	if (rotate_state == RotateState.Spinning):
 		tongue_ray.rotation_degrees = $Sprite.rotation_degrees - 45;
 		
@@ -116,25 +131,26 @@ func jump():
 	velocity.y = jump_vel;
 	
 func grab_grapple_point():
-	tongue_ray.collide_with_bodies
 	var collider = tongue_ray.get_collider()
 	var collision_point = tongue_ray.get_collision_point();
 	var collision_normal = tongue_ray.get_collision_normal();
-	
-	var tilemap_pos = tilemap.world_to_map(collision_point - collision_normal);
-	var tile_hit = tilemap.get_cellv(tilemap_pos);
-	var tile_hit_name = tilemap.tile_set.tile_get_name(tile_hit);
-	
-	var buds_dict:Dictionary = taste_buds.taste_buds;
-	if (buds_dict.has(tile_hit_name)):
-		var affected_bud = buds_dict[tile_hit_name]
-		affected_bud.add_mood(mood_add);
-		for bud in buds_dict.values():
-			if (bud != affected_bud):
-				bud.add_mood(-mood_subtract);
-	if (tile_hit_name == "all"):
-		for bud in buds_dict.values():
-			bud.add_mood(allsorts_mood_add);
+	grappled_object = collider;
+	if (collider is TileMap):
+		var tilemap = collider as TileMap
+		var tilemap_pos = tilemap.world_to_map(collision_point - collision_normal);
+		var tile_hit = tilemap.get_cellv(tilemap_pos);
+		var tile_hit_name = tilemap.tile_set.tile_get_name(tile_hit);
+		
+		var buds_dict:Dictionary = taste_buds.taste_buds;
+		if (buds_dict.has(tile_hit_name)):
+			var affected_bud = buds_dict[tile_hit_name]
+			affected_bud.add_mood(mood_add);
+			for bud in buds_dict.values():
+				if (bud != affected_bud):
+					bud.add_mood(-mood_subtract);
+		if (tile_hit_name == "all"):
+			for bud in buds_dict.values():
+				bud.add_mood(allsorts_mood_add);
 
 	tongue_grapple_point = collision_point
 	tongue_length = position.distance_to(tongue_grapple_point);
@@ -155,23 +171,29 @@ func change_state(new_state:int):
 	tongue_grapple_point_sprite.visible = false;
 	if new_state == State.Moving:
 		tongue_sprite.visible = false;
-
-	if new_state == State.Swinging:
+	if new_state == State.Licking:
 		grab_grapple_point();
+		old_vel = velocity;
+		velocity = Vector2.ZERO;
+		tongue_grapple_point_sprite.position = tongue_sprite_connect_pos.global_position;
 		tongue_sprite.visible = true;
+	
+	if new_state == State.Swinging:
+		velocity = old_vel;
 		var artificial_vel = (tongue_grapple_point - position);
 		artificial_vel.y *= -1;
 		artificial_vel *= 1;
 		velocity += artificial_vel;
 		tongue_grapple_point_sprite.visible = true;
-		tongue_grapple_point_sprite.position = tongue_grapple_point;
+		
 		
 		update_tongue_visuals();
 	state = new_state;
 
 func update_tongue_visuals(update_scale = true):
-	var pointing_vec = (tongue_grapple_point - tongue_sprite_connect_pos.global_position);
+	var pointing_vec = (tongue_grapple_point_sprite.position - tongue_sprite_connect_pos.global_position);
 	
 	if (update_scale): tongue_sprite.scale.y = (pointing_vec.length() * tongue_length_normalizer);
 	tongue_sprite.rotation = pointing_vec.angle() + PI/2;
 	tongue_sprite.position = tongue_sprite_connect_pos.global_position;
+

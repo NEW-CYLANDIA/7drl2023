@@ -1,0 +1,98 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://src/TimedPlatform.gd" type="Script" id=1]
+[ext_resource path="res://graphics/timed_platform.png" type="Texture" id=2]
+[ext_resource path="res://graphics/platform_timer.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 46, 12 )
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 8, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 3 )
+region = Rect2( 24, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 8, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 3 )
+region = Rect2( 8, 8, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 8, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 3 )
+region = Rect2( 24, 8, 8, 8 )
+
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="TimedPlatform" type="Node2D"]
+position = Vector2( 72, 258 )
+script = ExtResource( 1 )
+lifetime = 3.0
+
+[node name="Collision" type="StaticBody2D" parent="."]
+position = Vector2( 40.5, 12 )
+
+[node name="Shape" type="CollisionShape2D" parent="Collision"]
+shape = SubResource( 2 )
+
+[node name="Container" type="PanelContainer" parent="."]
+margin_right = 81.0
+margin_bottom = 24.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="Solid" type="NinePatchRect" parent="Container"]
+margin_right = 81.0
+margin_bottom = 24.0
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 36, 36 )
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="Outline" type="NinePatchRect" parent="Container"]
+visible = false
+margin_right = 81.0
+margin_bottom = 24.0
+texture = ExtResource( 2 )
+region_rect = Rect2( 36, 0, 36, 36 )
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="ClockSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 40.5, 12 )
+frames = SubResource( 11 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="resized" from="Container" to="." method="_on_Container_resized"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
