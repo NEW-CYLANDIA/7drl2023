@@ -92,6 +92,7 @@ func _physics_process(delta):
 	
 	if (not is_on_floor() and state != State.Licking):
 		velocity.y += gravity * delta
+	
 	if (is_on_floor()):
 		velocity.y = 0;
 	
@@ -108,6 +109,8 @@ func _physics_process(delta):
 					stomp_launch_speed = ($FloorRay.get_collision_point().y - position.y)/delta;
 					is_stomping = true;
 					change_state(State.Licking);
+				else:
+					$Sprite/HitShake.do_shake(0.2, 1.5);
 					
 		
 		# Get the input direction and handle the movement/deceleration.
@@ -138,12 +141,12 @@ func _physics_process(delta):
 	
 	if (state == State.Swinging):
 		if (tongue_grapple_point_sprite.current_collisions == 0):
+			print("disconnected");
 			change_state(State.Moving);
 		if ("velocity" in grappled_object):
 			tongue_grapple_point += grappled_object.velocity;
 			tongue_grapple_point_sprite.position = tongue_grapple_point;
-			
-		
+
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
 		if (position.distance_to(tongue_grapple_point) > tongue_length):
@@ -154,7 +157,7 @@ func _physics_process(delta):
 			jump();
 
 		if (collision_data):
-			velocity = velocity.bounce(collision_data.normal) * 0.5;
+			velocity = velocity.bounce(collision_data.normal) * 0.75;
 		dir = sign(velocity.x);
 		
 		update_tongue_visuals();
@@ -175,6 +178,7 @@ func _physics_process(delta):
 
 	if (state == State.Stomping):
 		if is_on_floor():
+			$HitStop.do_hit_stop(0.1);
 			is_stomping = false;
 			velocity.y = -stomp_launch_speed / 10;
 			change_state(State.Moving)
@@ -221,12 +225,11 @@ func grab_grapple_point():
 				if (bud != affected_bud):
 					bud.add_mood(-mood_subtract);
 
-
 		if (tile_hit_name == "all"):
 			for bud in buds_dict.values():
 				bud.add_mood(allsorts_mood_add);
 
-	tongue_grapple_point = collision_point
+	tongue_grapple_point = collision_point - collision_normal * 4;
 	tongue_length = position.distance_to(tongue_grapple_point);
 
 func check_flip():

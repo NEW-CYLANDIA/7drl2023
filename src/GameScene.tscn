@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/RayVisualizer.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://src/Util/HitStop.tscn" type="PackedScene" id=14]
 [ext_resource path="res://src/Tongue.gd" type="Script" id=15]
 [ext_resource path="res://graphics/new_graphics/Character_Tastebud_TongueSquiggly.png" type="Texture" id=16]
+[ext_resource path="res://src/Util/HitShake.tscn" type="PackedScene" id=17]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -79,7 +80,7 @@ jump_sfx = ExtResource( 12 )
 tongue_sfx = ExtResource( 13 )
 food_zip_speed = 1000.0
 bubble_launch_dropoff = 0.8
-stomp_speed = 1200.0
+stomp_speed = 800.0
 stomp_launch_speed = 600.0
 
 [node name="WallRay" type="RayCast2D" parent="Player"]
@@ -104,6 +105,10 @@ animation = "open"
 
 [node name="TonguePos" type="Node2D" parent="Player/Sprite"]
 position = Vector2( 0, 409.6 )
+
+[node name="HitShake" parent="Player/Sprite" instance=ExtResource( 17 )]
+position = Vector2( 0, 136.533 )
+scale = Vector2( 68.2668, 68.2668 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2( 0, -2 )

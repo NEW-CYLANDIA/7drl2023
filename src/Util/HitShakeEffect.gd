@@ -23,7 +23,7 @@ func _process(delta: float) -> void:
 		current_power = MathUtil.map_range(timer, 0, current_length, 0, current_start_power);
 		if (timer <= 0):
 			target.position = target_original_pos;
-			is_shaking = false;5
+			is_shaking = false;
 			emit_signal("done_shaking");
 
 func do_shake(length, power=2):
