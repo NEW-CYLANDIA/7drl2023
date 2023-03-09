@@ -106,7 +106,8 @@ func _physics_process(delta):
 				if tongue_ray.is_colliding() or current_bubble:
 					change_state(State.Licking)
 				elif $FloorRay.is_colliding():
-					stomp_launch_speed = ($FloorRay.get_collision_point().y - position.y)/delta;
+					print("Setting launch speed");
+					stomp_launch_speed = (($FloorRay.get_collision_point().y - position.y) / delta) * 0.1;
 					is_stomping = true;
 					change_state(State.Licking);
 				else:
@@ -141,7 +142,6 @@ func _physics_process(delta):
 	
 	if (state == State.Swinging):
 		if (tongue_grapple_point_sprite.current_collisions == 0):
-			print("disconnected");
 			change_state(State.Moving);
 		if ("velocity" in grappled_object):
 			tongue_grapple_point += grappled_object.velocity;
@@ -149,6 +149,11 @@ func _physics_process(delta):
 
 		var dir_to_grapple = (tongue_grapple_point - position).normalized();
 		var speed_towards_point = velocity.dot(dir_to_grapple) 
+		
+		if (collision_data):
+			velocity = velocity.bounce(collision_data.normal) * 0.75;
+		dir = sign(velocity.x);
+		
 		if (position.distance_to(tongue_grapple_point) > tongue_length):
 			velocity -= speed_towards_point * dir_to_grapple;
 			position = tongue_grapple_point - dir_to_grapple * tongue_length;
@@ -156,9 +161,7 @@ func _physics_process(delta):
 			change_state(State.Moving);
 			jump();
 
-		if (collision_data):
-			velocity = velocity.bounce(collision_data.normal) * 0.75;
-		dir = sign(velocity.x);
+
 		
 		update_tongue_visuals();
 
@@ -180,7 +183,7 @@ func _physics_process(delta):
 		if is_on_floor():
 			$HitStop.do_hit_stop(0.1);
 			is_stomping = false;
-			velocity.y = -stomp_launch_speed / 10;
+			velocity.y = -stomp_launch_speed;
 			change_state(State.Moving)
 			
 		update_tongue_visuals();
