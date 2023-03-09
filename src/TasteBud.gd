@@ -26,4 +26,4 @@ func play_mood():
 	var ceil_mood = ceil(mood);
 
 	$Bod/Face.play(anims[ceil_mood-1]);
-	scale = Vector2.ONE * ((float(mood)/14) * 1 + 0.5)
+	scale = Vector2.ONE * MathUtil.map_range(mood, 0, 7, 0.5, 1);

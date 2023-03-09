@@ -5,7 +5,8 @@ enum State {
 	Moving,
 	Swinging,
 	Licking,
-	Eating
+	Eating,
+	Stomping
 }
 enum RotateState {
 	Locked45,
@@ -39,8 +40,11 @@ export(AudioStream) var tongue_sfx
 export var food_zip_speed:float = 400;
 export var bubble_launch_dropoff:float = 0.9;
 
+export var stomp_speed:float = 200;
+export var stomp_launch_speed:float = 400;
 var bubble_velocity:Vector2;
 var current_bubble = null;
+
 
 
 var tongue_sprite_connect_pos:Node2D;
@@ -65,11 +69,15 @@ var grappled_object;
 
 var old_vel:Vector2
 
+var is_stomping = false;
+
+var stomp_start_point = null;
 
 func _ready():
 	tongue_ray = $TongueRay;
 	tongue_length_normalizer = 1.0 / tongue_sprite.texture.get_height();
 	tongue_ray.cast_to = tongue_ray.cast_to.normalized() * tongue_length;
+	$FloorRay.cast_to = $FloorRay.cast_to.normalized() * tongue_length;
 	tongue_sprite_connect_pos = $Sprite/TonguePos;
 	tongue_sprite.visible = false;
 func _physics_process(delta):
@@ -93,8 +101,14 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("action"):
 			if (is_on_floor()):
 				jump();
-			elif tongue_ray.is_colliding() or current_bubble:
-				change_state(State.Licking)
+			else: 
+				if tongue_ray.is_colliding() or current_bubble:
+					change_state(State.Licking)
+				elif $FloorRay.is_colliding():
+					stomp_launch_speed = ($FloorRay.get_collision_point().y - position.y)/delta;
+					is_stomping = true;
+					change_state(State.Licking);
+					
 		
 		# Get the input direction and handle the movement/deceleration.
 		target_vel.x = dir * speed;
@@ -113,10 +127,13 @@ func _physics_process(delta):
 		play_audio(tongue_sfx);
 		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.linear_interpolate(tongue_grapple_point, 0.5);
 		if (tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 1):
-			if (not current_bubble):
-				change_state(State.Swinging);
-			else:
+			if (current_bubble):
 				change_state(State.Eating);
+			elif is_stomping:
+				change_state(State.Stomping);
+			else:
+				change_state(State.Swinging);
+				
 		update_tongue_visuals();
 	
 	if (state == State.Swinging):
@@ -156,6 +173,14 @@ func _physics_process(delta):
 		
 		update_tongue_visuals(true);
 
+	if (state == State.Stomping):
+		if is_on_floor():
+			is_stomping = false;
+			velocity.y = -stomp_launch_speed / 10;
+			change_state(State.Moving)
+			
+		update_tongue_visuals();
+	
 	if (rotate_state == RotateState.Spinning):
 		tongue_ray.rotation_degrees = $Sprite.rotation_degrees - 45;
 		
@@ -226,10 +251,14 @@ func change_state(new_state:int):
 		print("change state to lick");
 		tongue_sprite.set_squiggly();
 		$Sprite.play("open")
-		if (!current_bubble):
-			grab_grapple_point();
-		else:
+		if (current_bubble):
 			tongue_grapple_point = current_bubble.food_sprite.global_position;
+		elif is_stomping:
+			$Sprite.rotation_degrees = 180;
+			tongue_grapple_point = $FloorRay.get_collision_point()
+		else:
+			grab_grapple_point()
+
 		old_vel = velocity;
 		velocity = Vector2.ZERO;
 		tongue_grapple_point_sprite.position = tongue_sprite_connect_pos.global_position;
@@ -254,7 +283,9 @@ func change_state(new_state:int):
 		$Sprite.play("open")
 		velocity = (tongue_grapple_point - position).normalized() * food_zip_speed;
 		dir = sign(velocity.x);
+	if new_state == State.Stomping:
 		
+		velocity = Vector2.DOWN * stomp_speed;
 	
 	state = new_state;
 
