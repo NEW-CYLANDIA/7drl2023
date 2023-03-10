@@ -92,6 +92,8 @@ enabled = true
 cast_to = Vector2( 13, -21 )
 collide_with_areas = true
 script = ExtResource( 2 )
+dash_size = 10.0
+space_size = 5.0
 
 [node name="FloorRay" type="RayCast2D" parent="Player"]
 enabled = true
