@@ -1,9 +1,9 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/RayVisualizer.gd" type="Script" id=2]
 [ext_resource path="res://src/CameraFollow.gd" type="Script" id=3]
-[ext_resource path="res://src/LevelChunks/LevelChunkTemplate.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/LevelGenerator.gd" type="Script" id=4]
 [ext_resource path="res://graphics/new_graphics/tongue_circle.png" type="Texture" id=5]
 [ext_resource path="res://graphics/new_graphics/player.png" type="Texture" id=6]
 [ext_resource path="res://graphics/new_graphics/tongue_long.png" type="Texture" id=7]
@@ -17,6 +17,7 @@
 [ext_resource path="res://src/Tongue.gd" type="Script" id=15]
 [ext_resource path="res://graphics/new_graphics/Character_Tastebud_TongueSquiggly.png" type="Texture" id=16]
 [ext_resource path="res://src/Util/HitShake.tscn" type="PackedScene" id=17]
+[ext_resource path="res://src/LevelChunks/Testing/MovingPlatformTesting.tscn" type="PackedScene" id=18]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -51,8 +52,8 @@ radius = 219.047
 
 [node name="Level" type="Node2D" parent="."]
 
-[node name="LevelChunk" parent="Level" instance=ExtResource( 4 )]
-position = Vector2( -2, -4 )
+[node name="MovingPlatformTesting" parent="Level" instance=ExtResource( 18 )]
+position = Vector2( -21, 32 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 112, 199 )
@@ -72,7 +73,6 @@ accel = 10.0
 tongue_length = 175.0
 bubble_slowdown = 0.3
 mood_add = 5.0
-mood_subtract = 1.0
 tongue_grapple_point_sprite_path = NodePath("../TongueGrapplePoint")
 tongue_sprite_path = NodePath("../Tongue")
 taste_buds_path = NodePath("../UILayer/TasteBuds")
@@ -142,7 +142,6 @@ script = ExtResource( 11 )
 shape = SubResource( 6 )
 
 [node name="UILayer" type="CanvasLayer" parent="."]
-visible = false
 script = ExtResource( 12 )
 
 [node name="BudDock" type="Sprite" parent="UILayer"]
@@ -180,6 +179,11 @@ position = Vector2( 167, 384 )
 
 [node name="Bod" parent="UILayer/TasteBuds/Bitter" index="0"]
 self_modulate = Color( 0.494118, 0.145098, 0.32549, 1 )
+
+[node name="LevelGenerator" type="Node2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="RayCast" type="RayCast2D" parent="LevelGenerator"]
 
 [connection signal="area_entered" from="TongueGrapplePoint/Area2D" to="TongueGrapplePoint" method="_on_Area2D_area_entered"]
 [connection signal="area_exited" from="TongueGrapplePoint/Area2D" to="TongueGrapplePoint" method="_on_Area2D_area_exited"]

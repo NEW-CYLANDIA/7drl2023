@@ -4,6 +4,7 @@ tool
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	resize_elements();
 	pass;
 
 func resize_elements():

@@ -46,6 +46,7 @@ config/icon="res://icon.png"
 
 Const="*res://src/Const.gd"
 MathUtil="*res://src/Util/MathUtil.gd"
+LevelUtil="*res://src/Util/LevelUtil.gd"
 
 [display]
 

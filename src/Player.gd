@@ -21,8 +21,6 @@ export var spin_speed:float = 0.05;
 export var bubble_slowdown:float = 0.5;
 
 export var mood_add:float = 3;
-export var mood_subtract:float = 0.5;
-export var allsorts_mood_add:float = 1;
 export(RotateState) var rotate_state:int = RotateState.Locked45;
 
 export(NodePath) var tongue_grapple_point_sprite_path:String
@@ -223,14 +221,6 @@ func grab_grapple_point():
 		if (buds_dict.has(tile_hit_name)):
 			var affected_bud = buds_dict[tile_hit_name]
 			affected_bud.add_mood(mood_add);
-			
-			for bud in buds_dict.values():
-				if (bud != affected_bud):
-					bud.add_mood(-mood_subtract);
-
-		if (tile_hit_name == "all"):
-			for bud in buds_dict.values():
-				bud.add_mood(allsorts_mood_add);
 
 	tongue_grapple_point = collision_point - collision_normal * 4;
 	tongue_length = position.distance_to(tongue_grapple_point);

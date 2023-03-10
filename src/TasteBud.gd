@@ -1,6 +1,6 @@
 extends Node2D
 
-var mood:int = 7;
+var mood:float = 0.99999;
 var anims = [
 	"Sad3",
 	"Sad2",
@@ -19,11 +19,13 @@ func add_mood(mood_add):
 	mood += mood_add
 	if (mood < 0):
 		mood = 0;
-	if (mood > anims.size()):
-		mood = anims.size();
+	if (mood > 1):
+		mood = 1;
 	play_mood();
 func play_mood():
-	var ceil_mood = ceil(mood);
-
-	$Bod/Face.play(anims[ceil_mood-1]);
-	scale = Vector2.ONE * MathUtil.map_range(mood, 0, 7, 0.5, 1);
+	var mood_anim = floor(mood * (anims.size()));
+	$Bod/Face.play(anims[mood_anim]);
+	
+	# this is a very basic map_range call that probably isn't needed
+	# but i'm keeping it here to make adjustment easier
+	scale = Vector2.ONE * MathUtil.map_range(mood_anim, 0, anims.size(), 0.75, 1.1);
