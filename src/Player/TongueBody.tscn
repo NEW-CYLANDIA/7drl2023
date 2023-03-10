@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/Player/TongueBody.gd" type="Script" id=1]
+[ext_resource path="res://graphics/new_graphics/Character_Tastebud_TongueSquiggly.png" type="Texture" id=2]
+[ext_resource path="res://graphics/new_graphics/tongue_long.png" type="Texture" id=3]
+
+[node name="TongueBody" type="Sprite"]
+position = Vector2( -280, 159 )
+scale = Vector2( 0.0471154, 0.0471154 )
+texture = ExtResource( 3 )
+offset = Vector2( 0.328369, -828.83 )
+script = ExtResource( 1 )
+straight_tex = ExtResource( 3 )
+squiggly_tex = ExtResource( 2 )

@@ -1,0 +1,96 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://src/Player/Player.gd" type="Script" id=1]
+[ext_resource path="res://src/Player/RayVisualizer.gd" type="Script" id=2]
+[ext_resource path="res://sounds/tongue.wav" type="AudioStream" id=3]
+[ext_resource path="res://sounds/jump.wav" type="AudioStream" id=4]
+[ext_resource path="res://graphics/new_graphics/player.png" type="Texture" id=5]
+[ext_resource path="res://src/Util/HitStop.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Util/HitShake.tscn" type="PackedScene" id=7]
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 1547, 1356 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 1547, 0, 1547, 1356 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 3 ) ],
+"loop": true,
+"name": "open",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 9.0
+
+[node name="Player" type="KinematicBody2D"]
+position = Vector2( 51, 343 )
+collision_layer = 2
+collision_mask = 9
+collision/safe_margin = 0.001
+script = ExtResource( 1 )
+speed = 100.0
+jump_vel = -300.0
+accel = 10.0
+tongue_length = 175.0
+mood_add = 5.0
+stomp_speed = 800.0
+stomp_launch_speed = 600.0
+taste_buds_path = NodePath("../UILayer/TasteBuds")
+jump_sfx = ExtResource( 4 )
+tongue_sfx = ExtResource( 3 )
+bubble_slowdown = 0.3
+food_zip_speed = 1000.0
+bubble_launch_dropoff = 0.8
+
+[node name="WallRay" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 10, 0 )
+
+[node name="TongueRay" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 13, -21 )
+collide_with_areas = true
+script = ExtResource( 2 )
+dash_size = 10.0
+space_size = 5.0
+
+[node name="FloorRay" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 1, 46 )
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -2 )
+scale = Vector2( 0.0146484, 0.0146484 )
+frames = SubResource( 4 )
+animation = "open"
+
+[node name="TonguePos" type="Node2D" parent="Sprite"]
+position = Vector2( 0, 409.6 )
+
+[node name="HitShake" parent="Sprite" instance=ExtResource( 7 )]
+position = Vector2( 0, 136.533 )
+scale = Vector2( 68.2668, 68.2668 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -2 )
+rotation = 1.5708
+shape = SubResource( 5 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="HitStop" parent="." instance=ExtResource( 6 )]
+
+[node name="GrappleCooldown" type="Timer" parent="."]
+one_shot = true
