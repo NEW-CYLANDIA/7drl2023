@@ -29,7 +29,7 @@ func on_level_selection_changed(value):
 
 
 func _ready() -> void:
-	if not Engine.is_editor_hint() && enabled:
+	if enabled and not Engine.is_editor_hint():
 		var level_instance = load(level_path + level_to_load).instance();
 		add_child(level_instance);
 
