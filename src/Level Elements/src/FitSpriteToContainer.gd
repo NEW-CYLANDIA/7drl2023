@@ -9,10 +9,14 @@ tool
 var sprites:Array;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass;
+	resize_sprite();
+	
+func _process(delta: float) -> void:
+	resize_sprite();
 
 # to be called by parent
 func resize_sprite():
+	sprites = [];
 	for c in get_children():
 		sprites.append(c);
 	for spr in sprites:
@@ -20,3 +24,11 @@ func resize_sprite():
 		var sprite_size = tex.get_size();
 		spr.scale = rect_size / sprite_size;
 		spr.position = rect_size/2;
+
+
+func _on_Platform_resized() -> void:
+	resize_sprite()
+
+
+func _on_Platform_focus_entered() -> void:
+	resize_sprite();

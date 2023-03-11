@@ -50,10 +50,8 @@ func _ready() -> void:
 func build_level():
 	build_happy_path();
 	place_chunks();
-#	for n in collision_nodes:
-#		n.queue_free();
-#
-# search thru our LevelChunk array and pull out whatever we can use
+	
+
 func build_chunk_array():
 	var dir_path = "res://src/LevelChunks/"
 	var dir := Directory.new()

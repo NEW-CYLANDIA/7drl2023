@@ -10,3 +10,6 @@ func set_straight():
 
 func set_squiggly():
 	texture = squiggly_tex;
+	
+func set_electric(electric):
+	$Electric.visible = electric;

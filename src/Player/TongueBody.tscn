@@ -1,8 +1,37 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/Player/TongueBody.gd" type="Script" id=1]
 [ext_resource path="res://graphics/new_graphics/Character_Tastebud_TongueSquiggly.png" type="Texture" id=2]
 [ext_resource path="res://graphics/new_graphics/tongue_long.png" type="Texture" id=3]
+[ext_resource path="res://graphics/new_graphics/tongue_long-sheet.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 377, 1862 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 4 )
+region = Rect2( 377, 0, 377, 1862 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 4 )
+region = Rect2( 754, 0, 377, 1862 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 4 )
+region = Rect2( 1131, 0, 377, 1862 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 4 )
+region = Rect2( 1508, 0, 377, 1862 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
 
 [node name="TongueBody" type="Sprite"]
 position = Vector2( -280, 159 )
@@ -12,3 +41,10 @@ offset = Vector2( 0.328369, -828.83 )
 script = ExtResource( 1 )
 straight_tex = ExtResource( 3 )
 squiggly_tex = ExtResource( 2 )
+
+[node name="Electric" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 0, -829.787 )
+frames = SubResource( 6 )
+frame = 4
+playing = true

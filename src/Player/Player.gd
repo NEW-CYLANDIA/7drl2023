@@ -24,6 +24,8 @@ export var mood_add : float = 3
 export var stomp_speed : float = 200
 export var stomp_launch_speed : float = 400
 export var grapple_cooldown : float = 0.75
+export var ice_time = 5;
+export var stunned_time = 5;
 
 export(AimStyle) var aim_style : int = AimStyle.Locked
 export(NodePath) var taste_buds_path : NodePath
@@ -34,6 +36,8 @@ export(AudioStream) var tongue_sfx
 var dir : int = 1
 var state : int = State.Moving
 var is_stomping : bool = false
+var ice_timer:float = -1;
+var stun_timer:float = -1;
 
 # velocity stuff
 var velocity : Vector2
@@ -102,10 +106,13 @@ func _physics_process(delta):
 	if is_on_floor():
 		velocity.y = 0
 
+	stun_timer -= delta;
+	tongue_sprite.set_electric(stun_timer > 0);
 	
 
 	if state == State.Moving:
-		$Sprite.play("default")
+		if (stun_timer < 0):
+			$Sprite.play("default")
 		$Sprite.rotate(dir * spin_speed)
 
 		if Input.is_action_just_pressed("action"):
@@ -137,11 +144,16 @@ func _physics_process(delta):
 			velocity.y = 1
 		
 	if state == State.Licking:
+		
 		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.linear_interpolate(tongue_grapple_point, 0.5)
 
 		if (
 			tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 1
 		):			
+			if (grappled_object is Platform and grappled_object.is_electric()):
+				$Sprite.play("stun");
+				$HitStop.do_hit_stop(0.5);
+				$Sprite/HitShake.do_shake(0.5, 2);
 			if current_bubble:
 				change_state(State.Eating)
 			elif is_stomping:
@@ -149,9 +161,13 @@ func _physics_process(delta):
 			else:
 				change_state(State.Swinging)
 				
-		play_audio(tongue_sfx)
+		play_audio(tongue_sfx);
 	
 	if state == State.Swinging:
+		if (stun_timer < 0):
+			$Sprite.play("open")
+		ice_timer -= delta;
+		tongue_grapple_point_sprite.set_ice(ice_timer > 0);
 		
 		if tongue_grapple_point_sprite.current_collisions == 0:
 			change_state(State.Moving)
@@ -170,7 +186,7 @@ func _physics_process(delta):
 		if position.distance_to(tongue_grapple_point) > tongue_length:
 			velocity -= speed_towards_point * dir_to_grapple
 			position = tongue_grapple_point - dir_to_grapple * tongue_length
-		if Input.is_action_just_released("action"):
+		if Input.is_action_just_released("action") and ice_timer <= 0:
 			change_state(State.Moving)
 			jump()
 
@@ -205,14 +221,15 @@ func change_state(new_state : int):
 
 	if new_state == State.Moving:
 		$TongueRay.visible = true;
-		$Sprite.play("default")
+	
 		print("change state to moving")
 		tongue_sprite.visible = false
 
 	if new_state == State.Licking:
 		print("change state to lick")
 		tongue_sprite.set_squiggly()
-		$Sprite.play("open")
+		if (stun_timer < 0):
+			$Sprite.play("open")
 
 		if current_bubble:
 			tongue_grapple_point = current_bubble.food_sprite.global_position
@@ -231,6 +248,7 @@ func change_state(new_state : int):
 			$GrappleCooldown.start()
 	
 	if new_state == State.Swinging:
+
 		$TongueRay.visible = false;
 		tongue_sprite.set_straight()
 		print("change state to swinging")
@@ -288,13 +306,18 @@ func grab_grapple_point():
 	if grappled_object is TileMap:
 		var tilemap = grappled_object as TileMap
 		var tilemap_pos = tilemap.world_to_map(collision_point - collision_normal)
-		var tile_hit = tilemap.get_cellv(tilemap_pos)
-		var tile_hit_name = tilemap.tile_set.tile_get_name(tile_hit)
-		
-		var buds_dict:Dictionary = taste_buds.taste_buds
-		if buds_dict.has(tile_hit_name):
-			var affected_bud = buds_dict[tile_hit_name]
-			affected_bud.add_mood(mood_add)
+	if grappled_object.get_parent() is Platform:
+		grappled_object = grappled_object.get_parent();
+		var platform:Platform = grappled_object;
+		if (platform.is_ice()):
+			ice_timer = ice_time;
+		elif (platform.is_electric()):
+			stun_timer = stunned_time;
+
+		else:
+			var flavor = platform.get_flavor();
+			if (flavor != "" and stun_timer < 0):
+				taste_buds.taste_buds[flavor].add_mood(mood_add);
 
 	tongue_grapple_point = collision_point - collision_normal * 4
 	tongue_length = position.distance_to(tongue_grapple_point)

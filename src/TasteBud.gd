@@ -19,8 +19,8 @@ func add_mood(mood_add):
 	mood += mood_add
 	if (mood < 0):
 		mood = 0;
-	if (mood > 1):
-		mood = 1;
+	if (mood >= 1):
+		mood = 0.999;
 	play_mood();
 func play_mood():
 	var mood_anim = floor(mood * (anims.size()));

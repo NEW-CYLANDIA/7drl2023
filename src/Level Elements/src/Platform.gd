@@ -16,6 +16,15 @@ enum PlatformType {
 	Electricity	
 }
 
+var enum_to_flavor = {
+	PlatformFlavor.Sweet: "Sweet",
+	PlatformFlavor.Sour: "Sour",
+	PlatformFlavor.Savory: "Savory",
+	PlatformFlavor.Bitter: "Bitter",
+	PlatformFlavor.Salty: "Salty",
+	
+}
+
 
 export(PlatformType) var type:int = PlatformType.Normal setget set_type;
 
@@ -26,6 +35,7 @@ export(Array, NodePath) var sprite_paths:Array
 var sprites:Array
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	print("ready");
 	if (!Engine.editor_hint):
 		for path in sprite_paths:
 			sprites.append(get_node(path));
@@ -52,7 +62,7 @@ func shuffle_platform():
 	update_visuals();
 
 func update_visuals():
-	print($Normal)
+	print("update visuals")
 	if (Engine.editor_hint and sprites.size() == 0):
 		for path in sprite_paths:
 			sprites.append(get_node(path));
@@ -80,6 +90,15 @@ func update_visuals():
 				#TODO: Add bitter
 			
 
+func is_electric():
+	return type == PlatformType.Electricity;
+func is_ice():
+	return type == PlatformType.Ice;
+func get_flavor():
+	if (type == PlatformType.Flavor):
+		return enum_to_flavor[flavor]
+	else: return ""
+	
 
 func _on_Platform_focus_entered() -> void:
 	resize_elements();
