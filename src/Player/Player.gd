@@ -102,7 +102,7 @@ func _physics_process(delta):
 	if is_on_floor():
 		velocity.y = 0
 
-	$Sprite.rotate(dir * spin_speed)
+	
 
 	if state == State.Moving:
 		$Sprite.play("default")
@@ -152,6 +152,7 @@ func _physics_process(delta):
 		play_audio(tongue_sfx)
 	
 	if state == State.Swinging:
+		
 		if tongue_grapple_point_sprite.current_collisions == 0:
 			change_state(State.Moving)
 
@@ -203,6 +204,7 @@ func change_state(new_state : int):
 	tongue_grapple_point_sprite.visible = false
 
 	if new_state == State.Moving:
+		$TongueRay.visible = true;
 		$Sprite.play("default")
 		print("change state to moving")
 		tongue_sprite.visible = false
@@ -229,6 +231,7 @@ func change_state(new_state : int):
 			$GrappleCooldown.start()
 	
 	if new_state == State.Swinging:
+		$TongueRay.visible = false;
 		tongue_sprite.set_straight()
 		print("change state to swinging")
 		velocity = stored_velocity

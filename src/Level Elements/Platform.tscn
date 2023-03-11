@@ -1,8 +1,8 @@
 [gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://graphics/new_graphics/sweet.png" type="Texture" id=1]
-[ext_resource path="res://src/Level Elements/Platform.gd" type="Script" id=2]
-[ext_resource path="res://src/Level Elements/MovingPlatformBody.gd" type="Script" id=3]
+[ext_resource path="res://src/Level Elements/src/Platform.gd" type="Script" id=2]
+[ext_resource path="res://src/Level Elements/src/MovingPlatformBody.gd" type="Script" id=3]
 [ext_resource path="res://graphics/new_graphics/umami.png" type="Texture" id=4]
 [ext_resource path="res://graphics/new_graphics/sour.png" type="Texture" id=5]
 [ext_resource path="res://graphics/new_graphics/salty.png" type="Texture" id=6]
@@ -10,7 +10,7 @@
 [ext_resource path="res://graphics/new_graphics/ice.png" type="Texture" id=8]
 [ext_resource path="res://graphics/new_graphics/electric.png" type="Texture" id=9]
 [ext_resource path="res://graphics/new_graphics/electricitypose-sheet.png" type="Texture" id=10]
-[ext_resource path="res://src/Level Elements/FitSpriteToContainer.gd" type="Script" id=11]
+[ext_resource path="res://src/Level Elements/src/FitSpriteToContainer.gd" type="Script" id=11]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -48,11 +48,11 @@ animations = [ {
 
 [sub_resource type="RectangleShape2D" id=2]
 resource_local_to_scene = true
-extents = Vector2( 662, 697.5 )
+extents = Vector2( 466, 466 )
 
 [node name="Platform" type="PanelContainer"]
 margin_right = 1332.0
-margin_bottom = 1403.0
+margin_bottom = 1332.0
 rect_scale = Vector2( 0.067, 0.067 )
 size_flags_stretch_ratio = 10.0
 custom_styles/panel = SubResource( 1 )
@@ -64,7 +64,7 @@ sprite_paths = [ NodePath("Normal"), NodePath("Sweet"), NodePath("Sour"), NodePa
 
 [node name="Normal" type="NinePatchRect" parent="."]
 margin_right = 1332.0
-margin_bottom = 1403.0
+margin_bottom = 1332.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 7 )
@@ -78,7 +78,7 @@ axis_stretch_horizontal = 1
 [node name="Sweet" type="NinePatchRect" parent="."]
 visible = false
 margin_right = 1332.0
-margin_bottom = 1403.0
+margin_bottom = 1332.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 1 )
@@ -164,11 +164,11 @@ script = ExtResource( 11 )
 position = Vector2( 666, 701.5 )
 scale = Vector2( 0.666, 0.7015 )
 frames = SubResource( 9 )
-frame = 5
+frame = 4
 playing = true
 
 [node name="Collision" type="KinematicBody2D" parent="."]
-position = Vector2( 666, 701.5 )
+position = Vector2( 666, 666 )
 script = ExtResource( 3 )
 
 [node name="Shape" type="CollisionShape2D" parent="Collision"]

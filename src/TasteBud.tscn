@@ -77,11 +77,14 @@ animations = [ {
 [node name="Taste Bud" type="Node2D"]
 position = Vector2( 17, 400 )
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Bod" type="Sprite" parent="."]
 self_modulate = Color( 0.666667, 0.666667, 0.666667, 1 )
 position = Vector2( 1, -18 )
-scale = Vector2( 0.0244141, 0.0244141 )
+scale = Vector2( 0.048, 0.048 )
 texture = ExtResource( 2 )
 
 [node name="Face" type="AnimatedSprite" parent="Bod"]

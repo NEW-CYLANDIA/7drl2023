@@ -3,7 +3,7 @@
 [ext_resource path="res://Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://graphics/camera_guide.png" type="Texture" id=2]
 [ext_resource path="res://src/LevelChunk.gd" type="Script" id=3]
-[ext_resource path="res://src/HideOnStart.gd" type="Script" id=4]
+[ext_resource path="res://src/Util/HideOnStart.gd" type="Script" id=4]
 [ext_resource path="res://src/Level Elements/Platform.tscn" type="PackedScene" id=5]
 
 [node name="LevelChunk" type="Node2D"]

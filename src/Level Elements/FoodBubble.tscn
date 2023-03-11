@@ -2,7 +2,7 @@
 
 [ext_resource path="res://graphics/food_bubble.png" type="Texture" id=1]
 [ext_resource path="res://graphics/hotdog_enemy.png" type="Texture" id=2]
-[ext_resource path="res://src/Level Elements/FoodBubble.gd" type="Script" id=3]
+[ext_resource path="res://src/Level Elements/src/FoodBubble.gd" type="Script" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 49.0102

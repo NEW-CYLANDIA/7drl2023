@@ -22,7 +22,7 @@ _global_script_classes=[ {
 "base": "Container",
 "class": "Platform",
 "language": "GDScript",
-"path": "res://src/Level Elements/Platform.gd"
+"path": "res://src/Level Elements/src/Platform.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",
@@ -52,8 +52,6 @@ LevelUtil="*res://src/Util/LevelUtil.gd"
 
 window/size/width=450
 window/size/height=800
-window/size/test_width=450
-window/size/test_height=800
 window/stretch/mode="2d"
 
 [editor_plugins]

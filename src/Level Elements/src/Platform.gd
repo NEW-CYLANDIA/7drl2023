@@ -13,7 +13,7 @@ enum PlatformType {
 	Normal,
 	Flavor,
 	Ice,
-	Electricity
+	Electricity	
 }
 
 var type:int = PlatformType.Normal;
@@ -32,7 +32,7 @@ func _ready() -> void:
 	pass;
 
 func resize_elements():
-	($Collision/Shape.shape as RectangleShape2D).extents = rect_size/2 - Vector2.ONE * 4;
+	($Collision/Shape.shape as RectangleShape2D).extents = rect_size/2 - Vector2.ONE * 200;
 	$Collision.position = rect_size/2;
 	$Thunder.resize_sprite();
 

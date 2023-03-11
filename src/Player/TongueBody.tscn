@@ -6,7 +6,7 @@
 
 [node name="TongueBody" type="Sprite"]
 position = Vector2( -280, 159 )
-scale = Vector2( 0.0471154, 0.0471154 )
+scale = Vector2( 0.094, 0.094 )
 texture = ExtResource( 3 )
 offset = Vector2( 0.328369, -828.83 )
 script = ExtResource( 1 )

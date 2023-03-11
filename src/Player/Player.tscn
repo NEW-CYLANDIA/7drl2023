@@ -32,7 +32,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=5]
-radius = 9.0
+radius = 19.0263
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 51, 343 )
@@ -40,18 +40,19 @@ collision_layer = 2
 collision_mask = 9
 collision/safe_margin = 0.001
 script = ExtResource( 1 )
-speed = 100.0
-jump_vel = -300.0
-accel = 10.0
-tongue_length = 175.0
+speed = 200.0
+jump_vel = -600.0
+accel = 20.0
+tongue_length = 350.0
+tongue_extend_speed = 1.0
 mood_add = 5.0
-stomp_speed = 800.0
-stomp_launch_speed = 600.0
+stomp_speed = 1600.0
+stomp_launch_speed = 1200.0
 taste_buds_path = NodePath("../UILayer/TasteBuds")
 jump_sfx = ExtResource( 4 )
 tongue_sfx = ExtResource( 3 )
 bubble_slowdown = 0.3
-food_zip_speed = 1000.0
+food_zip_speed = 2000.0
 bubble_launch_dropoff = 0.8
 
 [node name="WallRay" type="RayCast2D" parent="."]
@@ -63,8 +64,8 @@ enabled = true
 cast_to = Vector2( 13, -21 )
 collide_with_areas = true
 script = ExtResource( 2 )
-dash_size = 10.0
-space_size = 5.0
+dash_size = 20.0
+space_size = 10.0
 
 [node name="FloorRay" type="RayCast2D" parent="."]
 enabled = true
@@ -72,7 +73,7 @@ cast_to = Vector2( 1, 46 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -2 )
-scale = Vector2( 0.0146484, 0.0146484 )
+scale = Vector2( 0.03, 0.03 )
 frames = SubResource( 4 )
 animation = "open"
 

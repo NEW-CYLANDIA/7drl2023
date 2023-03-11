@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://src/Level Elements/MovingPlatformNode.gd" type="Script" id=1]
+[ext_resource path="res://src/Level Elements/src/MovingPlatformNode.gd" type="Script" id=1]
 [ext_resource path="res://graphics/moving_platform_node.png" type="Texture" id=2]
 
 [node name="MovingPlatformNode" type="Node2D"]

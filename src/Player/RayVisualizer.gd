@@ -12,10 +12,10 @@ func _draw():
 	if is_colliding():
 		draw_circle(
 			to_local(get_collision_point()),
-			4,
+			8,
 			Color.green if get_parent().get_node("GrappleCooldown").is_stopped() else Color.red
 		)
-		draw_dashed_line(Vector2.ZERO, to_local(get_collision_point()), Color("#99ffffff"), 4.0)
+		draw_dashed_line(Vector2.ZERO, to_local(get_collision_point()), Color("#99ffffff"), 8.0)
 		# else:
 		# 	draw_dashed_line(Vector2.ZERO, cast_to, Color("#66ffffff"), 3.0)
 	# if get_parent().state != get_parent().State.Swinging:

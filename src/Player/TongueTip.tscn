@@ -8,7 +8,7 @@ radius = 219.047
 
 [node name="TongueGrapplePoint" type="Sprite"]
 position = Vector2( -317, 33 )
-scale = Vector2( 0.0456522, 0.0456522 )
+scale = Vector2( 0.092, 0.092 )
 z_index = 1
 texture = ExtResource( 2 )
 script = ExtResource( 1 )

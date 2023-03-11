@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://src/Level Elements/MovingPlatform.gd" type="Script" id=1]
+[ext_resource path="res://src/Level Elements/src/MovingPlatform.gd" type="Script" id=1]
 [ext_resource path="res://src/Level Elements/Platform.tscn" type="PackedScene" id=2]
 
 [sub_resource type="StyleBoxEmpty" id=1]
@@ -11,9 +11,9 @@ margin_bottom = 1332.0
 rect_scale = Vector2( 0.067, 0.067 )
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
+speed = 1.0
 
 [node name="Platform" parent="." instance=ExtResource( 2 )]
-margin_bottom = 1332.0
 rect_scale = Vector2( 1, 1 )
 
 [node name="Timer" type="Timer" parent="."]
