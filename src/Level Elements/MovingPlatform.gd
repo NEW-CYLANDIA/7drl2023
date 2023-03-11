@@ -1,4 +1,4 @@
-extends Platform
+extends PanelContainer
 tool
 export(Array, NodePath) var node_paths;
 export var speed:float = 10;
@@ -17,8 +17,8 @@ func _process(delta: float) -> void:
 	if (Engine.editor_hint):
 		update();
 	else:
-		var dest = current_node.position - rect_size/2;
-		$Collision.velocity = (dest - rect_position).normalized() * speed;
+		var dest = current_node.position - (rect_size * rect_scale)/2;
+		$Platform/Collision.velocity = (dest - rect_position).normalized() * speed;
 		rect_position = rect_position.move_toward(dest, speed);
 		if (rect_position.distance_to(dest) < 1):
 			set_next_node();
@@ -41,7 +41,3 @@ func set_next_node():
 
 func _on_MovingPlatform_focus_entered() -> void:
 	update();
-
-
-func _on_MovingPlatform_resized() -> void:
-	resize_elements();

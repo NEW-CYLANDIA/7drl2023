@@ -1,7 +1,7 @@
 extends Node2D
 
 
-export(Array, String, "Left", "Right", "Up", "Down") var exit_dirs;
+export(Array, Vector2) var exits;
 
 
 # Called when the node enters the scene tree for the first time.

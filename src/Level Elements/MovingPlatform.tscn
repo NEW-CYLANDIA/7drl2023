@@ -1,53 +1,22 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/Level Elements/MovingPlatform.gd" type="Script" id=1]
-[ext_resource path="res://graphics/timed_platform.png" type="Texture" id=2]
-[ext_resource path="res://src/Level Elements/MovingPlatformBody.gd" type="Script" id=3]
+[ext_resource path="res://src/Level Elements/Platform.tscn" type="PackedScene" id=2]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
-[sub_resource type="RectangleShape2D" id=2]
-resource_local_to_scene = true
-extents = Vector2( 37, 9 )
-
 [node name="MovingPlatform" type="PanelContainer"]
-margin_right = 80.0
-margin_bottom = 24.0
+margin_right = 1332.0
+margin_bottom = 1332.0
+rect_scale = Vector2( 0.067, 0.067 )
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 
+[node name="Platform" parent="." instance=ExtResource( 2 )]
+margin_bottom = 1332.0
+rect_scale = Vector2( 1, 1 )
+
 [node name="Timer" type="Timer" parent="."]
-
-[node name="Solid" type="NinePatchRect" parent="."]
-margin_right = 80.0
-margin_bottom = 24.0
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 36, 36 )
-patch_margin_left = 12
-patch_margin_top = 12
-patch_margin_right = 12
-patch_margin_bottom = 12
-
-[node name="Outline" type="NinePatchRect" parent="."]
-visible = false
-margin_right = 81.0
-margin_bottom = 24.0
-texture = ExtResource( 2 )
-region_rect = Rect2( 36, 0, 36, 36 )
-patch_margin_left = 12
-patch_margin_top = 12
-patch_margin_right = 12
-patch_margin_bottom = 12
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[node name="Collision" type="KinematicBody2D" parent="."]
-position = Vector2( 40.5, 12 )
-script = ExtResource( 3 )
-
-[node name="Shape" type="CollisionShape2D" parent="Collision"]
-position = Vector2( -0.5, 0 )
-shape = SubResource( 2 )
 
 [connection signal="focus_entered" from="." to="." method="_on_MovingPlatform_focus_entered"]
 [connection signal="resized" from="." to="." method="_on_MovingPlatform_resized"]

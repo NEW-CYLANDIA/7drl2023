@@ -13,7 +13,6 @@ func _ready() -> void:
 
 func _on_Area2D_body_entered(body: Node2D) -> void:
 	if (body is Player):
-		print("player entering bubble");
 		var player = (body as Player);
 		player.enter_bubble(self);
 
@@ -21,5 +20,4 @@ func _on_Area2D_body_entered(body: Node2D) -> void:
 func _on_Area2D_body_exited(body: Node) -> void:
 	if (body is Player):
 		var player = (body as Player);
-		print("player exiting bubble");
 		player.exit_bubble();

@@ -240,11 +240,9 @@ func check_flip():
 func change_state(new_state:int):
 	tongue_grapple_point_sprite.visible = false;
 	if new_state == State.Moving:
-		print("change state to moving");
 		tongue_sprite.visible = false;
 
 	if new_state == State.Licking:
-		print("change state to lick");
 		tongue_sprite.set_squiggly();
 		$Sprite.play("open")
 		if (current_bubble):
@@ -262,7 +260,6 @@ func change_state(new_state:int):
 	
 	if new_state == State.Swinging:
 		tongue_sprite.set_straight();
-		print("change state to swinging");
 		velocity = old_vel;
 		var artificial_vel = (tongue_grapple_point - position);
 		artificial_vel.y *= -1;
@@ -275,7 +272,6 @@ func change_state(new_state:int):
 	
 	if new_state == State.Eating:
 		tongue_sprite.set_straight();
-		print("change state to eating");
 		$Sprite.play("open")
 		velocity = (tongue_grapple_point - position).normalized() * food_zip_speed;
 		dir = sign(velocity.x);

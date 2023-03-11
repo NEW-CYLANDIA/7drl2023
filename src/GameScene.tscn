@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/RayVisualizer.gd" type="Script" id=2]
@@ -17,7 +17,9 @@
 [ext_resource path="res://src/Tongue.gd" type="Script" id=15]
 [ext_resource path="res://graphics/new_graphics/Character_Tastebud_TongueSquiggly.png" type="Texture" id=16]
 [ext_resource path="res://src/Util/HitShake.tscn" type="PackedScene" id=17]
-[ext_resource path="res://src/LevelChunks/Testing/MovingPlatformTesting.tscn" type="PackedScene" id=18]
+[ext_resource path="res://src/LevelChunks/Testing/MovingPlatformTest.tscn" type="PackedScene" id=18]
+[ext_resource path="res://src/LineCollisionChecker.tscn" type="PackedScene" id=19]
+[ext_resource path="res://src/DebugCamera.gd" type="Script" id=20]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -43,17 +45,12 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=5]
-radius = 9.0
+radius = 19.105
 
 [sub_resource type="CircleShape2D" id=6]
 radius = 219.047
 
 [node name="Node2D" type="Node2D"]
-
-[node name="Level" type="Node2D" parent="."]
-
-[node name="MovingPlatformTesting" parent="Level" instance=ExtResource( 18 )]
-position = Vector2( -21, 32 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 112, 199 )
@@ -61,27 +58,31 @@ current = true
 script = ExtResource( 3 )
 target_path = NodePath("../Player")
 
+[node name="LevelChunk" parent="." instance=ExtResource( 18 )]
+position = Vector2( -89, -350 )
+
 [node name="Player" type="KinematicBody2D" parent="."]
 position = Vector2( 51, 343 )
 collision_layer = 2
 collision_mask = 9
 collision/safe_margin = 0.001
 script = ExtResource( 1 )
-speed = 100.0
-jump_vel = -300.0
-accel = 10.0
-tongue_length = 175.0
+speed = 200.0
+jump_vel = -600.0
+accel = 20.0
+tongue_length = 350.0
+tongue_extend_speed = 1.0
 bubble_slowdown = 0.3
-mood_add = 5.0
+mood_add = 0.5
 tongue_grapple_point_sprite_path = NodePath("../TongueGrapplePoint")
 tongue_sprite_path = NodePath("../Tongue")
 taste_buds_path = NodePath("../UILayer/TasteBuds")
 jump_sfx = ExtResource( 12 )
 tongue_sfx = ExtResource( 13 )
-food_zip_speed = 1000.0
+food_zip_speed = 2000.0
 bubble_launch_dropoff = 0.8
-stomp_speed = 800.0
-stomp_launch_speed = 600.0
+stomp_speed = 1600.0
+stomp_launch_speed = 1200.0
 
 [node name="WallRay" type="RayCast2D" parent="Player"]
 enabled = true
@@ -101,7 +102,7 @@ cast_to = Vector2( 1, 46 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Player"]
 position = Vector2( 0, -2 )
-scale = Vector2( 0.0146484, 0.0146484 )
+scale = Vector2( 0.03, 0.03 )
 frames = SubResource( 4 )
 animation = "open"
 
@@ -123,7 +124,7 @@ shape = SubResource( 5 )
 
 [node name="Tongue" type="Sprite" parent="."]
 position = Vector2( -280, 159 )
-scale = Vector2( 0.0471154, 0.0471154 )
+scale = Vector2( 0.092, 0.092 )
 texture = ExtResource( 7 )
 offset = Vector2( 0.328369, -828.83 )
 script = ExtResource( 15 )
@@ -132,7 +133,7 @@ squiggly_tex = ExtResource( 16 )
 
 [node name="TongueGrapplePoint" type="Sprite" parent="."]
 position = Vector2( -317, 33 )
-scale = Vector2( 0.0456522, 0.0456522 )
+scale = Vector2( 0.092, 0.092 )
 texture = ExtResource( 5 )
 script = ExtResource( 11 )
 
@@ -142,6 +143,7 @@ script = ExtResource( 11 )
 shape = SubResource( 6 )
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource( 12 )
 
 [node name="BudDock" type="Sprite" parent="UILayer"]
@@ -181,9 +183,22 @@ position = Vector2( 167, 384 )
 self_modulate = Color( 0.494118, 0.145098, 0.32549, 1 )
 
 [node name="LevelGenerator" type="Node2D" parent="."]
+position = Vector2( 400, 0 )
 script = ExtResource( 4 )
+level_length = 10
+line_col_check = ExtResource( 19 )
+enabled = false
 
 [node name="RayCast" type="RayCast2D" parent="LevelGenerator"]
+position = Vector2( 2250, 2000 )
+enabled = true
+collision_mask = 16
+collide_with_areas = true
+
+[node name="DebugCamera" type="Camera2D" parent="."]
+zoom = Vector2( 2, 2 )
+script = ExtResource( 20 )
+speed = 20
 
 [connection signal="area_entered" from="TongueGrapplePoint/Area2D" to="TongueGrapplePoint" method="_on_Area2D_area_entered"]
 [connection signal="area_exited" from="TongueGrapplePoint/Area2D" to="TongueGrapplePoint" method="_on_Area2D_area_exited"]

@@ -7,7 +7,7 @@ const EXIT_DIRS = {
 	"Down": "Down",
 }
 
-const TILE_SIZE = Vector2(450, 400);
+const TILE_SIZE = Vector2(900, 800);
 
 func weighted_random_pick(items: Array) -> int:
     # Calculate the total weight of all items
