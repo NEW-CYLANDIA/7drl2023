@@ -16,7 +16,6 @@
 
 [node name="TestLevelLoader" type="Node2D" parent="."]
 script = ExtResource( 6 )
-enabled = true
 level_to_load = "MovingPlatformTest.tscn"
 
 [node name="LevelGenerator" type="Node2D" parent="."]

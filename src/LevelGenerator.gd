@@ -134,8 +134,6 @@ func place_chunks():
 func arrays_are_similar(array1, array2):
 	if array1.size() != array2.size():
 		return false
-	print("comparing this: " + str(array1))
-	print("to this: " + str(array2))
 	
 	var sortedArray1:Array = array1.duplicate()
 	sortedArray1.sort()
