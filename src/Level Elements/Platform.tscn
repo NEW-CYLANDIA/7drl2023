@@ -48,11 +48,11 @@ animations = [ {
 
 [sub_resource type="RectangleShape2D" id=2]
 resource_local_to_scene = true
-extents = Vector2( 466, 466 )
+extents = Vector2( 919.5, 792.5 )
 
 [node name="Platform" type="PanelContainer"]
-margin_right = 1332.0
-margin_bottom = 1332.0
+margin_right = 2239.0
+margin_bottom = 1985.0
 rect_scale = Vector2( 0.067, 0.067 )
 size_flags_stretch_ratio = 10.0
 custom_styles/panel = SubResource( 1 )
@@ -60,11 +60,12 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
+flavor = 5
 sprite_paths = [ NodePath("Normal"), NodePath("Sweet"), NodePath("Sour"), NodePath("Salty"), NodePath("Umami"), NodePath("Ice"), NodePath("Thunder") ]
 
 [node name="Normal" type="NinePatchRect" parent="."]
-margin_right = 1332.0
-margin_bottom = 1332.0
+margin_right = 2239.0
+margin_bottom = 1985.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 7 )
@@ -77,8 +78,8 @@ axis_stretch_horizontal = 1
 
 [node name="Sweet" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 1332.0
-margin_bottom = 1332.0
+margin_right = 2239.0
+margin_bottom = 1985.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 1 )
@@ -92,7 +93,7 @@ axis_stretch_horizontal = 1
 [node name="Sour" type="NinePatchRect" parent="."]
 visible = false
 margin_right = 1332.0
-margin_bottom = 1403.0
+margin_bottom = 1332.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 5 )
@@ -120,7 +121,7 @@ axis_stretch_horizontal = 1
 [node name="Umami" type="NinePatchRect" parent="."]
 visible = false
 margin_right = 1332.0
-margin_bottom = 1403.0
+margin_bottom = 1332.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 4 )
@@ -133,8 +134,8 @@ axis_stretch_horizontal = 1
 
 [node name="Ice" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 1332.0
-margin_bottom = 1403.0
+margin_right = 2239.0
+margin_bottom = 1985.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 8 )
@@ -147,8 +148,8 @@ axis_stretch_horizontal = 1
 
 [node name="Thunder" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 1332.0
-margin_bottom = 1403.0
+margin_right = 2239.0
+margin_bottom = 1985.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 9 )
@@ -161,14 +162,13 @@ axis_stretch_horizontal = 1
 script = ExtResource( 11 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Thunder"]
-position = Vector2( 666, 701.5 )
-scale = Vector2( 0.666, 0.7015 )
+position = Vector2( 1119.5, 992.5 )
 frames = SubResource( 9 )
 frame = 4
 playing = true
 
 [node name="Collision" type="KinematicBody2D" parent="."]
-position = Vector2( 666, 666 )
+position = Vector2( 1119.5, 992.5 )
 script = ExtResource( 3 )
 
 [node name="Shape" type="CollisionShape2D" parent="Collision"]
@@ -177,5 +177,4 @@ shape = SubResource( 2 )
 
 [connection signal="focus_entered" from="." to="." method="_on_Platform_focus_entered"]
 [connection signal="resized" from="." to="." method="_on_Platform_resized"]
-[connection signal="draw" from="Thunder" to="Thunder" method="_on_Thunder_draw"]
 [connection signal="resized" from="Thunder" to="Thunder" method="_on_Thunder_resized"]

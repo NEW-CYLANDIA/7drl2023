@@ -16,25 +16,35 @@ enum PlatformType {
 	Electricity	
 }
 
-var type:int = PlatformType.Normal;
 
-var flavor = PlatformFlavor.None;
+export(PlatformType) var type:int = PlatformType.Normal setget set_type;
+
+export(PlatformFlavor) var flavor setget set_flavor;
 
 export(Array, NodePath) var sprite_paths:Array
 
 var sprites:Array
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for path in sprite_paths:
-		sprites.append(get_node(path));
-		
+	if (!Engine.editor_hint):
+		for path in sprite_paths:
+			sprites.append(get_node(path));
+	update_visuals();
 	resize_elements();
-	pass;
 
 func resize_elements():
 	($Collision/Shape.shape as RectangleShape2D).extents = rect_size/2 - Vector2.ONE * 200;
 	$Collision.position = rect_size/2;
-	$Thunder.resize_sprite();
+
+func set_flavor(_flavor):
+	flavor = _flavor
+	if (Engine.editor_hint):
+		update_visuals();
+
+func set_type(_type):
+	type = _type;
+	if (Engine.editor_hint):
+		update_visuals();
 
 func shuffle_platform():
 	type = rand_range(0, PlatformType.size()-1);
@@ -42,9 +52,15 @@ func shuffle_platform():
 	update_visuals();
 
 func update_visuals():
+	print($Normal)
+	if (Engine.editor_hint and sprites.size() == 0):
+		for path in sprite_paths:
+			sprites.append(get_node(path));
+	
 	for s in sprites:
 		s.visible = false;
-	match (PlatformType):
+		
+	match (type):
 		PlatformType.Normal:
 			$Normal.visible = true;
 		PlatformType.Ice:
