@@ -98,6 +98,7 @@ patch_margin_top = 666
 patch_margin_right = 666
 patch_margin_bottom = 666
 axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Sour" type="NinePatchRect" parent="."]
 visible = false
@@ -112,11 +113,12 @@ patch_margin_top = 666
 patch_margin_right = 666
 patch_margin_bottom = 666
 axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Salty" type="NinePatchRect" parent="."]
 visible = false
 margin_right = 1332.0
-margin_bottom = 1403.0
+margin_bottom = 1332.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 6 )
@@ -126,6 +128,7 @@ patch_margin_top = 666
 patch_margin_right = 666
 patch_margin_bottom = 666
 axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Umami" type="NinePatchRect" parent="."]
 visible = false
@@ -140,6 +143,7 @@ patch_margin_top = 666
 patch_margin_right = 666
 patch_margin_bottom = 666
 axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Bitter" type="NinePatchRect" parent="."]
 visible = false
@@ -154,6 +158,7 @@ patch_margin_top = 666
 patch_margin_right = 666
 patch_margin_bottom = 666
 axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Ice" type="NinePatchRect" parent="."]
 visible = false
@@ -168,6 +173,7 @@ patch_margin_top = 666
 patch_margin_right = 666
 patch_margin_bottom = 666
 axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Thunder" type="NinePatchRect" parent="."]
 visible = false
@@ -182,6 +188,7 @@ patch_margin_top = 666
 patch_margin_right = 666
 patch_margin_bottom = 666
 axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 script = ExtResource( 11 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Thunder"]

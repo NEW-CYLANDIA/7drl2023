@@ -9,3 +9,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	for bud in taste_buds.values():
 		bud.add_mood(-taste_bud_dropoff);
+		
+func display_scores(label):
+	var score_progress = 0;
+	for bud in taste_buds.values():
+		bud.mood_paused = true;
+	for bud in taste_buds.values():
+		score_progress += bud.display_and_return_score();
+		label.text = str(score_progress);
+		yield(get_tree().create_timer(0.5), "timeout");

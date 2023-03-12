@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/LevelGenerator.gd" type="Script" id=2]
@@ -10,9 +10,21 @@
 [ext_resource path="res://src/TasteBud.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/TasteBuds.gd" type="Script" id=9]
 [ext_resource path="res://graphics/bud_dock.png" type="Texture" id=10]
+[ext_resource path="res://src/Results Screen.gd" type="Script" id=11]
 [ext_resource path="res://sounds/jump.wav" type="AudioStream" id=12]
+[ext_resource path="res://fonts/ChevyRay - Slapface.ttf" type="DynamicFontData" id=13]
+[ext_resource path="res://src/GameManager.gd" type="Script" id=14]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="DynamicFont" id=1]
+size = 64
+font_data = ExtResource( 13 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 48
+font_data = ExtResource( 13 )
+
+[node name="GameScene" type="Node2D"]
+script = ExtResource( 14 )
 
 [node name="TestLevelLoader" type="Node2D" parent="."]
 script = ExtResource( 6 )
@@ -43,6 +55,67 @@ speed = 100
 [node name="UILayer" type="CanvasLayer" parent="."]
 script = ExtResource( 12 )
 
+[node name="Results" type="Node2D" parent="UILayer"]
+modulate = Color( 1, 1, 1, 0 )
+script = ExtResource( 11 )
+taste_buds_path = NodePath("../TasteBuds")
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/Results"]
+margin_left = -42.0
+margin_right = 453.0
+margin_bottom = 805.0
+color = Color( 0.0470588, 0, 0.172549, 1 )
+
+[node name="Tween" type="Tween" parent="UILayer/Results"]
+
+[node name="Title" type="Node2D" parent="UILayer/Results"]
+
+[node name="ColorRect3" type="ColorRect" parent="UILayer/Results/Title"]
+margin_left = -49.0
+margin_top = 73.0
+margin_right = 478.0
+margin_bottom = 317.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="LevelComplete" type="Label" parent="UILayer/Results/Title"]
+margin_top = 68.0
+margin_right = 444.0
+margin_bottom = 334.0
+custom_fonts/font = SubResource( 1 )
+text = "Level 
+complete!"
+align = 1
+valign = 1
+
+[node name="Score" type="Node2D" parent="UILayer/Results"]
+position = Vector2( 0, 99 )
+
+[node name="ColorRect2" type="ColorRect" parent="UILayer/Results/Score"]
+margin_left = -42.0
+margin_top = 300.0
+margin_right = 485.0
+margin_bottom = 406.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ScoreLabel" type="Label" parent="UILayer/Results/Score"]
+margin_left = 47.0
+margin_top = 289.0
+margin_right = 408.0
+margin_bottom = 424.0
+custom_fonts/font = SubResource( 2 )
+text = "Score: "
+valign = 1
+
+[node name="ScoreNumber" type="Label" parent="UILayer/Results/Score"]
+margin_left = 47.0
+margin_top = 289.0
+margin_right = 408.0
+margin_bottom = 424.0
+custom_fonts/font = SubResource( 2 )
+text = "0"
+align = 2
+valign = 1
+
 [node name="BudDock" type="Sprite" parent="UILayer"]
 position = Vector2( 228, 781 )
 scale = Vector2( 2, 2 )
@@ -55,13 +128,13 @@ script = ExtResource( 9 )
 [node name="Sweet" parent="UILayer/TasteBuds" instance=ExtResource( 8 )]
 position = Vector2( -59, 366 )
 
-[node name="Bod" parent="UILayer/TasteBuds/Sweet" index="0"]
+[node name="Bod" parent="UILayer/TasteBuds/Sweet" index="1"]
 self_modulate = Color( 1, 0, 0.301961, 1 )
 
 [node name="Savory" parent="UILayer/TasteBuds" instance=ExtResource( 8 )]
 position = Vector2( 17, 367 )
 
-[node name="Bod" parent="UILayer/TasteBuds/Savory" index="0"]
+[node name="Bod" parent="UILayer/TasteBuds/Savory" index="1"]
 self_modulate = Color( 1, 0.639216, 0, 1 )
 
 [node name="Salty" parent="UILayer/TasteBuds" instance=ExtResource( 8 )]
@@ -70,19 +143,17 @@ position = Vector2( 91, 367 )
 [node name="Sour" parent="UILayer/TasteBuds" instance=ExtResource( 8 )]
 position = Vector2( 164, 367 )
 
-[node name="Bod" parent="UILayer/TasteBuds/Sour" index="0"]
+[node name="Bod" parent="UILayer/TasteBuds/Sour" index="1"]
 self_modulate = Color( 1, 0.92549, 0.152941, 1 )
 
 [node name="Bitter" parent="UILayer/TasteBuds" instance=ExtResource( 8 )]
 position = Vector2( 239, 367 )
 
-[node name="Bod" parent="UILayer/TasteBuds/Bitter" index="0"]
+[node name="Bod" parent="UILayer/TasteBuds/Bitter" index="1"]
 self_modulate = Color( 0.494118, 0.145098, 0.32549, 1 )
 
 [node name="PlayFabLogin" type="Node" parent="."]
 script = ExtResource( 7 )
-
-[node name="Results Screen" type="Node2D" parent="."]
 
 [editable path="UILayer/TasteBuds/Sweet"]
 [editable path="UILayer/TasteBuds/Savory"]
