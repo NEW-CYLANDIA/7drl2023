@@ -36,7 +36,6 @@ var sprites:Array
 var velocity:Vector2;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("ready");
 	if (!Engine.editor_hint):
 		for path in sprite_paths:
 			sprites.append(get_node(path));
@@ -58,8 +57,20 @@ func set_type(_type):
 		update_visuals();
 
 func shuffle_platform():
-	type = rand_range(0, PlatformType.size()-1);
-	flavor = rand_range(0, PlatformFlavor.size()-1)
+	type = round(rand_range(0, PlatformType.size()-1))
+	flavor = round(rand_range(0, PlatformFlavor.size()-1));
+	
+	# we reroll this once to make it a bit easier
+	if (type != PlatformType.Flavor):
+		type = round(rand_range(0, PlatformType.size()-1))
+		
+	if (type != PlatformType.Flavor):
+		type = round(rand_range(0, PlatformType.size()-1))
+		
+	if (type != PlatformType.Flavor):
+		type = round(rand_range(0, PlatformType.size()-1))
+	print("type: " + str(type));
+	print("flavor: " + str(flavor));
 	update_visuals();
 
 func update_visuals():
@@ -69,7 +80,8 @@ func update_visuals():
 	
 	for s in sprites:
 		s.visible = false;
-	if (sprites.size() < 7):
+	if (sprites.size() < 8):
+		print("sprites not initialized yet");
 		return;
 	match (type):
 		PlatformType.Normal:
@@ -79,16 +91,18 @@ func update_visuals():
 		PlatformType.Electricity:
 			$Thunder.visible = true;
 		PlatformType.Flavor:
-			match (flavor):
-				PlatformFlavor.Sweet:
-					$Sweet.visible = true;
-				PlatformFlavor.Salty:
-					$Salty.visible = true;
-				PlatformFlavor.Savory:
-					$Umami.visible = true;
-				PlatformFlavor.Sour:
-					$Sour.visible = true;
-				#TODO: Add bitter
+			print(flavor);
+			print("trying to match flvor");
+			if flavor == PlatformFlavor.Sweet:
+				$Sweet.visible = true;
+			if flavor == PlatformFlavor.Salty:
+				$Salty.visible = true;
+			if flavor == PlatformFlavor.Savory:
+				$Umami.visible = true;
+			if flavor == PlatformFlavor.Sour:
+				$Sour.visible = true;
+			if flavor == PlatformFlavor.Bitter:
+				$Bitter.visible = true;
 			
 
 func is_electric():

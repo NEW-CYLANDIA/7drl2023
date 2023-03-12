@@ -137,6 +137,8 @@ func place_chunks():
 				for p in platforms:
 					if p is Platform:
 						p.shuffle_platform();
+					if p.get_node("Platform"):
+						p.get_node("Platform").shuffle_platform();
 				break;
 			else:
 				chunk_instance.queue_free();
@@ -156,9 +158,7 @@ func arrays_are_similar(array1, array2):
 	
 	for i in range(array1.size()):
 		if sortedArray1[i] != sortedArray2[i]:
-				print("nope");
 				return false
-	print("yep");
 	return true
 
 	

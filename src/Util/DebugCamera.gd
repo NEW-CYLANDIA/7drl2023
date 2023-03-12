@@ -15,6 +15,8 @@ func _process(delta: float) -> void:
 	position += dir * speed;
 	if (Input.is_action_pressed("action")):
 		zoom += Vector2.ONE * 0.1;
+	if (Input.is_action_pressed("ui_zoom_in")):
+		zoom -= Vector2.ONE * 0.1;
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
