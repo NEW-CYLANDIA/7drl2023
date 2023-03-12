@@ -15,12 +15,12 @@ class PathLine:
 
 export var level_length:int = 5;	
 	
-# which folders to exclude from our level chunk search
-export(Array, String) var exclude_folders:Array
+# which folders to include for level chunk search
+export (bool) var taylor_levels : bool
+export (bool) var emilia_levels : bool
+export (bool) var izzy_levels : bool
 
 export(PackedScene) var line_col_check;
-
-export var enabled:bool = true;
 
 export var debug_draw:bool = false;
 # an array of vectors that define a line
@@ -43,13 +43,23 @@ var dirs:Array = [
 var last_dir; # the last direction the happy path went
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	wall_chunks = build_chunk_array("res://src/LevelChunks/Walls/");
-	level_chunks = build_chunk_array("res://src/LevelChunks/Testing/");
+	wall_chunks = build_chunk_array("Walls");
+
+	if izzy_levels:
+		level_chunks += build_chunk_array("izzy");
+	if taylor_levels:
+		level_chunks += build_chunk_array("taylor");
+	if emilia_levels:
+		level_chunks += build_chunk_array("emilia");
+
+	# fallback to testing chunks if no others checked
+	if not izzy_levels and not taylor_levels and not emilia_levels:
+		level_chunks += build_chunk_array("Testing");
+
 	#we're gonna be placing tiles via their center, 
 	#so this ensures we're lining up the first tile with the player
 	position = LevelUtil.TILE_SIZE/2;
-	if (enabled):
-		build_level();
+	build_level();
 	
 func build_level():
 	build_happy_path();
@@ -74,10 +84,12 @@ func build_level():
 	
 # 	return chunk_array
 
-func build_chunk_array(path):
+func build_chunk_array(chunk_dir):
+	chunk_dir = "res://src/LevelChunks/" + chunk_dir + "/"
+
 	var files = []
 	var dir = Directory.new()
-	dir.open(path)
+	dir.open(chunk_dir)
 	dir.list_dir_begin()
 
 	while true:
@@ -86,7 +98,7 @@ func build_chunk_array(path):
 			break
 		elif file.get_extension() == "tscn":
 			# files.append(file)
-			files.append(load(path + file));
+			files.append(load(chunk_dir + file));
 
 	dir.list_dir_end()
 
