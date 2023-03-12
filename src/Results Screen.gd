@@ -6,10 +6,13 @@ var buds;
 func _ready() -> void:
 	buds = get_node(taste_buds_path);
 	
-func show():
+func show_and_return_level_score():
+	var score = 0;
 	$Tween.interpolate_property(self, "modulate", Color("#00000000"), Color.white, 0.3);
 	$Tween.start();
 	yield(get_tree().create_timer(1), "timeout");
-	buds.display_scores($Score/ScoreNumber);
+	score += buds.display_scores($Score/ScoreNumber);
 	yield(get_tree().create_timer(5), "timeout")
-	print("finished displaying");
+	
+	return score;
+	

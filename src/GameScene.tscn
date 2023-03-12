@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/LevelGenerator.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://sounds/jump.wav" type="AudioStream" id=12]
 [ext_resource path="res://fonts/ChevyRay - Slapface.ttf" type="DynamicFontData" id=13]
 [ext_resource path="res://src/GameManager.gd" type="Script" id=14]
+[ext_resource path="res://src/RunResults.gd" type="Script" id=15]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -21,6 +22,14 @@ font_data = ExtResource( 13 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 48
+font_data = ExtResource( 13 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 80
+font_data = ExtResource( 13 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
 font_data = ExtResource( 13 )
 
 [node name="GameScene" type="Node2D"]
@@ -151,6 +160,80 @@ position = Vector2( 239, 367 )
 
 [node name="Bod" parent="UILayer/TasteBuds/Bitter" index="1"]
 self_modulate = Color( 0.494118, 0.145098, 0.32549, 1 )
+
+[node name="RunResults" type="Node2D" parent="UILayer"]
+pause_mode = 2
+modulate = Color( 1, 1, 1, 0 )
+script = ExtResource( 15 )
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/RunResults"]
+margin_left = -42.0
+margin_right = 453.0
+margin_bottom = 805.0
+color = Color( 0.0470588, 0, 0.172549, 1 )
+
+[node name="Tween" type="Tween" parent="UILayer/RunResults"]
+
+[node name="Title" type="Node2D" parent="UILayer/RunResults"]
+position = Vector2( 0, 107 )
+
+[node name="ColorRect3" type="ColorRect" parent="UILayer/RunResults/Title"]
+margin_left = -49.0
+margin_top = 73.0
+margin_right = 478.0
+margin_bottom = 317.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="LevelComplete" type="Label" parent="UILayer/RunResults/Title"]
+margin_top = 68.0
+margin_right = 444.0
+margin_bottom = 334.0
+custom_fonts/font = SubResource( 3 )
+text = "Game 
+Over!"
+align = 1
+valign = 1
+
+[node name="Score" type="Node2D" parent="UILayer/RunResults"]
+position = Vector2( 0, 172 )
+
+[node name="ColorRect2" type="ColorRect" parent="UILayer/RunResults/Score"]
+margin_left = -42.0
+margin_top = 300.0
+margin_right = 486.0
+margin_bottom = 476.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ScoreLabel" type="Label" parent="UILayer/RunResults/Score"]
+margin_left = 47.0
+margin_top = 289.0
+margin_right = 408.0
+margin_bottom = 424.0
+custom_fonts/font = SubResource( 2 )
+text = "Final Score: "
+align = 1
+valign = 1
+
+[node name="ScoreNumber" type="Label" parent="UILayer/RunResults/Score"]
+margin_left = 47.0
+margin_top = 356.0
+margin_right = 408.0
+margin_bottom = 491.0
+custom_fonts/font = SubResource( 2 )
+text = "0"
+align = 1
+valign = 1
+
+[node name="TopTitle" type="Label" parent="UILayer/RunResults"]
+margin_left = -165.0
+margin_top = 34.0
+margin_right = 597.0
+margin_bottom = 169.0
+custom_fonts/font = SubResource( 4 )
+text = "you made the 
+taste buds sad :("
+align = 1
+valign = 1
 
 [node name="PlayFabLogin" type="Node" parent="."]
 script = ExtResource( 7 )
