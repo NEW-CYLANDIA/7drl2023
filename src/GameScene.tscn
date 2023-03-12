@@ -33,6 +33,7 @@ level_to_load = "BottomLeftCorner-MovingDiag.tscn"
 [node name="LevelGenerator" type="Node2D" parent="."]
 script = ExtResource( 2 )
 level_length = 10
+exclude_folders = [ "Testing" ]
 line_col_check = ExtResource( 4 )
 
 [node name="RayCast" type="RayCast2D" parent="LevelGenerator"]
@@ -41,11 +42,11 @@ collision_mask = 16
 collide_with_areas = true
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
-current = true
 script = ExtResource( 3 )
 target_path = NodePath("../Player")
 
 [node name="DebugCamera" type="Camera2D" parent="."]
+current = true
 script = ExtResource( 5 )
 speed = 100
 

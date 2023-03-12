@@ -7,7 +7,6 @@ func _ready() -> void:
 	buds = get_node(taste_buds_path);
 	
 func show():
-	yield(get_tree().create_timer(5), "timeout");
 	$Tween.interpolate_property(self, "modulate", Color("#00000000"), Color.white, 0.3);
 	$Tween.start();
 	yield(get_tree().create_timer(1), "timeout");
