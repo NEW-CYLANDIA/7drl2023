@@ -1,5 +1,4 @@
 extends PanelContainer
-tool
 export(Array, NodePath) var node_paths;
 export var speed:float = 10;
 var nodes:Array;

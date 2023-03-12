@@ -316,7 +316,8 @@ func grab_grapple_point():
 
 		else:
 			var flavor = platform.get_flavor();
-			if (flavor != "" and stun_timer < 0):
+			print(flavor);
+			if (flavor != "None" and flavor != "" and stun_timer < 0):
 				taste_buds.taste_buds[flavor].add_mood(mood_add);
 
 	tongue_grapple_point = collision_point - collision_normal * 4

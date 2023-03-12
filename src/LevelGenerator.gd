@@ -38,6 +38,11 @@ var happy_path:Array = [];
 var level_chunks:Array = [];
 var wall_chunks:Array = [];
 
+export(String, FILE) var entry_exit_chunk_path;
+
+export(NodePath) var player_path;
+onready var player = get_node(player_path);
+
 var collision_nodes = [];
 var dirs:Array = [
 	Vector2.LEFT,
@@ -49,6 +54,7 @@ var last_dir; # the last direction the happy path went
 
 var rng = RandomNumberGenerator.new()
 
+var entry_exit_chunk;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if rngSeed == -1:
@@ -58,6 +64,8 @@ func _ready() -> void:
 		rng.seed = rngSeed
 			
 	print("rng seed: ", rng.seed)
+	
+	entry_exit_chunk = load(entry_exit_chunk_path)
 
 	wall_chunks = build_chunk_array("Walls");
 
@@ -172,25 +180,34 @@ func place_wall_chunks():
 			if (arrays_are_similar(chunk_instance.exits, node.exits)):
 				add_child(chunk_instance);
 				chunk_instance.position = ((node.position - LevelUtil.TILE_SIZE/2) as Vector2).round()
-				var platforms = chunk_instance.get_node("Platforms").get_children()
-				for p in platforms:
-					if p is Platform:
-						p.shuffle_platform();
-					if p.get_node("Platform"):
-						p.get_node("Platform").shuffle_platform();
+
 				break;
 			else:
 				chunk_instance.queue_free();
 
 
 func place_chunks():
+	var placed_player = false;
 	for node in collision_nodes:
+		var chunk_instance:Node2D
 		randomize();
 		level_chunks.shuffle();
-		var chunk_instance:Node2D = level_chunks[0].instance();
+		chunk_instance = level_chunks[0].instance();
+
 		add_child(chunk_instance);
 		chunk_instance.position = ((node.position - LevelUtil.TILE_SIZE/2) as Vector2).round()
-
+		var platforms = chunk_instance.get_node("Platforms").get_children()
+		for p in platforms:
+			if p is Platform:
+				print("hello");
+				p.shuffle_platform();
+			if p.get_node("Platform"):
+				p.get_node("Platform").shuffle_platform();
+		
+		
+		if (node.exits.size() == 1 and not placed_player):
+			player.position = chunk_instance.get_node("PlayerSpawn").position;
+			placed_player = true;
 		# disabled until we need it, testing levels don't have exits assigned
 		# if (arrays_are_similar(chunk_instance.exits, node.exits)):
 		# 	add_child(chunk_instance);

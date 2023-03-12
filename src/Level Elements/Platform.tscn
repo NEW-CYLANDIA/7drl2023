@@ -195,7 +195,7 @@ script = ExtResource( 11 )
 position = Vector2( 666, 666 )
 scale = Vector2( 0.666, 0.666 )
 frames = SubResource( 9 )
-frame = 7
+frame = 4
 playing = true
 
 [node name="Collision" type="KinematicBody2D" parent="."]

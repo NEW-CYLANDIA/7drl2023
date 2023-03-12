@@ -16,14 +16,14 @@ enum PlatformType {
 	Electricity	
 }
 
-var enum_to_flavor = {
-	PlatformFlavor.Sweet: "Sweet",
-	PlatformFlavor.Sour: "Sour",
-	PlatformFlavor.Savory: "Savory",
-	PlatformFlavor.Bitter: "Bitter",
-	PlatformFlavor.Salty: "Salty",
-	
-}
+var enum_to_flavor = [
+	"Sweet",
+	"Sour",
+	"Savory",
+	"Bitter",
+	"Salty",
+	"None"
+]
 
 
 export(PlatformType) var type:int = PlatformType.Normal setget set_type;
