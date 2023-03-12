@@ -43,8 +43,8 @@ func _ready() -> void:
 	resize_elements();
 
 func resize_elements():
-	($Collision/Shape.shape as RectangleShape2D).extents = rect_size/2 - Vector2.ONE * 200;
 	$Collision.position = rect_size/2;
+	$Collision.scale = rect_size/2 - Vector2.ONE * 200;
 
 func set_flavor(_flavor):
 	flavor = _flavor

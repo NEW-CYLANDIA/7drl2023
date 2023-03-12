@@ -44,6 +44,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-playfab/Models/EventContentsCollection.gd"
 }, {
+"base": "Node2D",
+"class": "GameManager",
+"language": "GDScript",
+"path": "res://src/GameManager.gd"
+}, {
 "base": "JsonSerializable",
 "class": "GetPlayerCombinedInfoRequestParams",
 "language": "GDScript",
@@ -202,6 +207,7 @@ _global_script_class_icons={
 "EntityTokenResponse": "",
 "EventContents": "",
 "EventContentsCollection": "",
+"GameManager": "",
 "GetPlayerCombinedInfoRequestParams": "",
 "GetPlayerCombinedInfoResultPayload": "",
 "GetTitleDataRequest": "",

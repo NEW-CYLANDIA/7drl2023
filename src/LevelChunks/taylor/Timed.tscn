@@ -18,8 +18,28 @@ margin_right = 1453.0
 margin_bottom = 1686.0
 solid = false
 
-[node name="TimedPlatform3" parent="Platforms" index="2" instance=ExtResource( 5 )]
+[node name="TimedPlatform5" parent="Platforms" index="2" instance=ExtResource( 5 )]
+margin_left = 522.0
+margin_top = 92.0
+margin_right = 1862.0
+margin_bottom = 1432.0
+solid = false
+
+[node name="TimedPlatform6" parent="Platforms" index="3" instance=ExtResource( 5 )]
+margin_left = 524.0
+margin_top = 605.0
+margin_right = 1864.0
+margin_bottom = 1945.0
+solid = false
+
+[node name="TimedPlatform3" parent="Platforms" index="4" instance=ExtResource( 5 )]
 margin_left = 277.0
 margin_top = 88.0
 margin_right = 1609.0
 margin_bottom = 1420.0
+
+[node name="TimedPlatform4" parent="Platforms" index="5" instance=ExtResource( 5 )]
+margin_left = 690.0
+margin_top = 347.0
+margin_right = 2030.0
+margin_bottom = 1687.0

@@ -23,5 +23,5 @@ position = Vector2( 604, 441 )
 [node name="Platform" parent="Platforms" index="3" instance=ExtResource( 6 )]
 margin_left = 654.0
 margin_top = 394.0
-margin_right = 4344.0
-margin_bottom = 6185.0
+margin_right = 4415.0
+margin_bottom = 6528.0
