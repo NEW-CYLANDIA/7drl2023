@@ -16,8 +16,13 @@ func do_game_over():
 
 func do_level_over():
 	get_tree().paused = true;
-	score += $UILayer/Results.show_and_return_level_score();
-	load_next_level();
+	$UILayer/Results.show_level_score();
+	yield($UILayer/Results, "finished_displaying_scores")
+	ScoreManager.current_level_score += $UILayer/Results.level_score;
 	get_tree().paused = false;
+	load_next_level();
+	
+	
 func load_next_level():
-	pass;
+	print("hyello");
+	get_tree().reload_current_scene();

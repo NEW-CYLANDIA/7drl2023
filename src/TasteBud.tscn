@@ -81,6 +81,7 @@ animations = [ {
 } ]
 
 [node name="Taste Bud" type="Node2D"]
+pause_mode = 2
 position = Vector2( 17, 400 )
 script = ExtResource( 1 )
 __meta__ = {

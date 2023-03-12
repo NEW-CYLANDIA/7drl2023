@@ -1,7 +1,9 @@
 extends Node2D
-
+class_name TasteBuds
 var taste_buds:Dictionary = Dictionary();
-export var taste_bud_dropoff:float = 0.0001;
+export var taste_bud_dropoff:float = 0.0002;
+signal finished_displaying_scores;
+var score = 0;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for s in Const.FLAVORS:
@@ -16,11 +18,11 @@ func _process(delta: float) -> void:
 		(get_node("/root/GameScene") as GameManager).do_game_over();
 		
 func display_scores(label):
-	var score_progress = 0;
 	for bud in taste_buds.values():
 		bud.mood_paused = true;
 	for bud in taste_buds.values():
-		score_progress += bud.display_and_return_score();
-		label.text = str(score_progress);
+		score += bud.display_and_return_score();
+		label.text = str(score);
 		yield(get_tree().create_timer(0.5), "timeout");
-	return score_progress;
+	emit_signal("finished_displaying_scores");
+	score = 0;

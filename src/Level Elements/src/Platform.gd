@@ -69,8 +69,6 @@ func shuffle_platform():
 		
 	if (type != PlatformType.Flavor):
 		type = round(rand_range(0, PlatformType.size()-1))
-	print("type: " + str(type));
-	print("flavor: " + str(flavor));
 	update_visuals();
 
 func update_visuals():
@@ -91,8 +89,6 @@ func update_visuals():
 		PlatformType.Electricity:
 			$Thunder.visible = true;
 		PlatformType.Flavor:
-			print(flavor);
-			print("trying to match flvor");
 			if flavor == PlatformFlavor.Sweet:
 				$Sweet.visible = true;
 			if flavor == PlatformFlavor.Salty:

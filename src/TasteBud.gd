@@ -36,7 +36,6 @@ func display_and_return_score() -> int:
 	print("hello");
 	mood_paused = true;
 	var score = round(mood * 100);
-	print(score);
 	$Sign/Score.text = str(score);
 	$Tween.interpolate_property($Sign, "position", $Sign.position, $Sign.position + Vector2.UP * 70, 0.2, Tween.TRANS_BACK, Tween.EASE_OUT)
 	$Tween.start();

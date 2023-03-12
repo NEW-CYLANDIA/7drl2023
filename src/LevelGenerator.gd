@@ -43,6 +43,8 @@ export(String, FILE) var entry_exit_chunk_path;
 export(NodePath) var player_path;
 onready var player = get_node(player_path);
 
+export(PackedScene) var exit_portal_scene;
+
 var collision_nodes = [];
 var dirs:Array = [
 	Vector2.LEFT,
@@ -203,11 +205,16 @@ func place_chunks():
 				p.shuffle_platform();
 			if p.get_node("Platform"):
 				p.get_node("Platform").shuffle_platform();
-		
-		
-		if (node.exits.size() == 1 and not placed_player):
-			player.position = chunk_instance.get_node("PlayerSpawn").position;
-			placed_player = true;
+
+		if (node.exits.size() == 1):
+			var player_spawn_pos = chunk_instance.get_node("PlayerSpawn").position;
+			if placed_player:
+				var exit = exit_portal_scene.instance();
+				chunk_instance.add_child(exit);
+				exit.position = player_spawn_pos;
+			else:
+				player.position = player_spawn_pos;
+				placed_player = true;
 		# disabled until we need it, testing levels don't have exits assigned
 		# if (arrays_are_similar(chunk_instance.exits, node.exits)):
 		# 	add_child(chunk_instance);

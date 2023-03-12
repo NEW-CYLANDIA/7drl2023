@@ -30,40 +30,35 @@ script = ExtResource( 4 )
 
 [node name="Platforms" type="Node2D" parent="."]
 
-[node name="Platform" parent="Platforms" instance=ExtResource( 9 )]
-margin_top = 338.0
-margin_right = 3179.0
-margin_bottom = 7230.0
-
-[node name="Platform2" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 355.0
-margin_top = -1.0
-margin_right = 3206.0
-margin_bottom = 6891.0
-
-[node name="Platform3" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 691.0
-margin_top = 340.0
-margin_right = 3721.0
-margin_bottom = 7232.0
-
 [node name="Platform4" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 155.0
-margin_top = 554.0
-margin_right = 2570.0
-margin_bottom = 1894.0
+margin_left = 153.0
+margin_top = 569.0
+margin_right = 3093.0
+margin_bottom = 1909.0
 
 [node name="Platform5" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 585.0
-margin_top = 554.0
-margin_right = 3000.0
-margin_bottom = 1894.0
+margin_left = 555.0
+margin_top = 565.0
+margin_right = 3361.0
+margin_bottom = 1905.0
+
+[node name="Platform6" parent="Platforms" instance=ExtResource( 9 )]
+margin_left = 333.0
+margin_top = 355.0
+margin_right = 3706.0
+margin_bottom = 1695.0
 
 [node name="Platform7" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 288.0
-margin_top = 167.0
-margin_right = 5031.0
-margin_bottom = 1507.0
+margin_left = 144.0
+margin_top = 98.0
+margin_right = 3233.0
+margin_bottom = 1438.0
+
+[node name="Platform8" parent="Platforms" instance=ExtResource( 9 )]
+margin_left = 525.0
+margin_top = 100.0
+margin_right = 4167.0
+margin_bottom = 1440.0
 
 [node name="PlayerSpawn" type="Position2D" parent="."]
 position = Vector2( 116, 291 )

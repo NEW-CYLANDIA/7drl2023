@@ -94,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-playfab/test/unit/TestModels/JsonSerializableSubPropImpl.gd"
 }, {
+"base": "Node2D",
+"class": "LevelResults",
+"language": "GDScript",
+"path": "res://src/Results Screen.gd"
+}, {
 "base": "JsonSerializable",
 "class": "LoginResult",
 "language": "GDScript",
@@ -174,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-playfab/test/unit/TestModels/SubProp.gd"
 }, {
+"base": "Node2D",
+"class": "TasteBuds",
+"language": "GDScript",
+"path": "res://src/TasteBuds.gd"
+}, {
 "base": "AbstractJsonSerializableCollection",
 "class": "TestCollection",
 "language": "GDScript",
@@ -217,6 +227,7 @@ _global_script_class_icons={
 "JsonSerializable": "",
 "JsonSerializableImpl": "",
 "JsonSerializableSubPropImpl": "",
+"LevelResults": "",
 "LoginResult": "",
 "LoginWithCustomIdRequest": "",
 "LoginWithEmailAddressRequest": "",
@@ -233,6 +244,7 @@ _global_script_class_icons={
 "RegisterPlayFabUserRequest": "",
 "RegisterPlayFabUserResult": "",
 "SubProp": "",
+"TasteBuds": "",
 "TestCollection": "",
 "UUID": "",
 "UserAccountInfo": "",
@@ -253,6 +265,7 @@ MathUtil="*res://src/Util/MathUtil.gd"
 LevelUtil="*res://src/Util/LevelUtil.gd"
 PlayFabManager="*res://addons/godot-playfab/PlayFabManager.gd"
 PlatformUtil="*res://src/Util/PlatformUtil.gd"
+ScoreManager="*res://src/ScoreManager.gd"
 
 [display]
 

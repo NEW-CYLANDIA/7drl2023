@@ -54,10 +54,26 @@ lifetime = 10.0
 solid = false
 
 [node name="TimedPlatform4" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 357.0
+margin_left = 125.0
 margin_top = 505.0
-margin_right = 3058.0
+margin_right = 2826.0
 margin_bottom = 2341.0
+lifetime = 10.0
+solid = false
+
+[node name="TimedPlatform5" parent="Platforms" instance=ExtResource( 9 )]
+margin_left = 572.0
+margin_top = 505.0
+margin_right = 3273.0
+margin_bottom = 2341.0
+lifetime = 10.0
+solid = false
+
+[node name="TimedPlatform6" parent="Platforms" instance=ExtResource( 9 )]
+margin_left = 357.0
+margin_top = 332.0
+margin_right = 3058.0
+margin_bottom = 2168.0
 lifetime = 10.0
 solid = false
 
