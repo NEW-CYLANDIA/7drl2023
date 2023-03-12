@@ -13,8 +13,7 @@ func _process(delta: float) -> void:
 		if (bud.mood > 0):
 			every_bud_sad = false;
 	if (every_bud_sad):
-		($root as GameManager).do_game_over();
-		
+		(get_node("/root/GameScene") as GameManager).do_game_over();
 		
 func display_scores(label):
 	var score_progress = 0;
