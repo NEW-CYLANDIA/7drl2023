@@ -3,13 +3,26 @@ extends RayCast2D
 export var dash_size : float = 3.0
 export var space_size : float = 3.0
 
+export (NodePath) var primary_ray_path
+
+var primary_ray
+
+
+func _ready():
+	if primary_ray_path:
+		primary_ray = get_node(primary_ray_path)
+
 
 func _process(_delta):
 	update()
 
 
 func _draw():
-	if is_colliding():
+	if is_colliding() and not get_parent().is_on_floor():
+		if primary_ray:
+			if primary_ray.is_colliding():
+				return
+
 		draw_circle(
 			to_local(get_collision_point()),
 			8,

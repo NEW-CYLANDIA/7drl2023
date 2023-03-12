@@ -80,6 +80,10 @@ space_size = 10.0
 [node name="FloorRay" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 1, 46 )
+script = ExtResource( 2 )
+dash_size = 20.0
+space_size = 10.0
+primary_ray_path = NodePath("../TongueRay")
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -2 )

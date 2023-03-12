@@ -41,7 +41,7 @@ script = ExtResource( 14 )
 
 [node name="LevelGenerator" type="Node2D" parent="."]
 script = ExtResource( 2 )
-level_length = 2
+level_length = 10
 taylor_levels = true
 emilia_levels = true
 izzy_levels = true
