@@ -190,10 +190,20 @@ func place_wall_chunks():
 
 func place_chunks():
 	var placed_player = false;
+	var last_chunk
+
 	for node in collision_nodes:
 		var chunk_instance:Node2D
 		randomize();
 		level_chunks.shuffle();
+
+		var next_chunk = level_chunks[0]
+
+		while next_chunk == last_chunk:
+			level_chunks.shuffle();
+			next_chunk = level_chunks[0]
+
+		last_chunk = next_chunk			
 		chunk_instance = level_chunks[0].instance();
 
 		add_child(chunk_instance);
