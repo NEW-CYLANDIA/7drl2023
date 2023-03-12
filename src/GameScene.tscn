@@ -16,7 +16,7 @@
 
 [node name="TestLevelLoader" type="Node2D" parent="."]
 script = ExtResource( 6 )
-level_to_load = "MovingPlatformTest.tscn"
+level_to_load = "BottomLeftCorner-MovingDiag.tscn"
 
 [node name="LevelGenerator" type="Node2D" parent="."]
 script = ExtResource( 2 )
@@ -81,6 +81,8 @@ self_modulate = Color( 0.494118, 0.145098, 0.32549, 1 )
 
 [node name="PlayFabLogin" type="Node" parent="."]
 script = ExtResource( 7 )
+
+[node name="Results Screen" type="Node2D" parent="."]
 
 [editable path="UILayer/TasteBuds/Sweet"]
 [editable path="UILayer/TasteBuds/Savory"]

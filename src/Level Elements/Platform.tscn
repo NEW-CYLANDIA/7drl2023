@@ -68,14 +68,12 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
-type = 3
 flavor = 5
 sprite_paths = [ NodePath("Normal"), NodePath("Sweet"), NodePath("Sour"), NodePath("Salty"), NodePath("Umami"), NodePath("Ice"), NodePath("Thunder") ]
 
 [node name="Normal" type="NinePatchRect" parent="."]
-visible = false
-margin_right = 2239.0
-margin_bottom = 1985.0
+margin_right = 1332.0
+margin_bottom = 1332.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 7 )
@@ -157,6 +155,7 @@ patch_margin_bottom = 666
 axis_stretch_horizontal = 1
 
 [node name="Thunder" type="NinePatchRect" parent="."]
+visible = false
 margin_right = 1332.0
 margin_bottom = 1332.0
 size_flags_horizontal = 15
@@ -174,7 +173,7 @@ script = ExtResource( 11 )
 position = Vector2( 666, 666 )
 scale = Vector2( 0.666, 0.666 )
 frames = SubResource( 9 )
-frame = 7
+frame = 3
 playing = true
 
 [node name="Collision" type="KinematicBody2D" parent="."]

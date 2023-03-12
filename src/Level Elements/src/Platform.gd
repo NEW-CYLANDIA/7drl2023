@@ -33,6 +33,7 @@ export(PlatformFlavor) var flavor setget set_flavor;
 export(Array, NodePath) var sprite_paths:Array
 
 var sprites:Array
+var velocity:Vector2;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	print("ready");
@@ -62,14 +63,14 @@ func shuffle_platform():
 	update_visuals();
 
 func update_visuals():
-	print("update visuals")
 	if (Engine.editor_hint and sprites.size() == 0):
 		for path in sprite_paths:
 			sprites.append(get_node(path));
 	
 	for s in sprites:
 		s.visible = false;
-		
+	if (sprites.size() < 7):
+		return;
 	match (type):
 		PlatformType.Normal:
 			$Normal.visible = true;

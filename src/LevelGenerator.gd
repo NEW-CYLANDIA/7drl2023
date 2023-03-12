@@ -21,6 +21,8 @@ export(Array, String) var exclude_folders:Array
 export(PackedScene) var line_col_check;
 
 export var enabled:bool = true;
+
+export var debug_draw:bool = false;
 # an array of vectors that define a line
 # this line will be the path through the level,
 # and will instruct us which tiles to place where
@@ -51,6 +53,10 @@ func build_level():
 	build_happy_path();
 	place_chunks();
 	
+	if not debug_draw:
+		for n in collision_nodes:
+			n.queue_free();
+		
 
 func build_chunk_array():
 	var dir_path = "res://src/LevelChunks/"
@@ -113,18 +119,25 @@ func build_happy_path():
 	collision_nodes.append(last_node)
 
 func _draw() -> void:
-	for l in happy_path:
-		draw_line(l.start, l.end, Color.blue, 5.0);
+	if debug_draw:
+		for l in happy_path:
+			draw_line(l.start, l.end, Color.blue, 5.0);
 
 func place_chunks():
 	randomize();
 	level_chunks.shuffle();
 	for node in collision_nodes:
+		
 		for chunk in level_chunks:
 			var chunk_instance:Node2D = chunk.instance();
 			if (arrays_are_similar(chunk_instance.exits, node.exits)):
 				add_child(chunk_instance);
 				chunk_instance.position = ((node.position - LevelUtil.TILE_SIZE/2) as Vector2).round()
+				var platforms = chunk_instance.get_node("Platforms").get_children()
+				for p in platforms:
+					if p is Platform:
+						p.shuffle_platform();
+				break;
 			else:
 				chunk_instance.queue_free();
 				

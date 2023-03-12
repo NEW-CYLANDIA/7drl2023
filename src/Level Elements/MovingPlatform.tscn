@@ -14,12 +14,9 @@ script = ExtResource( 1 )
 speed = 1.0
 
 [node name="Platform" parent="." instance=ExtResource( 2 )]
-margin_right = 1332.0
-margin_bottom = 1332.0
 rect_scale = Vector2( 1, 1 )
 
 [node name="Timer" type="Timer" parent="."]
 
 [connection signal="focus_entered" from="." to="." method="_on_MovingPlatform_focus_entered"]
-[connection signal="resized" from="." to="." method="_on_MovingPlatform_resized"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
