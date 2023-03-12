@@ -31,6 +31,7 @@ var happy_path:Array = [];
 # an array of the actual built level chunks
 # that we will place to build the level
 var level_chunks:Array = [];
+var wall_chunks:Array = [];
 
 var collision_nodes = [];
 var dirs:Array = [
@@ -42,7 +43,8 @@ var dirs:Array = [
 var last_dir; # the last direction the happy path went
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	build_chunk_array();
+	wall_chunks = build_chunk_array("res://src/LevelChunks/Walls/");
+	level_chunks = build_chunk_array("res://src/LevelChunks/Testing/");
 	#we're gonna be placing tiles via their center, 
 	#so this ensures we're lining up the first tile with the player
 	position = LevelUtil.TILE_SIZE/2;
@@ -51,33 +53,45 @@ func _ready() -> void:
 	
 func build_level():
 	build_happy_path();
+	place_wall_chunks();
 	place_chunks();
-	
+
 	if not debug_draw:
 		for n in collision_nodes:
 			n.queue_free();
-		
 
-func build_chunk_array():
-	var dir_path = "res://src/LevelChunks/"
-	var dir := Directory.new()
-	dir.open(dir_path)
+# func build_chunk_array(chunk_path):
+# 	var chunk_array := []
+# 	var dir := Directory.new()
+# 	dir.open(chunk_path)
+# 	dir.list_dir_begin()
+# 	var file = dir.get_next()
+# 	while file != "":
+# 		if (file.get_extension() == "tscn"):
+# 			var path = chunk_path + file
+# 			chunk_array.append(load(path));
+# 		file = dir.get_next();
+	
+# 	return chunk_array
+
+func build_chunk_array(path):
+	var files = []
+	var dir = Directory.new()
+	dir.open(path)
 	dir.list_dir_begin()
-	var file = dir.get_next()
-	while file != "":
-		if dir.current_is_dir() && file != "." && file != "..":
-			if (exclude_folders.find(file) == -1):
-				var inner_dir := Directory.new();
-				inner_dir.open(dir_path + file)
-				inner_dir.list_dir_begin();
-				var inner_file = inner_dir.get_next();
-				while inner_file != "":
-					if (inner_file.get_extension() == "tscn"):
-						var path = dir_path + file + "/" + inner_file
-						level_chunks.append(load(path));
-					inner_file = inner_dir.get_next();
-				inner_dir.list_dir_end();
-		file = dir.get_next();
+
+	while true:
+		var file = dir.get_next()
+		if file == "":
+			break
+		elif file.get_extension() == "tscn":
+			# files.append(file)
+			files.append(load(path + file));
+
+	dir.list_dir_end()
+
+	return files
+
 
 ## this will determine the main path of our level
 func build_happy_path():
@@ -123,12 +137,10 @@ func _draw() -> void:
 		for l in happy_path:
 			draw_line(l.start, l.end, Color.blue, 5.0);
 
-func place_chunks():
-	randomize();
-	level_chunks.shuffle();
+
+func place_wall_chunks():
 	for node in collision_nodes:
-		
-		for chunk in level_chunks:
+		for chunk in wall_chunks:
 			var chunk_instance:Node2D = chunk.instance();
 			if (arrays_are_similar(chunk_instance.exits, node.exits)):
 				add_child(chunk_instance);
@@ -142,6 +154,23 @@ func place_chunks():
 				break;
 			else:
 				chunk_instance.queue_free();
+
+
+func place_chunks():
+	for node in collision_nodes:
+		randomize();
+		level_chunks.shuffle();
+		var chunk_instance:Node2D = level_chunks[0].instance();
+		add_child(chunk_instance);
+		chunk_instance.position = ((node.position - LevelUtil.TILE_SIZE/2) as Vector2).round()
+
+		# disabled until we need it, testing levels don't have exits assigned
+		# if (arrays_are_similar(chunk_instance.exits, node.exits)):
+		# 	add_child(chunk_instance);
+		# 	chunk_instance.position = ((node.position - LevelUtil.TILE_SIZE/2) as Vector2).round()
+		# 	break
+		# else:
+		# 	chunk_instance.queue_free();
 				
 				
 # do they contain the same elements 
