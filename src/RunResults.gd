@@ -8,7 +8,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Score/ScoreNumber.text = str(($root as GameManager).score);
+	#$Score/ScoreNumber.text = str(($root as GameManager).score);
 	pass # Replace with function body.
 
 func show():
