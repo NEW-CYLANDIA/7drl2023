@@ -9,5 +9,12 @@ export (PackedScene) var walls
 func spawn_test_nodes():
 	var test_walls = walls.instance()
 	get_parent().add_child(test_walls)
-	get_parent().add_child(player.instance())
+	var player_inst = player.instance()
+
+	player_inst.position = position
+	
+	get_parent().add_child(player_inst)
+
+
+
 	get_parent().add_child(camera.instance())
