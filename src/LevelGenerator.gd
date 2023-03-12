@@ -23,6 +23,11 @@ export (bool) var izzy_levels : bool
 export(PackedScene) var line_col_check;
 
 export var debug_draw:bool = false;
+
+# If this is -1, use a random seed
+# Otherwise, will seed with the given int
+export var rngSeed: int = -1
+
 # an array of vectors that define a line
 # this line will be the path through the level,
 # and will instruct us which tiles to place where
@@ -41,8 +46,19 @@ var dirs:Array = [
 	Vector2.DOWN
 ]
 var last_dir; # the last direction the happy path went
+
+var rng = RandomNumberGenerator.new()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if rngSeed == -1:
+			randomize()
+			rng.seed = randi()
+	else:
+		rng.seed = rngSeed
+			
+	print("rng seed: ", rng.seed)
+
 	wall_chunks = build_chunk_array("Walls");
 
 	if izzy_levels:
@@ -107,18 +123,17 @@ func build_chunk_array(chunk_dir):
 
 ## this will determine the main path of our level
 func build_happy_path():
-	randomize();
 	var current_point = Vector2.ZERO;
 	for i in range (0, level_length):
 		var dirs_to_consider = [] + dirs; # cloning dirs
-		var dir_index = round(rand_range(0, dirs_to_consider.size()-1));
+		var dir_index = rng.randi_range(0, dirs_to_consider.size()-1);
 		var dir:Vector2 = dirs_to_consider[dir_index] * LevelUtil.TILE_SIZE;
 		dirs_to_consider.remove(dir_index);
 		$RayCast.position = current_point;
 		$RayCast.cast_to = dir
 		$RayCast.force_raycast_update();
 		while (($RayCast.is_colliding() and dirs_to_consider.size() > 0)):
-			dir_index = floor(rand_range(0, dirs_to_consider.size()-1));
+			dir_index = rng.randi_range(0, dirs_to_consider.size()-1);
 			dir = dirs_to_consider[dir_index] * LevelUtil.TILE_SIZE;
 			dirs_to_consider.remove(dir_index);
 			$RayCast.cast_to = dir;
