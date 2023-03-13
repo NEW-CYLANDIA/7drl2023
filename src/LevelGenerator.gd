@@ -213,7 +213,7 @@ func place_chunks():
 			if p is Platform:
 				print("hello");
 				p.shuffle_platform();
-			if p.get_node("Platform"):
+			if p.has_node("Platform"):
 				p.get_node("Platform").shuffle_platform();
 
 		if (node.exits.size() == 1):
