@@ -112,9 +112,15 @@ func _physics_process(delta):
 	
 
 	if state == State.Moving:
+		if Input.is_action_just_pressed("desktop_stomp"):
+			can_stomp = true;
 		if can_stomp:
-			do_stomp(delta);
-			can_stomp = false;
+			if ($FloorRay.is_colliding()):
+				do_stomp(delta);
+				can_stomp = false;
+			else:
+				$Sprite/HitShake.do_shake(0.2, 1.5);
+			
 		if (stun_timer < 0):
 			$Sprite.play("default")
 		$Sprite.rotate(dir * spin_speed)
