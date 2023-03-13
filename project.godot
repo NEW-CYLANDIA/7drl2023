@@ -255,7 +255,7 @@ _global_script_class_icons={
 [application]
 
 config/name="7 Drl 2023"
-run/main_scene="res://src/GameScene.tscn"
+run/main_scene="res://src/TitleScene.tscn"
 config/icon="res://icon.png"
 
 [autoload]
