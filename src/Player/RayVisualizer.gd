@@ -18,26 +18,15 @@ func _process(_delta):
 
 
 func _draw():
-	if is_colliding() and not get_parent().is_on_floor():
-		if primary_ray:
-			if primary_ray.is_colliding():
-				return
-
+	if is_colliding():
 		draw_circle(
 			to_local(get_collision_point()),
 			8,
 			Color.green if get_parent().get_node("GrappleCooldown").is_stopped() else Color.red
 		)
 		draw_dashed_line(Vector2.ZERO, to_local(get_collision_point()), Color("#99ffffff"), 8.0)
-		# else:
-		# 	draw_dashed_line(Vector2.ZERO, cast_to, Color("#66ffffff"), 3.0)
-	# if get_parent().state != get_parent().State.Swinging:
-	# 	if is_colliding():
-	# 		draw_circle(to_local(get_collision_point()), 4, Color.green)
-	# 		draw_dashed_line(Vector2.ZERO, to_local(get_collision_point()), Color("#99ffffff"), 4.0)
-		# else:
-		# 	draw_dashed_line(Vector2.ZERO, cast_to, Color("#66ffffff"), 3.0)
-	
+	else:
+		draw_dashed_line(Vector2.ZERO, cast_to, Color("#22ffffff"), 8.0)
 func draw_dashed_line(from : Vector2, to : Vector2, color : Color, width : float):
 	var line = (to-from)
 	var dir = line.normalized()
