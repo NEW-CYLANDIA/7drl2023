@@ -14,7 +14,7 @@ margin_bottom = 1947.0
 [node name="TimedPlatform2" parent="Platforms" index="1" instance=ExtResource( 5 )]
 margin_left = 100.0
 margin_top = 354.0
-margin_right = 2607.0
+margin_right = 2443.0
 margin_bottom = 1694.0
 solid = false
 

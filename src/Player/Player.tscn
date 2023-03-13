@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/Player/RayVisualizer.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://graphics/new_graphics/player.png" type="Texture" id=5]
 [ext_resource path="res://src/Util/HitStop.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Util/HitShake.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/Player/SwipeDetector.gd" type="Script" id=8]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -80,10 +81,6 @@ space_size = 10.0
 [node name="FloorRay" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 1, 46 )
-script = ExtResource( 2 )
-dash_size = 20.0
-space_size = 10.0
-primary_ray_path = NodePath("../TongueRay")
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -2 )
@@ -108,3 +105,12 @@ shape = SubResource( 5 )
 
 [node name="GrappleCooldown" type="Timer" parent="."]
 one_shot = true
+
+[node name="SwipeDetector" type="Node2D" parent="."]
+script = ExtResource( 8 )
+
+[node name="SwipeTimer" type="Timer" parent="SwipeDetector"]
+one_shot = true
+
+[connection signal="swiped" from="SwipeDetector" to="." method="_on_SwipeDetector_swiped"]
+[connection signal="timeout" from="SwipeDetector/SwipeTimer" to="SwipeDetector" method="_on_SwipeTimer_timeout"]

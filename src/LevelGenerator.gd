@@ -38,8 +38,6 @@ var happy_path:Array = [];
 var level_chunks:Array = [];
 var wall_chunks:Array = [];
 
-export(String, FILE) var entry_exit_chunk_path;
-
 export(NodePath) var player_path;
 onready var player = get_node(player_path);
 
@@ -66,8 +64,6 @@ func _ready() -> void:
 		rng.seed = rngSeed
 			
 	print("rng seed: ", rng.seed)
-	
-	entry_exit_chunk = load(entry_exit_chunk_path)
 
 	wall_chunks = build_chunk_array("Walls");
 
@@ -213,7 +209,7 @@ func place_chunks():
 			if p is Platform:
 				print("hello");
 				p.shuffle_platform();
-			if p.get_node("Platform"):
+			if p.has_node("Platform"):
 				p.get_node("Platform").shuffle_platform();
 
 		if (node.exits.size() == 1):

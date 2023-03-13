@@ -63,6 +63,7 @@ var bubble_velocity : Vector2
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+var can_stomp = false;
 onready var taste_buds = get_node(taste_buds_path)
 
 	
@@ -111,6 +112,15 @@ func _physics_process(delta):
 	
 
 	if state == State.Moving:
+		if Input.is_action_just_pressed("desktop_stomp"):
+			can_stomp = true;
+		if can_stomp:
+			if ($FloorRay.is_colliding()):
+				do_stomp(delta);
+				can_stomp = false;
+			else:
+				$Sprite/HitShake.do_shake(0.2, 1.5);
+			
 		if (stun_timer < 0):
 			$Sprite.play("default")
 		$Sprite.rotate(dir * spin_speed)
@@ -121,11 +131,7 @@ func _physics_process(delta):
 			elif $GrappleCooldown.is_stopped(): 
 				if tongue_ray.is_colliding() or current_bubble:
 					change_state(State.Licking)
-				elif $FloorRay.is_colliding():
-					print("Setting launch speed")
-					stomp_launch_speed = (($FloorRay.get_collision_point().y - position.y) / delta) * 0.1
-					is_stomping = true
-					change_state(State.Licking)
+
 			else:
 				$Sprite/HitShake.do_shake(0.2, 1.5)					
 		
@@ -220,6 +226,7 @@ func change_state(new_state : int):
 	tongue_grapple_point_sprite.visible = false
 
 	if new_state == State.Moving:
+
 		$TongueRay.visible = true;
 	
 		print("change state to moving")
@@ -285,6 +292,12 @@ func enter_bubble(bubble):
 func exit_bubble():
 	current_bubble = null
 
+func do_stomp(delta):
+	print("Setting launch speed")
+	stomp_launch_speed = (($FloorRay.get_collision_point().y - position.y) / delta) * 0.1
+	is_stomping = true
+	change_state(State.Licking)
+	
 
 func play_audio(sfx):
 	if not $AudioStreamPlayer2D.playing:
@@ -342,3 +355,9 @@ func update_tongue_visuals():
 	tongue_sprite.scale.y = pointing_vec.length() * tongue_length_normalizer
 	tongue_sprite.rotation = pointing_vec.angle() + PI/2
 	tongue_sprite.position = tongue_sprite_connect_pos.global_position
+
+
+
+func _on_SwipeDetector_swiped(direction) -> void:
+	if (direction.y > 0.7 && state == State.Moving):
+		can_stomp = true;
