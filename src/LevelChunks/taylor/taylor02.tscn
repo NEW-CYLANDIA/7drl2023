@@ -8,8 +8,8 @@
 [ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Player/PlayerCamera.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/TestWalls.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/Level Elements/MovingPlatformNode.tscn" type="PackedScene" id=10]
-[ext_resource path="res://src/Level Elements/MovingPlatform.tscn" type="PackedScene" id=11]
+[ext_resource path="res://src/Level Elements/PickupSpawn.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/Level Elements/Platform.tscn" type="PackedScene" id=10]
 
 [node name="LevelChunk" type="Node2D"]
 script = ExtResource( 3 )
@@ -30,49 +30,44 @@ texture = ExtResource( 2 )
 script = ExtResource( 4 )
 
 [node name="Platforms" type="Node2D" parent="."]
-position = Vector2( -1, -1 )
 
-[node name="MovingPlatform" parent="Platforms" instance=ExtResource( 11 )]
-margin_left = 78.0
-margin_top = 503.0
-margin_right = 2153.0
-margin_bottom = 1843.0
-node_paths = [ NodePath("../MovingPlatformNode"), NodePath("../MovingPlatformNode2") ]
+[node name="Platform" parent="Platforms" instance=ExtResource( 10 )]
+margin_left = 124.0
+margin_top = 110.0
+margin_right = 1631.0
+margin_bottom = 4722.0
 
-[node name="MovingPlatformNode" parent="Platforms" instance=ExtResource( 10 )]
-position = Vector2( 144, 547 )
+[node name="Platform3" parent="Platforms" instance=ExtResource( 10 )]
+margin_left = 637.0
+margin_top = 137.0
+margin_right = 2144.0
+margin_bottom = 4346.0
 
-[node name="MovingPlatformNode2" parent="Platforms" instance=ExtResource( 10 )]
-position = Vector2( 806, 547 )
+[node name="Platform2" parent="Platforms" instance=ExtResource( 10 )]
+margin_left = 285.0
+margin_top = 341.0
+margin_right = 4852.0
+margin_bottom = 1681.0
 
-[node name="MovingPlatform2" parent="Platforms" instance=ExtResource( 11 )]
-margin_left = 732.0
-margin_top = 282.0
-margin_right = 2807.0
-margin_bottom = 1622.0
-node_paths = [ NodePath("../MovingPlatformNode4"), NodePath("../MovingPlatformNode3") ]
+[node name="PickupSpawns" type="Node2D" parent="."]
 
-[node name="MovingPlatformNode3" parent="Platforms" instance=ExtResource( 10 )]
-position = Vector2( 144, 326 )
+[node name="PickupSpawn" parent="PickupSpawns" instance=ExtResource( 9 )]
+position = Vector2( 289, 474 )
 
-[node name="MovingPlatformNode4" parent="Platforms" instance=ExtResource( 10 )]
-position = Vector2( 806, 326 )
+[node name="PickupSpawn2" parent="PickupSpawns" instance=ExtResource( 9 )]
+position = Vector2( 514, 513 )
 
-[node name="MovingPlatform3" parent="Platforms" instance=ExtResource( 11 )]
-margin_left = 78.0
-margin_top = 68.0
-margin_right = 2153.0
-margin_bottom = 1408.0
-node_paths = [ NodePath("../MovingPlatformNode5"), NodePath("../MovingPlatformNode6") ]
+[node name="PickupSpawn5" parent="PickupSpawns" instance=ExtResource( 9 )]
+position = Vector2( 448, 539 )
 
-[node name="MovingPlatformNode5" parent="Platforms" instance=ExtResource( 10 )]
-position = Vector2( 144, 112 )
+[node name="PickupSpawn3" parent="PickupSpawns" instance=ExtResource( 9 )]
+position = Vector2( 575, 477 )
 
-[node name="MovingPlatformNode6" parent="Platforms" instance=ExtResource( 10 )]
-position = Vector2( 806, 112 )
+[node name="PickupSpawn4" parent="PickupSpawns" instance=ExtResource( 9 )]
+position = Vector2( 375, 516 )
 
 [node name="PlayerSpawn" type="Position2D" parent="."]
-position = Vector2( 58, 717 )
+position = Vector2( 230, 597 )
 script = ExtResource( 5 )
 __meta__ = {
 "_gizmo_extents_": 50.0

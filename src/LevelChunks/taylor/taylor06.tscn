@@ -8,7 +8,7 @@
 [ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Player/PlayerCamera.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/TestWalls.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/Level Elements/Platform.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/Level Elements/TimedPlatform.tscn" type="PackedScene" id=9]
 
 [node name="LevelChunk" type="Node2D"]
 script = ExtResource( 3 )
@@ -30,38 +30,32 @@ script = ExtResource( 4 )
 
 [node name="Platforms" type="Node2D" parent="."]
 
-[node name="Platform4" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 153.0
-margin_top = 569.0
-margin_right = 3093.0
-margin_bottom = 1909.0
+[node name="TimedPlatform" parent="Platforms" instance=ExtResource( 9 )]
+margin_left = 290.0
+margin_top = 99.0
+margin_right = 5066.0
+margin_bottom = 1439.0
+lifetime = 5.0
 
-[node name="Platform5" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 555.0
-margin_top = 565.0
-margin_right = 3361.0
-margin_bottom = 1905.0
+[node name="TimedPlatform2" parent="Platforms" instance=ExtResource( 9 )]
+margin_left = 290.0
+margin_top = 356.0
+margin_right = 5066.0
+margin_bottom = 1696.0
+lifetime = 5.0
+solid = false
 
-[node name="Platform6" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 333.0
-margin_top = 355.0
-margin_right = 3706.0
-margin_bottom = 1695.0
+[node name="TimedPlatform3" parent="Platforms" instance=ExtResource( 9 )]
+margin_left = 290.0
+margin_top = 607.0
+margin_right = 5066.0
+margin_bottom = 1947.0
+lifetime = 5.0
 
-[node name="Platform7" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 144.0
-margin_top = 98.0
-margin_right = 3233.0
-margin_bottom = 1438.0
-
-[node name="Platform8" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 525.0
-margin_top = 100.0
-margin_right = 4167.0
-margin_bottom = 1440.0
+[node name="PickupSpawns" type="Node2D" parent="."]
 
 [node name="PlayerSpawn" type="Position2D" parent="."]
-position = Vector2( 116, 291 )
+position = Vector2( 230, 597 )
 script = ExtResource( 5 )
 __meta__ = {
 "_gizmo_extents_": 50.0

@@ -87,8 +87,8 @@ axis_stretch_horizontal = 1
 
 [node name="Sweet" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 1332.0
-margin_bottom = 1332.0
+margin_right = 1340.0
+margin_bottom = 1340.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 1 )
@@ -102,8 +102,8 @@ axis_stretch_vertical = 1
 
 [node name="Sour" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 1332.0
-margin_bottom = 1332.0
+margin_right = 1340.0
+margin_bottom = 1340.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 5 )
@@ -117,8 +117,8 @@ axis_stretch_vertical = 1
 
 [node name="Salty" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 1332.0
-margin_bottom = 1332.0
+margin_right = 1340.0
+margin_bottom = 1340.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 6 )
@@ -132,8 +132,8 @@ axis_stretch_vertical = 1
 
 [node name="Umami" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 1332.0
-margin_bottom = 1332.0
+margin_right = 1340.0
+margin_bottom = 1340.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 4 )
@@ -147,8 +147,8 @@ axis_stretch_vertical = 1
 
 [node name="Bitter" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 1332.0
-margin_bottom = 1332.0
+margin_right = 1340.0
+margin_bottom = 1340.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 12 )
@@ -162,8 +162,8 @@ axis_stretch_vertical = 1
 
 [node name="Ice" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 2239.0
-margin_bottom = 1985.0
+margin_right = 1340.0
+margin_bottom = 1340.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 8 )
@@ -177,8 +177,8 @@ axis_stretch_vertical = 1
 
 [node name="Thunder" type="NinePatchRect" parent="."]
 visible = false
-margin_right = 1332.0
-margin_bottom = 1332.0
+margin_right = 1340.0
+margin_bottom = 1340.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 9 )
@@ -192,10 +192,9 @@ axis_stretch_vertical = 1
 script = ExtResource( 11 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Thunder"]
-position = Vector2( 666, 666 )
-scale = Vector2( 0.666, 0.666 )
+position = Vector2( 670, 670 )
+scale = Vector2( 0.67, 0.67 )
 frames = SubResource( 9 )
-frame = 4
 playing = true
 
 [node name="Collision" type="KinematicBody2D" parent="."]

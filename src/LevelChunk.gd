@@ -8,14 +8,14 @@ export(Array, Vector2) var exits;
 func _ready() -> void:
 	if get_parent().name != "LevelGenerator":
 		$PlayerSpawn.spawn_test_nodes()
-
-	var pickupSpawners = get_node("PickupSpawns").get_children()
 	
-	randomize()
-	pickupSpawners.shuffle()
-	print(pickupSpawners)
+	if (has_node("PickupSp`awns")):
+		var pickupSpawners = get_node("PickupSpawns").get_children()
+		randomize()
+		pickupSpawners.shuffle()
+		print(pickupSpawners)
 
-	var pickup = pickupSpawners[0].pickup_scene.instance()
-	pickup.get_node("AnimatedSprite").frame = floor(rand_range(0, pickup.taste_map.size() - 1))
-	pickup.position = pickupSpawners[0].position
-	add_child(pickup)
+		var pickup = pickupSpawners[0].pickup_scene.instance()
+		pickup.get_node("AnimatedSprite").frame = floor(rand_range(0, pickup.taste_map.size() - 1))
+		pickup.position = pickupSpawners[0].position
+		add_child(pickup)

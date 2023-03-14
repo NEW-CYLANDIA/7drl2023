@@ -113,13 +113,8 @@ func _physics_process(delta):
 
 	if state == State.Moving:
 		if Input.is_action_just_pressed("desktop_stomp"):
-			can_stomp = true;
-		if can_stomp:
-			if ($FloorRay.is_colliding()):
-				do_stomp(delta);
-				can_stomp = false;
-			else:
-				$Sprite/HitShake.do_shake(0.2, 1.5);
+			do_stomp(delta);
+
 			
 		if (stun_timer < 0):
 			$Sprite.play("default")
@@ -130,8 +125,9 @@ func _physics_process(delta):
 				jump()
 			elif $GrappleCooldown.is_stopped(): 
 				if tongue_ray.is_colliding() or current_bubble:
+					can_stomp = false;
+					is_stomping = false;
 					change_state(State.Licking)
-
 			else:
 				$Sprite/HitShake.do_shake(0.2, 1.5)					
 		
@@ -141,7 +137,7 @@ func _physics_process(delta):
 		if collision_data:
 			var is_horizontal_collision = abs(collision_data.normal.x) == 1.0
 			if is_horizontal_collision:
-				velocity.x = (velocity.bounce(collision_data.normal) * 0.5).x
+				velocity.x = (velocity.bounce(collision_data.normal)).x
 				velocity.y = jump_vel/2
 				play_audio(jump_sfx)
 				dir = int(sign(velocity.x))
@@ -163,6 +159,7 @@ func _physics_process(delta):
 			if current_bubble:
 				change_state(State.Eating)
 			elif is_stomping:
+				is_stomping = false;
 				change_state(State.Stomping)
 			else:
 				change_state(State.Swinging)
@@ -170,6 +167,9 @@ func _physics_process(delta):
 		play_audio(tongue_sfx);
 	
 	if state == State.Swinging:
+		
+		tongue_length -= 0.4;
+		
 		if (stun_timer < 0):
 			$Sprite.play("open")
 		ice_timer -= delta;
@@ -192,6 +192,7 @@ func _physics_process(delta):
 		if position.distance_to(tongue_grapple_point) > tongue_length:
 			velocity -= speed_towards_point * dir_to_grapple
 			position = tongue_grapple_point - dir_to_grapple * tongue_length
+		
 		if Input.is_action_just_released("action") and ice_timer <= 0:
 			change_state(State.Moving)
 			jump()
@@ -228,12 +229,9 @@ func change_state(new_state : int):
 	if new_state == State.Moving:
 
 		$TongueRay.visible = true;
-	
-		print("change state to moving")
 		tongue_sprite.visible = false
 
 	if new_state == State.Licking:
-		print("change state to lick")
 		tongue_sprite.set_squiggly()
 		if (stun_timer < 0):
 			$Sprite.play("open")
@@ -258,7 +256,6 @@ func change_state(new_state : int):
 
 		$TongueRay.visible = false;
 		tongue_sprite.set_straight()
-		print("change state to swinging")
 		velocity = stored_velocity
 		var artificial_vel = tongue_grapple_point - position
 		artificial_vel.y *= -1
@@ -269,7 +266,6 @@ func change_state(new_state : int):
 	
 	if new_state == State.Eating:
 		tongue_sprite.set_straight()
-		print("change state to eating")
 		$Sprite.play("open")
 		velocity = (tongue_grapple_point - position).normalized() * food_zip_speed
 		dir = int(sign(velocity.x))
@@ -293,10 +289,14 @@ func exit_bubble():
 	current_bubble = null
 
 func do_stomp(delta):
-	print("Setting launch speed")
-	stomp_launch_speed = (($FloorRay.get_collision_point().y - position.y) / delta) * 0.1
-	is_stomping = true
-	change_state(State.Licking)
+	if ($FloorRay.is_colliding()):
+		print("Setting launch speed")
+		stomp_launch_speed = (($FloorRay.get_collision_point().y - position.y) / delta) * 0.1
+		is_stomping = true
+		change_state(State.Licking)
+	else:
+		$Sprite/HitShake.do_shake(0.2, 1.5);
+
 	
 
 func play_audio(sfx):
@@ -343,10 +343,6 @@ func check_flip():
 	if sign(dir) != sign($WallRay.cast_to.x):
 		if aim_style == AimStyle.Locked: tongue_ray.cast_to.x *= -1
 		$WallRay.cast_to.x *= -1
-#		if (round($TongueGuide.rotation_degrees) == -135):
-#			$TongueGuide.rotation_degrees -= 90
-#		else:
-#			$TongueGuide.rotation_degrees += 90
 
 
 func update_tongue_visuals():
@@ -359,5 +355,6 @@ func update_tongue_visuals():
 
 
 func _on_SwipeDetector_swiped(direction) -> void:
-	if (direction.y > 0.7 && state == State.Moving):
-		can_stomp = true;
+	if (direction.y > 0.9 && state == State.Moving):
+		#do_stomp(1.0/60.0);
+		pass;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://graphics/camera_guide.png" type="Texture" id=2]
@@ -8,7 +8,8 @@
 [ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Player/PlayerCamera.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/TestWalls.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/Level Elements/TimedPlatform.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/Level Elements/MovingPlatform.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/Level Elements/MovingPlatformNode.tscn" type="PackedScene" id=10]
 
 [node name="LevelChunk" type="Node2D"]
 script = ExtResource( 3 )
@@ -30,55 +31,26 @@ script = ExtResource( 4 )
 
 [node name="Platforms" type="Node2D" parent="."]
 
-[node name="TimedPlatform" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 82.0
-margin_top = 136.0
-margin_right = 11082.0
-margin_bottom = 7837.0
-lifetime = 10.0
+[node name="PickupSpawns" type="Node2D" parent="."]
 
-[node name="TimedPlatform2" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 134.0
-margin_top = 202.0
-margin_right = 2835.0
-margin_bottom = 2038.0
-lifetime = 10.0
-solid = false
+[node name="MovingPlatform" parent="PickupSpawns" instance=ExtResource( 9 )]
+margin_left = 401.0
+margin_top = 159.0
+margin_right = 1759.0
+margin_bottom = 7264.0
+node_paths = [ NodePath("../MovingPlatformNode"), NodePath("../MovingPlatformNode2") ]
+speed = 2.0
 
-[node name="TimedPlatform3" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 550.0
-margin_top = 202.0
-margin_right = 3251.0
-margin_bottom = 2038.0
-lifetime = 10.0
-solid = false
+[node name="MovingPlatformNode" parent="PickupSpawns" instance=ExtResource( 10 )]
+position = Vector2( 120, 400 )
+scale = Vector2( 0.067, 0.067 )
 
-[node name="TimedPlatform4" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 125.0
-margin_top = 505.0
-margin_right = 2826.0
-margin_bottom = 2341.0
-lifetime = 10.0
-solid = false
-
-[node name="TimedPlatform5" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 572.0
-margin_top = 505.0
-margin_right = 3273.0
-margin_bottom = 2341.0
-lifetime = 10.0
-solid = false
-
-[node name="TimedPlatform6" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 357.0
-margin_top = 332.0
-margin_right = 3058.0
-margin_bottom = 2168.0
-lifetime = 10.0
-solid = false
+[node name="MovingPlatformNode2" parent="PickupSpawns" instance=ExtResource( 10 )]
+position = Vector2( 804, 400 )
+scale = Vector2( 0.067, 0.067 )
 
 [node name="PlayerSpawn" type="Position2D" parent="."]
-position = Vector2( 70, 743 )
+position = Vector2( 230, 597 )
 script = ExtResource( 5 )
 __meta__ = {
 "_gizmo_extents_": 50.0

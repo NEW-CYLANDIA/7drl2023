@@ -1,17 +1,17 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Tileset.tres" type="TileSet" id=1]
-[ext_resource path="res://src/Util/HideOnStart.gd" type="Script" id=2]
-[ext_resource path="res://src/LevelChunks/PlayerSpawn.gd" type="Script" id=3]
-[ext_resource path="res://graphics/camera_guide.png" type="Texture" id=4]
-[ext_resource path="res://src/Level Elements/Platform.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/TestWalls.tscn" type="PackedScene" id=6]
-[ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=7]
-[ext_resource path="res://src/Player/PlayerCamera.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/LevelChunk.gd" type="Script" id=9]
+[ext_resource path="res://graphics/camera_guide.png" type="Texture" id=2]
+[ext_resource path="res://src/LevelChunk.gd" type="Script" id=3]
+[ext_resource path="res://src/Util/HideOnStart.gd" type="Script" id=4]
+[ext_resource path="res://src/LevelChunks/PlayerSpawn.gd" type="Script" id=5]
+[ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Player/PlayerCamera.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/TestWalls.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/Level Elements/Platform.tscn" type="PackedScene" id=9]
 
 [node name="LevelChunk" type="Node2D"]
-script = ExtResource( 9 )
+script = ExtResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -20
@@ -25,35 +25,25 @@ tile_data = PoolIntArray( -1, 1, 0, -65536, 1, 0, -65535, 1, 0, -65534, 1, 0, -6
 [node name="CameraGuide" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.556863 )
 position = Vector2( 450, 400 )
-texture = ExtResource( 4 )
-script = ExtResource( 2 )
+texture = ExtResource( 2 )
+script = ExtResource( 4 )
 
 [node name="Platforms" type="Node2D" parent="."]
 
-[node name="Platform2" parent="Platforms" instance=ExtResource( 5 )]
-margin_left = 218.0
-margin_top = 551.0
-margin_right = 1558.0
-margin_bottom = 2625.0
+[node name="Platform" parent="Platforms" instance=ExtResource( 9 )]
+margin_left = 403.0
+margin_top = 143.0
+margin_right = 1743.0
+margin_bottom = 7725.0
 
-[node name="Platform4" parent="Platforms" instance=ExtResource( 5 )]
-margin_left = 333.0
-margin_top = 517.0
-margin_right = 1673.0
-margin_bottom = 3009.0
-
-[node name="Platform3" parent="Platforms" instance=ExtResource( 5 )]
-margin_left = 270.0
-margin_top = 20.0
-margin_right = 5569.0
-margin_bottom = 1736.0
+[node name="PickupSpawns" type="Node2D" parent="."]
 
 [node name="PlayerSpawn" type="Position2D" parent="."]
-position = Vector2( 66, 729 )
-script = ExtResource( 3 )
+position = Vector2( 230, 597 )
+script = ExtResource( 5 )
 __meta__ = {
 "_gizmo_extents_": 50.0
 }
-player = ExtResource( 7 )
-camera = ExtResource( 8 )
-walls = ExtResource( 6 )
+player = ExtResource( 6 )
+camera = ExtResource( 7 )
+walls = ExtResource( 8 )

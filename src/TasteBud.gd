@@ -33,7 +33,6 @@ func play_mood():
 	scale = Vector2.ONE * MathUtil.map_range(mood_anim, 0, anims.size(), 0.75, 1.1);
 
 func display_and_return_score() -> int:
-	print("hello");
 	mood_paused = true;
 	var score = round(mood * 100);
 	$Sign/Score.text = str(score);

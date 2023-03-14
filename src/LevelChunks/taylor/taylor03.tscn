@@ -1,22 +1,23 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Tileset.tres" type="TileSet" id=1]
-[ext_resource path="res://graphics/camera_guide.png" type="Texture" id=2]
-[ext_resource path="res://src/LevelChunk.gd" type="Script" id=3]
-[ext_resource path="res://src/Util/HideOnStart.gd" type="Script" id=4]
-[ext_resource path="res://src/LevelChunks/PlayerSpawn.gd" type="Script" id=5]
-[ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://graphics/camera_guide.png" type="Texture" id=1]
+[ext_resource path="res://src/LevelChunk.gd" type="Script" id=2]
+[ext_resource path="res://Tileset.tres" type="TileSet" id=3]
+[ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Level Elements/MovingPlatform.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/TestWalls.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Player/PlayerCamera.tscn" type="PackedScene" id=7]
-[ext_resource path="res://src/TestWalls.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/Level Elements/Platform.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/Level Elements/MovingPlatformNode.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/Util/HideOnStart.gd" type="Script" id=9]
+[ext_resource path="res://src/LevelChunks/PlayerSpawn.gd" type="Script" id=10]
 
 [node name="LevelChunk" type="Node2D"]
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -20
 z_as_relative = false
-tile_set = ExtResource( 1 )
+tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
 cell_quadrant_size = 32
 format = 1
@@ -25,23 +26,33 @@ tile_data = PoolIntArray( -1, 1, 0, -65536, 1, 0, -65535, 1, 0, -65534, 1, 0, -6
 [node name="CameraGuide" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.556863 )
 position = Vector2( 450, 400 )
-texture = ExtResource( 2 )
-script = ExtResource( 4 )
+texture = ExtResource( 1 )
+script = ExtResource( 9 )
 
 [node name="Platforms" type="Node2D" parent="."]
 
-[node name="Platform" parent="Platforms" instance=ExtResource( 9 )]
-margin_left = 387.0
-margin_top = 157.0
-margin_right = 2566.0
-margin_bottom = 7426.0
+[node name="MovingPlatform3" parent="Platforms" instance=ExtResource( 5 )]
+margin_left = 352.0
+margin_top = 632.0
+margin_right = 3203.0
+margin_bottom = 2095.0
+node_paths = [ NodePath("../MovingPlatformNode"), NodePath("../MovingPlatformNode2") ]
+speed = 5.0
+
+[node name="MovingPlatformNode" parent="Platforms" instance=ExtResource( 8 )]
+position = Vector2( 448, 681 )
+
+[node name="MovingPlatformNode2" parent="Platforms" instance=ExtResource( 8 )]
+position = Vector2( 448, 134 )
+
+[node name="PickupSpawns" type="Node2D" parent="."]
 
 [node name="PlayerSpawn" type="Position2D" parent="."]
 position = Vector2( 230, 597 )
-script = ExtResource( 5 )
+script = ExtResource( 10 )
 __meta__ = {
 "_gizmo_extents_": 50.0
 }
-player = ExtResource( 6 )
+player = ExtResource( 4 )
 camera = ExtResource( 7 )
-walls = ExtResource( 8 )
+walls = ExtResource( 6 )

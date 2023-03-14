@@ -59,6 +59,7 @@ tongue_extend_speed = 1.0
 mood_add = 1.0
 stomp_speed = 1600.0
 stomp_launch_speed = 1200.0
+grapple_cooldown = 0.2
 taste_buds_path = NodePath("../UILayer/TasteBuds")
 jump_sfx = ExtResource( 4 )
 tongue_sfx = ExtResource( 3 )

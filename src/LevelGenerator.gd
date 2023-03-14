@@ -75,8 +75,8 @@ func _ready() -> void:
 		level_chunks += build_chunk_array("emilia");
 
 	# fallback to testing chunks if no others checked
-	if not izzy_levels and not taylor_levels and not emilia_levels:
-		level_chunks += build_chunk_array("Testing");
+#	if not izzy_levels and not taylor_levels and not emilia_levels:
+#		level_chunks += build_chunk_array("Testing");
 
 	#we're gonna be placing tiles via their center, 
 	#so this ensures we're lining up the first tile with the player
@@ -194,7 +194,7 @@ func place_chunks():
 		level_chunks.shuffle();
 
 		var next_chunk = level_chunks[0]
-
+	
 		while next_chunk == last_chunk:
 			level_chunks.shuffle();
 			next_chunk = level_chunks[0]
