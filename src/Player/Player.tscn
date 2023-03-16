@@ -1,13 +1,19 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://src/Player/RayVisualizer.gd" type="Script" id=2]
-[ext_resource path="res://sounds/tongue.wav" type="AudioStream" id=3]
-[ext_resource path="res://sounds/jump.wav" type="AudioStream" id=4]
+[ext_resource path="res://sounds/Jump-benjaminno.wav" type="AudioStream" id=3]
+[ext_resource path="res://sounds/Sword_Slash-benjaminno.wav" type="AudioStream" id=4]
 [ext_resource path="res://graphics/new_graphics/player.png" type="Texture" id=5]
 [ext_resource path="res://src/Util/HitStop.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Util/HitShake.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/Player/SwipeDetector.gd" type="Script" id=8]
+[ext_resource path="res://sounds/Bump.wav" type="AudioStream" id=9]
+[ext_resource path="res://sounds/Click3.wav" type="AudioStream" id=10]
+[ext_resource path="res://sounds/Click-benjaminno.wav" type="AudioStream" id=11]
+[ext_resource path="res://sounds/Click2.wav" type="AudioStream" id=12]
+[ext_resource path="res://sounds/Gun.wav" type="AudioStream" id=13]
+[ext_resource path="res://sounds/Trampoline.wav" type="AudioStream" id=14]
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -48,7 +54,7 @@ radius = 19.0263
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 51, 343 )
 collision_layer = 2
-collision_mask = 9
+collision_mask = 41
 collision/safe_margin = 0.001
 script = ExtResource( 1 )
 speed = 200.0
@@ -56,13 +62,17 @@ jump_vel = -600.0
 accel = 20.0
 tongue_length = 350.0
 tongue_extend_speed = 1.0
-mood_add = 1.0
+mood_add = 0.3
 stomp_speed = 1600.0
-stomp_launch_speed = 1200.0
+stomp_launch_speed_modifier = 0.1
 grapple_cooldown = 0.2
 taste_buds_path = NodePath("../UILayer/TasteBuds")
-jump_sfx = ExtResource( 4 )
-tongue_sfx = ExtResource( 3 )
+jump_sfx = ExtResource( 3 )
+tongue_sfx = ExtResource( 4 )
+lick_sfx = ExtResource( 14 )
+bump_sfx = ExtResource( 9 )
+pickup_sfx = [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 10 ) ]
+stomp_sfx = ExtResource( 13 )
 bubble_slowdown = 0.3
 food_zip_speed = 2000.0
 bubble_launch_dropoff = 0.8
@@ -101,6 +111,7 @@ rotation = 1.5708
 shape = SubResource( 5 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = -1.0
 
 [node name="HitStop" parent="." instance=ExtResource( 6 )]
 

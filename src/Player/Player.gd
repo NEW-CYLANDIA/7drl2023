@@ -22,15 +22,21 @@ export var tongue_extend_speed : float = 0.5
 export var spin_speed : float = 0.05
 export var mood_add : float = 3
 export var stomp_speed : float = 200
-export var stomp_launch_speed : float = 400
+export var stomp_launch_speed_modifier : float = 0.2;
 export var grapple_cooldown : float = 0.75
 export var ice_time = 5;
 export var stunned_time = 5;
+
+var stomp_launch_speed;
 
 export(AimStyle) var aim_style : int = AimStyle.Locked
 export(NodePath) var taste_buds_path : NodePath
 export(AudioStream) var jump_sfx
 export(AudioStream) var tongue_sfx
+export(AudioStream) var lick_sfx;
+export(AudioStream) var bump_sfx
+export(Array, AudioStream) var pickup_sfx
+export(AudioStream) var stomp_sfx;
 
 # state stuff
 var dir : int = 1
@@ -116,17 +122,43 @@ func _physics_process(delta):
 	tongue_sprite.set_electric(stun_timer > 0);
 	
 
-	if state == State.Moving:
-		if Input.is_action_just_pressed("desktop_stomp"):
-			do_stomp(delta);
-
-			
+	if state == State.Moving:			
 		if (stun_timer < 0):
 			$Sprite.play("default")
 		$Sprite.rotate(dir * spin_speed)
+		
+#		if (is_on_floor()):
+#			if !$EndOfPlatformRay.is_colliding():
+#				dir *= -1;
+		
+		# Get the input direction and handle the movement/deceleration.
+		if (abs(velocity.x) < abs(dir * speed)):
+			velocity.x = move_toward(velocity.x, dir * speed, accel)
+		else:
+			velocity *= friction;
+		
+		if collision_data:
+			var collider = collision_data.collider;
+			var is_horizontal_collision = abs(collision_data.normal.x) == 1.0
+			if is_horizontal_collision:
+				velocity.x = (velocity.bounce(collision_data.normal)).x
+				jump(0.5);
+				play_audio(bump_sfx);
+				
+				if ( collider.get_parent() and "velocity" in collider.get_parent()):
+					velocity += collider.get_parent().velocity * 2
+				dir = int(sign(velocity.x))
+
+		if is_on_ceiling():
+			velocity.y = 1
+		
+		# checking for state changes
+		if Input.is_action_just_pressed("desktop_stomp"):
+			do_stomp(delta);
 
 		if Input.is_action_just_pressed("action"):
 			if is_on_floor():
+				play_audio(jump_sfx)
 				jump()
 			elif $GrappleCooldown.is_stopped(): 
 				if tongue_ray.is_colliding() or current_bubble:
@@ -136,26 +168,6 @@ func _physics_process(delta):
 			else:
 				$Sprite/HitShake.do_shake(0.2, 1.5)					
 		
-		# Get the input direction and handle the movement/deceleration.
-		if (abs(velocity.x) < abs(dir * speed)):
-			velocity.x = move_toward(velocity.x, dir * speed, accel)
-		else:
-			velocity *= friction;
-		if collision_data:
-			var collider = collision_data.collider;
-			var is_horizontal_collision = abs(collision_data.normal.x) == 1.0
-			if is_horizontal_collision:
-				velocity.x = (velocity.bounce(collision_data.normal)).x
-				jump(0.5);
-				
-				if ( collider.get_parent() and "velocity" in collider.get_parent()):
-					velocity += collider.get_parent().velocity * 2
-				play_audio(jump_sfx)
-				dir = int(sign(velocity.x))
-
-		if is_on_ceiling():
-			velocity.y = 1
-		
 	if state == State.Licking:
 		
 		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.linear_interpolate(tongue_grapple_point, 0.5)
@@ -163,6 +175,7 @@ func _physics_process(delta):
 		if (
 			tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 1
 		):			
+			play_audio(tongue_sfx);
 			if (grappled_object is Platform and grappled_object.is_electric()):
 				$Sprite.play("stun");
 				$HitStop.do_hit_stop(0.5);
@@ -175,7 +188,7 @@ func _physics_process(delta):
 			else:
 				change_state(State.Swinging)
 				
-		play_audio(tongue_sfx);
+		
 	
 	if state == State.Swinging:
 		if (stun_timer < 0):
@@ -200,6 +213,7 @@ func _physics_process(delta):
 		
 		if collision_data:
 			velocity = velocity.bounce(collision_data.normal) * 0.9;
+			play_audio(bump_sfx);
 		dir = int(sign(velocity.x))
 		if Input.is_action_just_released("action") and ice_timer <= 0:
 			change_state(State.Moving)
@@ -219,6 +233,7 @@ func _physics_process(delta):
 	if state == State.Stomping:
 		if is_on_floor():
 			$HitStop.do_hit_stop(0.1)
+			play_audio(stomp_sfx);
 			is_stomping = false
 			velocity.y -= stomp_launch_speed
 			change_state(State.Moving)
@@ -240,6 +255,7 @@ func change_state(new_state : int):
 		tongue_sprite.visible = false
 
 	if new_state == State.Licking:
+		play_audio(lick_sfx, -10.0);
 		tongue_sprite.set_squiggly()
 		if (stun_timer < 0):
 			$Sprite.play("open")
@@ -299,7 +315,7 @@ func exit_bubble():
 func do_stomp(delta):
 	if ($FloorRay.is_colliding()):
 		print("Setting launch speed")
-		stomp_launch_speed = (($FloorRay.get_collision_point().y - position.y) / delta) * 0.1
+		stomp_launch_speed = (($FloorRay.get_collision_point().y - position.y) / delta) * stomp_launch_speed_modifier;
 		is_stomping = true
 		change_state(State.Licking)
 	else:
@@ -307,16 +323,16 @@ func do_stomp(delta):
 
 	
 
-func play_audio(sfx):
-	if not $AudioStreamPlayer2D.playing:
-		$AudioStreamPlayer2D.stream = sfx
-		$AudioStreamPlayer2D.play()
+func play_audio(sfx, volume_db = 0.0):
+	$AudioStreamPlayer2D.stream = sfx
+	$AudioStreamPlayer2D.volume_db = volume_db;
+	$AudioStreamPlayer2D.play()
 
 
 func jump(modifier = 1.0):
 	var modified_jump_vel = jump_vel * modifier;
 	velocity.y = min(velocity.y + modified_jump_vel, modified_jump_vel);
-	play_audio(jump_sfx)
+	
 
 
 func grab_grapple_point():
@@ -345,13 +361,15 @@ func grab_grapple_point():
 	tongue_grapple_point = collision_point - collision_normal * 4
 	tongue_length = position.distance_to(tongue_grapple_point)
 
+func add_flavor(flavor, value):
+	play_audio(pickup_sfx[round(rand_range(0, pickup_sfx.size()-1))])
+	taste_buds.taste_buds[flavor].add_mood(value)
 
 func check_flip():	
 	if aim_style == AimStyle.Locked: 
 		tongue_ray.rotation_degrees = 0
 	if sign(dir) != sign(tongue_ray.cast_to.x):
 		if aim_style == AimStyle.Locked: tongue_ray.cast_to.x *= -1
-
 
 func update_tongue_visuals():
 	var pointing_vec = tongue_grapple_point_sprite.position - tongue_sprite_connect_pos.global_position

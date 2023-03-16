@@ -42,6 +42,6 @@ pickup_scene = ExtResource( 3 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.4 )
 frames = SubResource( 6 )
-frame = 2
+frame = 1
 speed_scale = 0.25
 playing = true

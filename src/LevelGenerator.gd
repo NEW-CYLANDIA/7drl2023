@@ -211,7 +211,10 @@ func place_chunks():
 				p.shuffle_platform();
 			if p.has_node("Platform"):
 				p.get_node("Platform").shuffle_platform();
-
+		var pickups = chunk_instance.get_node("PickupSpawns").get_children();
+		for p in pickups:
+			var pickup = p.spawn_pickup();
+			chunk_instance.add_child(pickup);
 		if (node.exits.size() == 1):
 			var player_spawn_pos = chunk_instance.get_node("PlayerSpawn").position;
 			if placed_player:

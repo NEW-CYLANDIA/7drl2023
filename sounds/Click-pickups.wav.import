@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Click-pickups.wav-2049e2a74c3fb3a60a504b023f41bfea.sample"
+
+[deps]
+
+source_file="res://sounds/Click-pickups.wav"
+dest_files=[ "res://.import/Click-pickups.wav-2049e2a74c3fb3a60a504b023f41bfea.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
