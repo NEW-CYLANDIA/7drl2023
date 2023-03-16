@@ -60,8 +60,8 @@ resource_local_to_scene = true
 extents = Vector2( 1, 1 )
 
 [node name="Platform" type="PanelContainer"]
-margin_right = 1340.0
-margin_bottom = 1340.0
+margin_right = 1537.0
+margin_bottom = 1448.0
 rect_scale = Vector2( 0.067, 0.067 )
 size_flags_stretch_ratio = 10.0
 custom_styles/panel = SubResource( 1 )
@@ -73,8 +73,9 @@ flavor = 5
 sprite_paths = [ NodePath("Normal"), NodePath("Sweet"), NodePath("Sour"), NodePath("Salty"), NodePath("Umami"), NodePath("Ice"), NodePath("Thunder"), NodePath("Bitter") ]
 
 [node name="Normal" type="NinePatchRect" parent="."]
-margin_right = 1340.0
-margin_bottom = 1340.0
+visible = false
+margin_right = 1433.0
+margin_bottom = 1418.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 7 )
@@ -101,9 +102,8 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
 [node name="Sour" type="NinePatchRect" parent="."]
-visible = false
-margin_right = 1340.0
-margin_bottom = 1340.0
+margin_right = 1537.0
+margin_bottom = 1448.0
 size_flags_horizontal = 15
 size_flags_vertical = 15
 texture = ExtResource( 5 )
@@ -112,8 +112,6 @@ patch_margin_left = 666
 patch_margin_top = 666
 patch_margin_right = 666
 patch_margin_bottom = 666
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
 
 [node name="Salty" type="NinePatchRect" parent="."]
 visible = false
@@ -195,11 +193,12 @@ script = ExtResource( 11 )
 position = Vector2( 670, 670 )
 scale = Vector2( 0.67, 0.67 )
 frames = SubResource( 9 )
+frame = 4
 playing = true
 
 [node name="Collision" type="KinematicBody2D" parent="."]
-position = Vector2( 670, 670 )
-scale = Vector2( 470, 470 )
+position = Vector2( 768.5, 724 )
+scale = Vector2( 568.5, 524 )
 script = ExtResource( 3 )
 
 [node name="Shape" type="CollisionShape2D" parent="Collision"]
