@@ -162,16 +162,12 @@ func _physics_process(delta):
 				jump()
 				can_do_action = true;
 			else:
-				var mouse_pos = get_global_mouse_position();
-				if (mouse_pos.y < OS.window_size.y/2):
-					if $GrappleCooldown.is_stopped(): 
-						if tongue_ray.is_colliding() or current_bubble:
-							can_stomp = false;
-							is_stomping = false;
-							can_do_action = true;
-							change_state(State.Licking)
-				else:
-					do_stomp(delta);
+				if $GrappleCooldown.is_stopped(): 
+					if tongue_ray.is_colliding() or current_bubble:
+						can_stomp = false;
+						is_stomping = false;
+						can_do_action = true;
+						change_state(State.Licking)
 
 			if not can_do_action:
 				$Sprite/HitShake.do_shake(0.2, 1.5);
