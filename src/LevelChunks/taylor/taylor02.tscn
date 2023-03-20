@@ -31,12 +31,6 @@ script = ExtResource( 4 )
 
 [node name="Platforms" type="Node2D" parent="."]
 
-[node name="Platform" parent="Platforms" instance=ExtResource( 10 )]
-margin_left = 124.0
-margin_top = 110.0
-margin_right = 1631.0
-margin_bottom = 4722.0
-
 [node name="Platform3" parent="Platforms" instance=ExtResource( 10 )]
 margin_left = 637.0
 margin_top = 137.0

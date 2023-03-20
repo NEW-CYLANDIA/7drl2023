@@ -40,6 +40,8 @@ var wall_chunks:Array = [];
 
 export(NodePath) var player_path;
 onready var player = get_node(player_path);
+export(NodePath) var compass_path;
+onready var compass = get_node(compass_path);
 
 export(PackedScene) var exit_portal_scene;
 
@@ -221,9 +223,11 @@ func place_chunks():
 				var exit = exit_portal_scene.instance();
 				chunk_instance.add_child(exit);
 				exit.position = player_spawn_pos;
+				compass.exit = exit;
 			else:
 				player.position = player_spawn_pos;
 				placed_player = true;
+				compass.player = player;
 		# disabled until we need it, testing levels don't have exits assigned
 		# if (arrays_are_similar(chunk_instance.exits, node.exits)):
 		# 	add_child(chunk_instance);

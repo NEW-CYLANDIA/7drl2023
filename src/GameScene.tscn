@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://src/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/LevelGenerator.gd" type="Script" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://fonts/ChevyRay - Slapface.ttf" type="DynamicFontData" id=13]
 [ext_resource path="res://src/GameManager.gd" type="Script" id=14]
 [ext_resource path="res://src/RunResults.gd" type="Script" id=15]
+[ext_resource path="res://src/Compass.gd" type="Script" id=16]
+[ext_resource path="res://graphics/compass_arrow.png" type="Texture" id=17]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -45,6 +47,7 @@ level_length = 10
 taylor_levels = true
 line_col_check = ExtResource( 4 )
 player_path = NodePath("../Player")
+compass_path = NodePath("../Compass")
 exit_portal_scene = ExtResource( 6 )
 
 [node name="RayCast" type="RayCast2D" parent="LevelGenerator"]
@@ -53,7 +56,7 @@ collision_mask = 16
 collide_with_areas = true
 
 [node name="PlayerCamera" parent="." instance=ExtResource( 3 )]
-zoom = Vector2( 2, 2 )
+zoom = Vector2( 1.5, 1.5 )
 
 [node name="DebugCamera" type="Camera2D" parent="."]
 script = ExtResource( 5 )
@@ -61,6 +64,7 @@ speed = 100
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 225, 280 )
+bubble_slowdown = 0.4
 swing_speed = 3.0
 friction = 0.97
 
@@ -250,6 +254,17 @@ self_modulate = Color( 0.494118, 0.145098, 0.32549, 1 )
 
 [node name="PlayFabLogin" type="Node" parent="."]
 script = ExtResource( 7 )
+
+[node name="Compass" type="Node2D" parent="."]
+modulate = Color( 1, 1, 1, 0.384314 )
+position = Vector2( 225, 275 )
+script = ExtResource( 16 )
+
+[node name="Sprite" type="Sprite" parent="Compass"]
+position = Vector2( 0, 5 )
+rotation = 1.5708
+texture = ExtResource( 17 )
+offset = Vector2( 0, -52 )
 
 [connection signal="pressed" from="UILayer/RunResults/Button" to="UILayer/RunResults" method="_on_Button_pressed"]
 

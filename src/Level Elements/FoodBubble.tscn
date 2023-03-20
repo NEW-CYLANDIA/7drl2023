@@ -8,6 +8,7 @@
 radius = 49.0102
 
 [node name="FoodBubble" type="Node2D"]
+scale = Vector2( 2, 2 )
 script = ExtResource( 3 )
 
 [node name="FoodSprite" type="Sprite" parent="."]

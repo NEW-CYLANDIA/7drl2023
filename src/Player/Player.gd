@@ -174,9 +174,9 @@ func _physics_process(delta):
 
 		if (
 			tongue_grapple_point_sprite.position.distance_to(tongue_grapple_point) < 1
-		):			
+		):
 			play_audio(tongue_sfx);
-			if (grappled_object is Platform and grappled_object.is_electric()):
+			if (is_instance_valid(grappled_object) and grappled_object is Platform and grappled_object.is_electric()):
 				$Sprite.play("stun");
 				$HitStop.do_hit_stop(0.5);
 				$Sprite/HitShake.do_shake(0.5, 2);
@@ -255,7 +255,7 @@ func change_state(new_state : int):
 		tongue_sprite.visible = false
 
 	if new_state == State.Licking:
-		play_audio(lick_sfx, -10.0);
+		play_audio(lick_sfx, -5.0);
 		tongue_sprite.set_squiggly()
 		if (stun_timer < 0):
 			$Sprite.play("open")
