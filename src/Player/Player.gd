@@ -68,6 +68,11 @@ export var swing_speed = 1.1;
 export var friction = 0.99;
 export var gravity_modifier = 0.9;
 
+export var time_until_zip = 1.0;
+export var zip_speed = 0.2;
+
+var zip_timer = 0;
+
 var current_bubble = null
 var bubble_velocity : Vector2
 
@@ -194,8 +199,15 @@ func _physics_process(delta):
 		
 	
 	if state == State.Swinging:
+		var dir_to_grapple = (tongue_grapple_point - position).normalized()
 		if (stun_timer < 0):
 			$Sprite.play("open")
+			
+#		zip_timer += delta;
+#		if (zip_timer > time_until_zip):
+#				velocity += dir_to_grapple * zip_speed * 100;
+#				change_state(State.Moving);
+
 		ice_timer -= delta;
 		tongue_grapple_point_sprite.set_ice(ice_timer > 0);
 		
@@ -206,7 +218,7 @@ func _physics_process(delta):
 			tongue_grapple_point += grappled_object.velocity
 			tongue_grapple_point_sprite.position = tongue_grapple_point
 
-		var dir_to_grapple = (tongue_grapple_point - position).normalized()
+		
 		var speed_towards_point = round(velocity.dot(dir_to_grapple) * 100) / 100;
 		
 		
@@ -280,7 +292,7 @@ func change_state(new_state : int):
 			$GrappleCooldown.start()
 	
 	if new_state == State.Swinging:
-
+		zip_timer = 0;
 		$TongueRay.visible = false;
 		tongue_sprite.set_straight()
 		velocity = stored_velocity
@@ -306,6 +318,11 @@ func change_state(new_state : int):
 	
 	state = new_state
 
+func _input(event: InputEvent) -> void:
+	if (event is InputEventScreenTouch):
+		var touch_event:InputEventScreenTouch = event as InputEventScreenTouch;
+		if touch_event.index > 0:
+			do_stomp(1/60);
 
 func enter_bubble(bubble):
 	change_state(State.Moving)

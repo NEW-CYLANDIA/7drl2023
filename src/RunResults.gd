@@ -23,6 +23,7 @@ func show():
 
 
 func _on_Button_pressed() -> void:
-	get_tree().paused = false;
 	ScoreManager.current_level_score = 0;
+	ScoreManager.current_run_score = 0;
+	get_tree().paused = false;
 	get_tree().reload_current_scene();
