@@ -76,7 +76,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var can_stomp = false;
 onready var taste_buds = get_node(taste_buds_path)
-
 	
 func _init():
 	tongue_sprite = load("res://src/Player/TongueBody.tscn").instance()
@@ -150,24 +149,28 @@ func _physics_process(delta):
 				dir = int(sign(velocity.x))
 
 		if is_on_ceiling():
-			velocity.y = 1
+			velocity.y *= -1
 		
 		# checking for state changes
 		if Input.is_action_just_pressed("desktop_stomp"):
 			do_stomp(delta);
 
 		if Input.is_action_just_pressed("action"):
+			var can_do_action = false;
 			if is_on_floor():
 				play_audio(jump_sfx)
 				jump()
-			elif $GrappleCooldown.is_stopped(): 
-				if tongue_ray.is_colliding() or current_bubble:
-					can_stomp = false;
-					is_stomping = false;
-					change_state(State.Licking)
+				can_do_action = true;
 			else:
-				$Sprite/HitShake.do_shake(0.2, 1.5)					
-		
+				if $GrappleCooldown.is_stopped(): 
+					if tongue_ray.is_colliding() or current_bubble:
+						can_stomp = false;
+						is_stomping = false;
+						can_do_action = true;
+						change_state(State.Licking)
+
+			if not can_do_action:
+				$Sprite/HitShake.do_shake(0.2, 1.5);
 	if state == State.Licking:
 		
 		tongue_grapple_point_sprite.position = tongue_grapple_point_sprite.position.linear_interpolate(tongue_grapple_point, 0.5)
@@ -384,3 +387,4 @@ func _on_SwipeDetector_swiped(direction) -> void:
 	if (direction.y > 0.9 && state == State.Moving):
 		#do_stomp(1.0/60.0);
 		pass;
+
