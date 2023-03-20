@@ -319,10 +319,12 @@ func change_state(new_state : int):
 	state = new_state
 
 func _input(event: InputEvent) -> void:
-	if (event is InputEventScreenTouch):
-		var touch_event:InputEventScreenTouch = event as InputEventScreenTouch;
-		if touch_event.index > 0:
-			do_stomp(1/60);
+	if (event is InputEventScreenDrag):
+		var touch_event:InputEventScreenDrag = event as InputEventScreenDrag;
+		if touch_event:
+			var swipe_dir = touch_event.relative
+			if (swipe_dir.y > 0.9 and abs(swipe_dir.x) < 0.3):
+				do_stomp(1/60);
 
 func enter_bubble(bubble):
 	change_state(State.Moving)
